@@ -1,0 +1,67 @@
+[
+    {
+        "sUniqueId": 1,
+        "sAddress": "Lygten 37",
+        "iPrice": "1,700.000"
+    },
+    {
+        "sUniqueId": 2,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 3,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 4,
+        "sAddress": "Admin test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 5,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 6,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 7,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 8,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 9,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 10,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 11,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 12,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    },
+    {
+        "sUniqueId": 13,
+        "sAddress": "Test",
+        "iPrice": "1,000.000"
+    }
+]

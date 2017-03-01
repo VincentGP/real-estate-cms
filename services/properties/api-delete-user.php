@@ -1,5 +1,5 @@
 <?php
-	//Get id and txt database
+	//Get id and access txt database
 	$id = $_GET['id'];
 	$sFileName = "data-users.txt";
 	$sajUsers = file_get_contents($sFileName);

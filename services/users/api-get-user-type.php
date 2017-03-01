@@ -19,10 +19,7 @@
 			exit;
 		}
 	}
+	//Otherwise echo error status
 	echo '{"status":"error"}';
-	//Convert the object to text
-	// $sajUsers = json_encode($ajUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	//Save the data to the file and echo status
-	// file_put_contents($sFileName, $sajUsers);
 
 ?>

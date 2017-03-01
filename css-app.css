@@ -28,7 +28,6 @@ h1, h3 {
 }
 h2 {
 	font-weight: 400;
-	/*border-bottom: 1px solid white;*/
 }
 a {
 	color: #468CC8;
@@ -351,50 +350,6 @@ a {
 /************************************************************************/
 /************************************************************************/
 
-#menu-bars{
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	z-index: 100;
-}
-#menu-bars .menu-bar{
-	width: 40px;
-	height: 6px;
-	background-color: #FFFFFF;
-	cursor: pointer;
-}
-#menu-bars .menu-bar:not(:first-child){
-	margin-top: 5px;
-}
-#menu{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	top: 0px;
-	left: -250px;
-	width: 250px;
-	height: 100vh;
-	background-color: #38C0E2;
-	z-index: 99;
-}
-#content-cover {
-	position: absolute;
-	top: 0px;
-	left:0px;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0,0,0,0.5);
-	z-index: 98;
-	display: none;
-	cursor: pointer;
-}
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
 #wdw-properties {
 	/*display: flex;*/
 	background-color: white;
@@ -473,8 +428,18 @@ a {
     align-items: center;
 }
 #wdw-users .lbl-user .lbl-user-role{
-	width: 400px;
+	width: 200px;
 }
+#wdw-users .lbl-user .lbl-user-email{
+	width: 200px;
+}
+#wdw-users .lbl-user .lbl-user-password{
+	width: 200px;
+}
+#wdw-users .lbl-user .lbl-user-id{
+	width: 10px;
+}
+
 
 /************************************************************************/
 /************************************************************************/
@@ -482,8 +447,8 @@ a {
 
 #wdw-menu {
 	/*display: flex;*/
-	flex-direction: row;
-	justify-content: space-around;
+	/*flex-direction: row;*/
+	/*justify-content: space-around;*/
 	background-image: url(./images/menu-bg.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -498,8 +463,8 @@ a {
 
 #wdw-menu-admin {
 	/*display: flex;*/
-	flex-direction: row;
-	justify-content: space-around;
+	/*flex-direction: row;*/
+	/*justify-content: space-around;*/
 	background-image: url(./images/menu-bg.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -511,3 +476,13 @@ a {
 /************************************************************************/
 /************************************************************************/
 /************************************************************************/
+
+#btn-log-out {
+	color: white;
+	background-color: #428bca;
+	width: 200px;
+}
+#btn-log-out:hover {
+	background-color: #3276b1;
+	border-color: #285e8e;
+}

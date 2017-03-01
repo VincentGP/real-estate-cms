@@ -12,12 +12,13 @@
 		//If the information matches set loginAuthenticator to true
 		if ($sEmail == $jUser->email && $sPassword == $jUser->password) {
 			$loginAuthenticator = true;
-			$currentRole = $jUser->role;
+			//Save the users role in a variable
+			$sCurrentRole = $jUser->role;
 		}
 	}
 	//Echo different echos based on whether loginAuthenticator is true/false
 	if ($loginAuthenticator == true) {
-			echo '{"status":"ok","role":"'.$currentRole.'"}';
+			echo '{"status":"ok","role":"'.$sCurrentRole.'"}';
 		} else {
 			echo '{"status":"error"}';
 		}

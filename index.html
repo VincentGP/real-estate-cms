@@ -1,101 +1,84 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-
-	<meta charset="utf-8">	
-	<link rel="stylesheet" type="text/css" href="css-app.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="themes/google/google.css">
-	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-	<title>REAL ESTATE CMS</title>
-
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css-app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="themes/google/google.css">
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <title>REAL ESTATE CMS</title>
 </head>
+
 <body>
+    
+    <div id="wdw-menu" class="wdw"></div>
 
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
+    <div id="wdw-create-property" class="wdw">
+        <h2>Create Property</h2>
+        <div class="lblContainer">
+            <input id="txt-create-property-id" type="text">
+            <input id="txt-create-property-address" type="text" placeholder="address">
+            <input id="txt-create-property-price" type="text" placeholder="price">
+            <button id="btn-save-property">Save</button>
+        </div>
+        <a data-go-to="wdw-properties" class="link">Go to properties</a>
+        <a data-go-to="wdw-menu" class="link">Go to menu</a>
+    </div>
 
-	<div id="wdw-menu" class="wdw"></div>
+    <div id="wdw-create-user" class="wdw">
+        <h2>Create User</h2>
+        <div class="lblContainer">
+            <input id="txt-create-user-id" type="text">
+            <input id="txt-create-user-email" type="text" placeholder="email">
+            <input id="txt-create-user-password" type="text" placeholder="password">
+            <input id="txt-create-user-role" type="text" placeholder="role">
+            <button id="btn-save-user">Save</button>
+        </div>
+        <a data-go-to="wdw-users" class="link">Go to users</a>
+        <a data-go-to="wdw-menu" class="link">Go to menu</a>
+    </div>
 
-	<div id="wdw-create-property" class="wdw">
-		<h2>Create Property</h2>
-		<div class="lblContainer">
-			<input id="txt-create-property-id" type="text">
-			<input id="txt-create-property-address" type="text" placeholder="address">
-			<input id="txt-create-property-price" type="text" placeholder="price">
-			<button id="btn-save-property">Save</button>
-		</div>
-		<a data-go-to="wdw-properties" class="link">Go to properties</a>
-		<a data-go-to="wdw-menu" class="link">Go to menu</a>
-	</div>
+    <div id="wdw-login" class="wdw">
+        <h1>Login</h1>
+        <div class="lblContainer">
+            <input id="txtLoginEmail" type="text" placeholder="Email">
+            <input id="txtLoginPassword" type="password" placeholder="Password">
+            <button id="btnLogin">Login</button>
+        </div>
+        <a data-go-to="wdw-user-signup" class="link">Create an account</a>
+    </div>
 
-	<div id="wdw-create-user" class="wdw">
-		<h2>Create User</h2>
-		<div class="lblContainer">
-			<input id="txt-create-user-id" type="text">
-			<input id="txt-create-user-email" type="text" placeholder="email">
-			<input id="txt-create-user-password" type="text" placeholder="password">
-			<input id="txt-create-user-role" type="text" placeholder="role">
-			<button id="btn-save-user">Save</button>
-		</div>
-		<a data-go-to="wdw-users" class="link">Go to users</a>
-		<a data-go-to="wdw-menu" class="link">Go to menu</a>
-	</div>
+    <div id="wdw-user-signup" class="wdw">
+        <h1>Signup</h1>
+        <div class="lblContainer">
+            <input id="txtSignupEmail" type="text" placeholder="Email">
+            <input id="txtSignupPassword" type="password" placeholder="Choose your password">
+            <button id="btnUserSignup">Signup</button>
+        </div>
+        <a data-go-to="wdw-login" class="link">Go back</a>
+    </div>
 
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
+    <div id="wdw-super-admin-signup" class="wdw">
+        <h1>Super Admin Signup</h1>
+        <h3>You will become the super admin</h3>
+        <div class="lblContainer">
+            <input id="txtSuperAdminSignupEmail" type="text" placeholder="Email">
+            <input id="txtSuperAdminSignupPassword" type="password" placeholder="Choose your password">
+            <button id="btnSuperAdminSignup">SIGNUP</button>
+        </div>
+    </div>
 
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
+    <div id="wdw-properties" class="wdw"></div>
 
-	<div id="wdw-login" class="wdw">
-		<h1>Login</h1>
-		<div class="lblContainer">
-				<input id="txtLoginEmail" type="text" placeholder="Email">
-				<input id="txtLoginPassword" type="password" placeholder="Password">
-				<button id="btnLogin">Login</button>
-				
-		</div>
-		<a data-go-to="wdw-user-signup" class="link">Create an account</a>
-	</div>
+    <div id="wdw-properties-user" class="wdw"></div>
 
-	<div id="wdw-user-signup" class="wdw">
-		<h1>Signup</h1>
-		<div class="lblContainer">
-			<input id="txtSignupEmail" type="text" placeholder="Email">
-			<input id="txtSignupPassword" type="password" placeholder="Choose your password">
-			<button id="btnUserSignup">Signup</button>
-		</div>
-		<a data-go-to="wdw-login" class="link">Go back</a>
-	</div>
+    <div id="wdw-users" class="wdw"></div>
 
-	<div id="wdw-super-admin-signup" class="wdw">
-		<h1>Super Admin Signup</h1>
-		<h3>You will become the super admin</h3>
-		<div class="lblContainer">
-			<input id="txtSuperAdminSignupEmail" type="text" placeholder="Email">
-			<input id="txtSuperAdminSignupPassword" type="password" placeholder="Choose your password">
-			<button id="btnSuperAdminSignup">SIGNUP</button>
-		</div>
-	</div>
-
-	<div id="wdw-properties" class="wdw"></div>
-
-	<div id="wdw-properties-user" class="wdw"></div>
-
-	<div id="wdw-users" class="wdw"></div>
-
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
-<!-- ********************************************************************** -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="dist/sweetalert.min.js"></script>
-<script type="text/javascript" src="js-app.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js-app.js"></script>
 </body>
+
 </html>

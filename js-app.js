@@ -130,6 +130,12 @@ $(document).on("click", "#btn-log-out", function() {
     $("#txtLoginPassword").val('');
 });
 
+//Empty login text fields
+$(document).on("click", "[data-go-to='wdw-user-signup']", function() {
+    $("#txtLoginEmail").val('');
+    $("#txtLoginPassword").val('');
+});
+
 
 /************************************************************************/
 /************************************************************************/

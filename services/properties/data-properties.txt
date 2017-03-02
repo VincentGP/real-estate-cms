@@ -48,5 +48,10 @@
         "sUniqueId": 10,
         "sAddress": "Lygten 46",
         "iPrice": "1,300.000"
+    },
+    {
+        "sUniqueId": 11,
+        "sAddress": "Hejlevej 45",
+        "iPrice": "1499000"
     }
 ]

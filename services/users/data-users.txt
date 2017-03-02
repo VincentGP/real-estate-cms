@@ -1,20 +1,32 @@
 [
     {
         "id": 1,
-        "role": "super-admin",
+        "role": "admin",
         "email": "vincent",
         "password": "super"
     },
     {
         "id": 2,
-        "email": "caroline",
-        "password": "1",
-        "role": "admin"
-    },
-    {
-        "id": 3,
         "role": "user",
         "email": "mikkel",
         "password": "1"
+    },
+    {
+        "id": 3,
+        "role": "super-admin",
+        "email": "caro3387@stud.kea.dk",
+        "password": "Vincent.love.16"
+    },
+    {
+        "id": 4,
+        "email": "torben",
+        "password": "nullerbuller",
+        "role": "admin"
+    },
+    {
+        "id": 5,
+        "role": "user",
+        "email": "FrederikkeUG",
+        "password": "Benteventeslente"
     }
 ]

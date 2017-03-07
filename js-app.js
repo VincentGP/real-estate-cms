@@ -116,7 +116,7 @@ $(document).on("click", "[data-go-to='wdw-properties']", function() {
 
 //When the DOM is loaded you are able to get users
 $(document).on("click", "[data-go-to='wdw-properties-user']", function() {
-    fnGetPropertiesUser();
+    fnGetPropertiesUserRole();
 });
 
 //When the DOM is loaded you are able to get users
@@ -328,11 +328,11 @@ function fnGetProperties() {
             //sPropertyTemplate is now the same as sProperty
             var sPropertyTemplate = sProperty;
             //Replace the string '{{id}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].sUniqueId);
+            sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].id);
             //Replace the string '{{address}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].sAddress);
+            sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
             //Replace the string '{{price}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].iPrice);
+            sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
             //Append the property template to the wdw with the id wdw-properties
             $("#wdw-properties").append(sPropertyTemplate);
         }
@@ -340,7 +340,7 @@ function fnGetProperties() {
 }
 
 
-function fnGetPropertiesUser() {
+function fnGetPropertiesUserRole() {
     //Variable with the url of the service being used
     var sUrl = "services/properties/api-get-properties.php";
     //Initiate Ajax
@@ -361,11 +361,11 @@ function fnGetPropertiesUser() {
             //sPropertyTemplate is now the same as sProperty
             var sPropertyTemplate = sProperty;
             //Replace the string '{{id}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].sUniqueId);
+            sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].id);
             //Replace the string '{{address}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].sAddress);
+            sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
             //Replace the string '{{price}}', with the unique data passed from jData
-            sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].iPrice);
+            sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
             //Append the property template to the wdw with the id wdw-properties
             $("#wdw-properties-user").append(sPropertyTemplate);
         }
@@ -427,6 +427,7 @@ function fnSaveProperty() {
     $.getJSON(sUrl, function(jData) {
         if (jData.status == "ok") {}
         //Display success message
+        // fnPropertyAddedTitleNotification(3);
         swal("You did it!", "You saved the property", "success")
     });
 }
@@ -500,6 +501,22 @@ function fnGetUserMenu() {
     $("#wdw-menu").append(sMenu);
 }
 
+function fnPropertyAddedTitleNotification(iCounter){
+        var sOriginalTitle = document.title;
+        var bSwitch = 0;
+        var iCounter;
 
-
-
+        var iTimer = setInterval( function(){
+            if( bSwitch == 0 ){ // it is the original title
+                document.title = "NEW PROPERTY ADDED";
+                bSwitch = 1;
+            }else{
+                document.title = sOriginalTitle;
+                bSwitch = 0;
+                iCounter--;
+                if( iCounter == 0 ){
+                    clearInterval( iTimer ); // Stop the interval
+                }               
+            }
+        } , 1000 );
+    }

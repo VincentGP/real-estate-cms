@@ -19,7 +19,7 @@
 	}
 	//Make an empty JSON object and store variable in said object
 	$jProperty = json_decode('{}');
-	$jProperty->id = count($ajProperties)+1;
+	$jProperty->id = uniqid();
 	$jProperty->address = $sAddress;
 	$jProperty->price = $iPrice;
 	//Push the object to the array

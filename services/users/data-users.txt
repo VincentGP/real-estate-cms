@@ -4,5 +4,11 @@
         "role": "super-admin",
         "email": "vgercke@gmail.com",
         "password": "super-admin"
+    },
+    {
+        "id": 2,
+        "role": "user",
+        "email": "vincent",
+        "password": "1"
     }
 ]

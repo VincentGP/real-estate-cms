@@ -15,7 +15,7 @@
 	}
 	//Make an empty JSON object and store variable in said object
 	$jUser = json_decode('{}');
-	$jUser->id = count($ajUsers)+1;
+	$jUser->id = uniqid();
 	$jUser->email = $sEmail;
 	$jUser->password = $sPassword;
 	$jUser->role = $sRole;

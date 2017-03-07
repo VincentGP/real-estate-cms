@@ -1,5 +1,13 @@
 [
     {
+<<<<<<< HEAD
+=======
+        "id": 2,
+        "address": "Lygten 40",
+        "price": "1,490,000"
+    },
+    {
+>>>>>>> origin/master
         "id": 3,
         "address": "Lygten 39",
         "price": "1,400.000"
@@ -40,8 +48,14 @@
         "price": "1499000"
     },
     {
+<<<<<<< HEAD
         "id": 10,
         "address": "Test",
         "price": "1"
+=======
+        "id": "58bf2407c4fb4",
+        "address": "Thurøvej 11, 2 tv.",
+        "price": "2,400.000"
+>>>>>>> origin/master
     }
 ]

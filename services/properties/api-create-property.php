@@ -12,11 +12,16 @@
 	if(!is_array($ajProperties)) {
 		$ajProperties = [];
 	}
+	//If there's no values passed then shown an error
+	if($sAddress == null || $iPrice == null) {
+		echo '{"status":"error"}';
+		exit;
+	}
 	//Make an empty JSON object and store variable in said object
 	$jProperty = json_decode('{}');
-	$jProperty->sUniqueId = count($ajProperties)+1;
-	$jProperty->sAddress = $sAddress;
-	$jProperty->iPrice = $iPrice;
+	$jProperty->id = count($ajProperties)+1;
+	$jProperty->address = $sAddress;
+	$jProperty->price = $iPrice;
 	//Push the object to the array
 	array_push($ajProperties, $jProperty);
 	//Convert the object to text

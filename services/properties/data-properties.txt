@@ -1,57 +1,47 @@
 [
     {
-        "sUniqueId": 1,
-        "sAddress": "Lygten 37",
-        "iPrice": "1,900.000"
+        "id": 2,
+        "address": "Lygten@",
+        "price": 2
     },
     {
-        "sUniqueId": 2,
-        "sAddress": "Lygten 38",
-        "iPrice": "1,100.000"
+        "id": 3,
+        "address": "Lygten 39",
+        "price": "1,400.000"
     },
     {
-        "sUniqueId": 3,
-        "sAddress": "Lygten 39",
-        "iPrice": "1,400.000"
+        "id": 5,
+        "address": "Lygten 41",
+        "price": "2,000.000"
     },
     {
-        "sUniqueId": 4,
-        "sAddress": "Lygten 40",
-        "iPrice": "1,900.000"
+        "id": 6,
+        "address": "Lygten 42",
+        "price": "4,500.000"
     },
     {
-        "sUniqueId": 5,
-        "sAddress": "Lygten 41",
-        "iPrice": "2,000.000"
+        "id": 7,
+        "address": "Lygten 43",
+        "price": "1,000.000"
     },
     {
-        "sUniqueId": 6,
-        "sAddress": "Lygten 42",
-        "iPrice": "4,500.000"
+        "id": 8,
+        "address": "Lygten 44",
+        "price": "7,000.000"
     },
     {
-        "sUniqueId": 7,
-        "sAddress": "Lygten 43",
-        "iPrice": "1,000.000"
+        "id": 9,
+        "address": "Lygten 45",
+        "price": "1,200.000"
     },
     {
-        "sUniqueId": 8,
-        "sAddress": "Lygten 44",
-        "iPrice": "7,000.000"
+        "id": 10,
+        "address": "Lygten 46",
+        "price": "1,300.000"
     },
     {
-        "sUniqueId": 9,
-        "sAddress": "Lygten 45",
-        "iPrice": "1,200.000"
-    },
-    {
-        "sUniqueId": 10,
-        "sAddress": "Lygten 46",
-        "iPrice": "1,300.000"
-    },
-    {
-        "sUniqueId": 11,
-        "sAddress": "Hejlevej 45",
-        "iPrice": "1499000"
+        "id": 11,
+        "address": "Hejlevej 45",
+        "price": "1499000"
     }
 ]

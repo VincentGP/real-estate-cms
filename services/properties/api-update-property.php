@@ -16,10 +16,11 @@
 	//Loop through the properties
 	for($i = 0; $i < count($ajProperties); $i++) {
 		//Check if the id matches
-		if($sId ==  $ajProperties[$i]->sUniqueId){
+		if($sId ==  $ajProperties[$i]->id){
 			//If the id matches, update the addres and price
-			$ajProperties[$i]->sAddress = $sAddress;
-			$ajProperties[$i]->iPrice = $iPrice;
+			$ajProperties[$i]->address = $sAddress;
+			$ajProperties[$i]->price = $iPrice;
+			echo '{"status":"ok"}';
 			break;
 		}
 	}
@@ -27,6 +28,5 @@
 	$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 	//Save the data to the file and echo status
 	file_put_contents($sFileName, $sajProperties);
-	echo '{"status":"ok"}';
 
 ?>

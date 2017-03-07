@@ -1,4 +1,5 @@
 <?php
+	
 	//Get the values passed in the URL
 	$sEmail = $_GET['email'];
 	$sPassword = $_GET['password'];

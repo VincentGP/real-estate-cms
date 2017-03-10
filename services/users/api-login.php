@@ -1,4 +1,6 @@
 <?php
+	
+	session_start();
 	//Use $_GET to retrieve and store email and password being passed
 	$sEmail = $_GET['email'];
 	$sPassword = $_GET['password'];
@@ -18,8 +20,12 @@
 	}
 	//Echo different echos based on whether loginAuthenticator is true/false
 	if ($loginAuthenticator == true) {
+			//Begin session and store the logged in users role in the session
+			$_SESSION['sEmail'] = $sEmail;
+			// echo $_SESSION['jUser'];
 			echo '{"status":"ok","role":"'.$sCurrentRole.'"}';
 		} else {
 			echo '{"status":"error"}';
 		}
+
 ?>

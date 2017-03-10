@@ -22,6 +22,9 @@ button {
 	white-space: nowrap;
 	vertical-align: middle;
 	border: 1px solid transparent;
+
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 h1, h3 {
 	color: #555555;
@@ -31,6 +34,10 @@ h2 {
 }
 a {
 	color: #468CC8;
+}
+span {
+	font-size: 12px;
+	color: white;
 }
 .link {
 	cursor: pointer;

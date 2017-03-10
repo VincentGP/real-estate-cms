@@ -7,8 +7,14 @@
     },
     {
         "id": 2,
-        "role": "user",
+        "role": "admin",
         "email": "vincent",
         "password": "1"
+    },
+    {
+        "id": "58c2c3bc1bb79",
+        "email": "user",
+        "password": "1",
+        "role": "user"
     }
 ]

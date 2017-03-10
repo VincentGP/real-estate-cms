@@ -128,6 +128,7 @@ $(document).on("click", "[data-go-to='wdw-users']", function() {
 $(document).on("click", "#btn-log-out", function() {
     $("#txtLoginEmail").val('');
     $("#txtLoginPassword").val('');
+    fnLogout();
 });
 
 //Empty login text fields
@@ -372,7 +373,6 @@ function fnGetPropertiesUserRole() {
     });
 }
 
-
 function fnGetUsers() {
     //Variable with the url of the service being used
     var sUrl = "services/users/api-get-users.php";
@@ -410,7 +410,6 @@ function fnGetUsers() {
     });
 }
 
-
 function fnSaveProperty() {
     //Get the values from the text boxes
     var sId = $("#txt-create-property-id").val();
@@ -431,7 +430,6 @@ function fnSaveProperty() {
         swal("You did it!", "You saved the property", "success")
     });
 }
-
 
 function fnSaveUser() {
     //Get the values from the text boxes
@@ -454,24 +452,23 @@ function fnSaveUser() {
     });
 }
 
-
 function fnGetSuperAdminMenu() {
     //The blueprint of the HTML elements displayed when the function is executed
     var sMenu = '<div class="lblContainer">\
-					<h2>MANAGE PROPERTIES</h2>\
-					<div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
-					<div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
-					<h2>MANAGE USERS</h2>\
-					<div data-go-to="wdw-users" class="link">SHOW USERS</div>\
-					<div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
-				</div>\
-				<button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+                    <h2>MANAGE PROPERTIES</h2>\
+                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
+                    <h2>MANAGE USERS</h2>\
+                    <div data-go-to="wdw-users" class="link">SHOW USERS</div>\
+                    <div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
+                </div>\
+                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
     //Remove all elements from the DOM
     $("#wdw-menu").empty();
     //Append the blueprint to the menu
     $("#wdw-menu").append(sMenu);
+    fnGetSessionEmail();
 }
-
 
 function fnGetAdminMenu() {
     //The blueprint of the HTML elements displayed when the function is executed
@@ -485,8 +482,8 @@ function fnGetAdminMenu() {
     $("#wdw-menu").empty();
     //Append the blueprint to the menu
     $("#wdw-menu").append(sMenu);
+    fnGetSessionEmail();
 }
-
 
 function fnGetUserMenu() {
     //The blueprint of the HTML elements displayed when the function is executed
@@ -499,6 +496,7 @@ function fnGetUserMenu() {
     $("#wdw-menu").empty();
     //Append the blueprint to the menu
     $("#wdw-menu").append(sMenu);
+    fnGetSessionEmail();
 }
 
 function fnPropertyAddedTitleNotification(iCounter){
@@ -519,4 +517,29 @@ function fnPropertyAddedTitleNotification(iCounter){
                 }               
             }
         } , 1000 );
-    }
+}
+
+function fnLogout() {
+    //Logs out and destroys the session
+    var sUrl = "services/users/api-logout.php";
+    $.getJSON(sUrl, function(jData) {
+        if(jData.status == "ok") {
+        }
+    });
+}
+
+function fnGetSessionEmail() {
+    //Gets the email stored in session and appends it to the menu
+    var sUrl = "services/users/api-display-current-email.php";
+    $.getJSON(sUrl, function(jData) {
+        var sEmail = '<span>You are logged in as {{email}}</span>';
+        var sEmailTemplate = sEmail;
+        sEmailTemplate = sEmailTemplate.replace("{{email}}", jData.email);
+        $("#wdw-menu").append(sEmailTemplate);
+    });
+}
+
+
+
+
+

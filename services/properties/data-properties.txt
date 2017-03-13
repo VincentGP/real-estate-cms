@@ -26,12 +26,149 @@
     },
     {
         "id": 10,
-        "address": "Lygten 46",
-        "price": "1,300.000"
+        "address": "Lygten 37",
+        "price": "1,300.000",
+        "lat": 55.704103,
+        "lng": 12.537504
     },
     {
-        "id": 11,
-        "address": "Hejlevej 45",
-        "price": "1499000"
+        "id": "58c6669606286",
+        "address": "Thurøvej 11",
+        "price": "100000",
+        "lat": "55.683515",
+        "lng": "12.525758"
+    },
+    {
+        "id": "58c66aa1b8f96",
+        "address": "Ryesgade",
+        "price": "2,000.000",
+        "lat": "55.694550",
+        "lng": "12.570901"
+    },
+    {
+        "id": "58c68cd99e1e0",
+        "address": "Thurøvej 7",
+        "price": "3",
+        "lat": "undefined",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68d1daee2f",
+        "address": "Thurøvej 7",
+        "price": "3",
+        "lat": "undefined",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68dfcb3ab7",
+        "address": "Stokholmsvej 60",
+        "price": "5",
+        "lat": "undefined",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68e5ad5e83",
+        "address": "Stokholmsvej 56",
+        "price": "3",
+        "lat": "undefined",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68e957b5e9",
+        "address": "Stokholmsvej 60",
+        "price": "4",
+        "lat": "0",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68ec98c409",
+        "address": "Stokholmsvej 60",
+        "price": "1",
+        "lat": "0",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68f9b762ce",
+        "address": "Stokholmsvej 60",
+        "price": "1",
+        "lat": "0",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c68ff08884f",
+        "address": "Stokholmsvej 60",
+        "price": "1",
+        "lat": "0",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c690583ce8c",
+        "address": "Stokholmsvej 60",
+        "price": "10",
+        "lat": "0",
+        "lng": "undefined"
+    },
+    {
+        "id": "58c690fe664f5",
+        "address": "Stokholmsvej 60",
+        "price": "20",
+        "lat": "55.992252",
+        "lng": "12.542969999999968"
+    },
+    {
+        "id": "58c691fb042bb",
+        "address": "Thurøvej 2",
+        "price": "1000",
+        "lat": "55.6834139",
+        "lng": "12.52450859999999"
+    },
+    {
+        "id": "58c6928faf2f2",
+        "address": "Falkoner Allé",
+        "price": "3",
+        "lat": "55.6835794",
+        "lng": "12.536647899999934"
+    },
+    {
+        "id": "58c697c15d165",
+        "address": "Nørrebrogade 50",
+        "price": "900",
+        "lat": "55.6896202",
+        "lng": "12.556436399999939"
+    },
+    {
+        "id": "58c697e934e3c",
+        "address": "Tagensvej",
+        "price": "1",
+        "lat": "55.7037159",
+        "lng": "12.54702850000001"
+    },
+    {
+        "id": "58c6992b49331",
+        "address": "Thunøgade",
+        "price": "50",
+        "lat": "56.1610175",
+        "lng": "10.203607199999965"
+    },
+    {
+        "id": "58c69aa1296cd",
+        "address": "Skovvejen 10",
+        "price": "1",
+        "lat": "55.31218999999999",
+        "lng": "12.364927999999964"
+    },
+    {
+        "id": "58c69b0173f33",
+        "address": "Skovvejen 7, 8000 Aarhus",
+        "price": "2",
+        "lat": "56.16386379999999",
+        "lng": "10.216429800000014"
+    },
+    {
+        "id": "58c6b86fa6b05",
+        "address": "Ryesgade 71, 2100",
+        "price": "1.400.000",
+        "lat": "55.6949808",
+        "lng": "12.57107910000002"
     }
 ]

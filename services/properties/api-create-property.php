@@ -1,9 +1,11 @@
 <?php
 
 	//Get the values passed in the URL
+	$sFileName = "data-properties.txt";
 	$sAddress = $_GET['address'];
 	$iPrice = $_GET['price'];
-	$sFileName = "data-properties.txt";
+	$iLat = $_GET['lat'];
+	$iLng = $_GET['lng'];
 	//Store the contents of the txt database in the variable sajProperties
 	$sajProperties = file_get_contents($sFileName);
 	//Convert sajProperties to an array of objects
@@ -22,6 +24,8 @@
 	$jProperty->id = uniqid();
 	$jProperty->address = $sAddress;
 	$jProperty->price = $iPrice;
+	$jProperty->lat = $iLat;
+	$jProperty->lng = $iLng;
 	//Push the object to the array
 	array_push($ajProperties, $jProperty);
 	//Convert the object to text

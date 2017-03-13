@@ -1,6 +1,5 @@
 <?php
-	//Start looking for sessions
-	session_start();
+
 	$sFileName = "data-properties.txt";
 	//Get the properties from txt file and store in variable
 	$sajProperties = file_get_contents($sFileName);

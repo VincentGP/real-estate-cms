@@ -22,7 +22,6 @@ button {
 	white-space: nowrap;
 	vertical-align: middle;
 	border: 1px solid transparent;
-
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -454,8 +453,6 @@ span {
 
 #wdw-menu {
 	/*display: flex;*/
-	/*flex-direction: row;*/
-	/*justify-content: space-around;*/
 	background-image: url(./images/menu-bg.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -470,8 +467,6 @@ span {
 
 #wdw-menu-admin {
 	/*display: flex;*/
-	/*flex-direction: row;*/
-	/*justify-content: space-around;*/
 	background-image: url(./images/menu-bg.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -490,6 +485,25 @@ span {
 	width: 200px;
 }
 #btn-log-out:hover {
+	background-color: #3276b1;
+	border-color: #285e8e;
+}
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+#btn-menu {
+	color: white;
+	background-color: #428bca;
+	width: 200px;
+	z-index: 1;
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-right: 10px;
+}
+#btn-menu:hover {
 	background-color: #3276b1;
 	border-color: #285e8e;
 }

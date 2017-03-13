@@ -1,4 +1,6 @@
 
+
+
 //Function that determines if the is a super-admin user on page load
 $(document).ready(function() {
     var sUrl = "services/users/api-get-user-type.php";
@@ -32,10 +34,14 @@ $(document).on("click", ".link", function() {
     var sPropertyIdToEdit = $(this).siblings(".lbl-property-id").text();
     var sPropertyAddressToEdit = $(this).siblings(".lbl-property-address").text();
     var sPropertyPriceToEdit = $(this).siblings(".lbl-property-price").text();
+    var sPropertyLatToEdit = $(this).siblings(".lbl-property-lat").text();
+    var sPropertyLngToEdit = $(this).siblings(".lbl-property-lng").text();
     //Select the element and extract the value
     $("#txt-create-property-id").val(sPropertyIdToEdit);
     $("#txt-create-property-address").val(sPropertyAddressToEdit);
     $("#txt-create-property-price").val(sPropertyPriceToEdit);
+    $("#txt-create-property-lat").val(sPropertyLatToEdit);
+    $("#txt-create-property-lng").val(sPropertyLngToEdit);
 
     //Get the user id, email, password and role you clicked on and store them
     var sUserIdToEdit = $(this).siblings(".lbl-user-id").text();
@@ -137,16 +143,18 @@ $(document).on("click", "[data-go-to='wdw-user-signup']", function() {
     $("#txtLoginPassword").val('');
 });
 
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
-
-//Call function on click
-$("#btnLogin").click(function(){
-	fnLogin();
+$(document).on("click", "[data-go-to='wdw-map']", function() {
+    fnGetPropertiesMap();
 });
+
+$(document).on("click", "#btnLogin", function() {
+    fnLogin();
+});
+
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
 
 //Call function on click
 $("#btnUserSignup").click(function(){
@@ -162,7 +170,6 @@ $("#btn-save-property").click(function(){
 $("#btn-save-user").click(function(){
 	fnSaveUser();
 });
-
 
 /************************************************************************/
 /************************************************************************/
@@ -340,7 +347,6 @@ function fnGetProperties() {
     });
 }
 
-
 function fnGetPropertiesUserRole() {
     //Variable with the url of the service being used
     var sUrl = "services/properties/api-get-properties.php";
@@ -410,26 +416,49 @@ function fnGetUsers() {
     });
 }
 
+
 function fnSaveProperty() {
     //Get the values from the text boxes
     var sId = $("#txt-create-property-id").val();
     var sAddress = $("#txt-create-property-address").val();
-    var sPrice = $("#txt-create-property-price").val();
-    //If there is an id then update
-    if (sId) {
-        var sUrl = "services/properties/api-update-property.php?id="+sId+"&address="+sAddress+"&price="+sPrice;
-        //If there is no id, then create a new property
-    } else {
-        var sUrl = "services/properties/api-create-property.php?address=" + sAddress+"&price="+sPrice;
-    }
-    //Pass the data to the server
-    $.getJSON(sUrl, function(jData) {
-        if (jData.status == "ok") {}
-        //Display success message
-        // fnPropertyAddedTitleNotification(3);
-        swal("You did it!", "You saved the property", "success")
+    //Create a new Geocoder object
+    geocoder = new google.maps.Geocoder();
+    //Initiate function to convert the variable sAddress to two coordinates
+    geocoder.geocode({'address': sAddress}, function(results, status) {
+        //If the Geocoder satus is ok then run the following
+        if (status == google.maps.GeocoderStatus.OK) {
+            //Store the latitude and longitude in two new variables
+            var iLat = results[0].geometry.location.lat();
+            var iLng = results[0].geometry.location.lng();
+            //Store the value from the price text box in a new variable
+            var sPrice = $("#txt-create-property-price").val();
+            //If there is an id then update
+            if (sId) {
+                var sUrl = "services/properties/api-update-property.php?id=" + sId + "&address=" + sAddress + "&price=" + sPrice + "&lat=" + iLat + "&lng=" + iLng;
+                //If there is no id, then create a new property
+            } else {
+                var sUrl = "services/properties/api-create-property.php?address=" + sAddress + "&price=" + sPrice + "&lat=" + iLat + "&lng=" + iLng;
+            }
+            //Pass the data to the server
+            $.getJSON(sUrl, function(jData) {
+                if (jData.status == "ok") {}
+                //Display success message
+                fnPropertyAddedTitleNotification(3);
+                swal("You did it!", "You saved the property", "success")
+            });
+
+        } else {
+            //Display an error message
+            swal({
+                title: "Sorry!",
+                text: "Please try again. The reason for the error is: " + status,
+                type: "error",
+                showConfirmButton: true
+            });
+        }
     });
 }
+
 
 function fnSaveUser() {
     //Get the values from the text boxes
@@ -458,6 +487,7 @@ function fnGetSuperAdminMenu() {
                     <h2>MANAGE PROPERTIES</h2>\
                     <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
                     <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
                     <h2>MANAGE USERS</h2>\
                     <div data-go-to="wdw-users" class="link">SHOW USERS</div>\
                     <div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
@@ -476,6 +506,7 @@ function fnGetAdminMenu() {
 					<h2>MANAGE PROPERTIES</h2>\
 					<div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
 					<div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
 				</div>\
 				<button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
     //Remove all elements from the DOM
@@ -490,6 +521,7 @@ function fnGetUserMenu() {
     var sMenu = '<div class="lblContainer">\
 					<h2>MANAGE PROPERTIES</h2>\
 					<div data-go-to="wdw-properties-user" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
 				</div>\
 				<button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
     //Remove all elements from the DOM
@@ -539,7 +571,67 @@ function fnGetSessionEmail() {
     });
 }
 
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
 
+function fnGetPropertiesMap() {
+    //The service used to fetch the properties
+    var sUrl = "services/properties/api-get-properties.php";
+    //Declaring a new information window as a new object
+    var infoWindow = new google.maps.InfoWindow();
 
+    //Creating the map
+    var map = new google.maps.Map(document.getElementById("wdw-map"), {
+        //Determining the default position of the map
+        center: new google.maps.LatLng(55.686666, 12.563759),
+        //The level of zoom
+        zoom: 12,
+        //The type of map
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
 
+    $("#wdw-map").append('<div><button id="btn-menu" data-go-to="wdw-menu" class="link">Go back</button></div>');
 
+    //Initiate AJAX to get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //Loop through the length of jData
+        for (var i = 0; i < jData.length; i++) {
+            //Store jData[i] in ajLocations
+            var ajLocations = jData[i];
+            
+            //Declare new Google Maps object that takes two coordinates
+            latLng = new google.maps.LatLng(ajLocations.lat, ajLocations.lng);
+            
+            //Creating a marker and putting it on the map. It's position based on the latLng object we just declared
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                title: ajLocations.address
+            });
+
+            //Attaching a click event to the current marker
+            google.maps.event.addListener(marker, "click", function(event) {
+                //Display the address of the current marker in the information window
+                infoWindow.setContent(ajLocations.address);
+                infoWindow.open(ajLocations, marker);
+            });
+
+            //Creating a closure to retain the correct data 
+            //The current data needs to be passed in the loop into the closure (marker, data)
+            function fnAttainClosureInformationWindow(marker, ajLocations) {
+                //Attaching click event to the current marker
+                google.maps.event.addListener(marker, "click", function(event) {
+                    infoWindow.setContent(ajLocations.address);
+                    infoWindow.open(map, marker);
+                });
+            }
+            
+            fnAttainClosureInformationWindow(marker, ajLocations);
+        }
+    });
+}
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/

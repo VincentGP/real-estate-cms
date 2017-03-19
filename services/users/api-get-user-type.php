@@ -1,6 +1,5 @@
 <?php
 	
-	$sSuperAdmin = "super-admin";
 	$sFileName = "data-users.txt";
 	//Get the content from txt file
 	$sajUsers = file_get_contents($sFileName);

@@ -31,7 +31,9 @@ body.stop-scrolling {
   overflow: hidden;
   display: none;
   z-index: 99999; 
-  box-sizing: content-box;}
+  box-sizing: content-box;
+
+}
   @media all and (max-width: 540px) {
     .sweet-alert {
       width: auto;

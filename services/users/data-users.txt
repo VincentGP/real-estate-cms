@@ -2,8 +2,8 @@
     {
         "id": 1,
         "role": "super-admin",
-        "email": "vgercke@gmail.com",
-        "password": "super-admin"
+        "email": "1",
+        "password": "2"
     },
     {
         "id": 2,

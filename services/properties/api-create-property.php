@@ -1,5 +1,7 @@
 <?php
-
+	
+	//Include functions
+	include '../functions.php';
 	//Get the values passed in the URL
 	$sFileName = "data-properties.txt";
 	$sAddress = $_GET['address'];
@@ -14,24 +16,27 @@
 	if(!is_array($ajProperties)) {
 		$ajProperties = [];
 	}
-	//If there's no values passed then shown an error
-	if($sAddress == null || $iPrice == null) {
-		echo '{"status":"error"}';
+	//Boolean value that can be either true or false
+	$bPrice = fnIsPriceValid($iPrice, 0, 18446744073709551615);
+	$bDuplicateAddress = fnCheckForDuplicate($sFileName, $sAddress, 'address');
+	//If the price and address is valid push all the data to the database
+	if($bPrice && $bDuplicateAddress) {
+		$jProperty = json_decode('{}');
+		$jProperty->id = uniqid();
+		$jProperty->address = $sAddress;
+		$jProperty->price = $iPrice;
+		$jProperty->lat = $iLat;
+		$jProperty->lng = $iLng;
+		//Push the object to the array
+		array_push($ajProperties, $jProperty);
+		//Convert the object to text
+		$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+		//Save the data to the file and echo the status
+		file_put_contents($sFileName, $sajProperties);
+		echo '{"status":"ok"}';
 		exit;
 	}
-	//Make an empty JSON object and store variable in said object
-	$jProperty = json_decode('{}');
-	$jProperty->id = uniqid();
-	$jProperty->address = $sAddress;
-	$jProperty->price = $iPrice;
-	$jProperty->lat = $iLat;
-	$jProperty->lng = $iLng;
-	//Push the object to the array
-	array_push($ajProperties, $jProperty);
-	//Convert the object to text
-	$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	//Save the data to the file and echo the status
-	file_put_contents($sFileName, $sajProperties);
-	echo '{"status":"ok"}';
+	//If the boolean is false echo an error
+	echo '{"status":"error"}';
 
 ?>

@@ -1,6 +1,5 @@
 
 
-
 //Function that determines if the is a super-admin user on page load
 $(document).ready(function() {
     var sUrl = "services/users/api-get-user-type.php";
@@ -19,6 +18,14 @@ $(document).ready(function() {
     $("#btnSuperAdminSignup").click(function() {
         fnSuperAdminSignup();
     });
+
+
+    new Cleave('#txt-create-property-price', {
+        numeral: true,
+        numeralDecimalMark: ',',
+        delimiter: '.'
+    });
+
 });
 
 //When the DOM is loaded and you click on a element with the link class
@@ -417,6 +424,28 @@ function fnGetUsers() {
 }
 
 
+function fnInitializeAutocomplete() {
+        var sAddress = (document.getElementById('txt-create-property-address'));
+        var autocomplete = new google.maps.places.Autocomplete(sAddress);
+        autocomplete.setTypes(['geocode']);
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                return;
+            }
+
+        var sAddress = '';
+        if (place.address_components) {
+            sAddress = [
+                (place.address_components[0] && place.address_components[0].short_name || ''),
+                (place.address_components[1] && place.address_components[1].short_name || ''),
+                (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+        }
+      });
+}
+
+
 function fnSaveProperty() {
     //Get the values from the text boxes
     var sId = $("#txt-create-property-id").val();
@@ -424,7 +453,7 @@ function fnSaveProperty() {
     //Create a new Geocoder object
     geocoder = new google.maps.Geocoder();
     //Initiate function to convert the variable sAddress to two coordinates
-    geocoder.geocode({'address': sAddress}, function(results, status) {
+    geocoder.geocode({ 'address': sAddress }, function(results, status) {
         //If the Geocoder satus is ok then run the following
         if (status == google.maps.GeocoderStatus.OK) {
             //Store the latitude and longitude in two new variables
@@ -441,24 +470,24 @@ function fnSaveProperty() {
             }
             //Pass the data to the server
             $.getJSON(sUrl, function(jData) {
-                if (jData.status == "ok") {}
-                //Display success message
-                fnPropertyAddedTitleNotification(3);
-                swal("You did it!", "You saved the property", "success")
-            });
-
-        } else {
-            //Display an error message
-            swal({
-                title: "Sorry!",
-                text: "Please try again. The reason for the error is: " + status,
-                type: "error",
-                showConfirmButton: true
+                //
+                if (jData.status == "ok") {
+                    //Display success message
+                    fnPropertyAddedTitleNotification(3);
+                    swal("You did it!", "You saved the property", "success")
+                } else {
+                    //Display an error message
+                    swal({
+                        title: "Sorry!",
+                        text: "Please try again. The address or price weren't valid.",
+                        type: "error",
+                        showConfirmButton: true
+                    });
+                }
             });
         }
     });
 }
-
 
 function fnSaveUser() {
     //Get the values from the text boxes
@@ -475,9 +504,10 @@ function fnSaveUser() {
     }
     //Pass the data to the server
     $.getJSON(sUrl, function(jData) {
-        if (jData.status == "ok") {}
-        //Display success message
-        swal("You did it!", "You saved the user", "success")
+        if (jData.status == "ok") {
+            //Display success message
+            swal("You did it!", "You saved the user", "success")
+        }
     });
 }
 
@@ -564,7 +594,7 @@ function fnGetSessionEmail() {
     //Gets the email stored in session and appends it to the menu
     var sUrl = "services/users/api-display-current-email.php";
     $.getJSON(sUrl, function(jData) {
-        var sEmail = '<span>You are logged in as {{email}}</span>';
+        var sEmail = '<div id="currentSessionEmail">You are logged in as {{email}}</div>';
         var sEmailTemplate = sEmail;
         sEmailTemplate = sEmailTemplate.replace("{{email}}", jData.email);
         $("#wdw-menu").append(sEmailTemplate);

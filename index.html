@@ -20,11 +20,9 @@
     <div id="wdw-create-property" class="wdw">
         <h2>Create Property</h2>
         <div class="lblContainer">
-            <input id="txt-create-property-id" type="text">
+            <input id="txt-create-property-id" type="text" placeholder="id - don't touch" readonly="readonly">
             <input id="txt-create-property-address" type="text" placeholder="address">
             <input id="txt-create-property-price" type="text" placeholder="price">
-            <!-- <input id="txt-create-property-lat" type="text" placeholder="lat"> -->
-            <!-- <input id="txt-create-property-lng" type="text" placeholder="lng"> -->
             <button id="btn-save-property">Save</button>
         </div>
         <a data-go-to="wdw-properties" class="link">Go to properties</a>
@@ -34,7 +32,7 @@
     <div id="wdw-create-user" class="wdw">
         <h2>Create User</h2>
         <div class="lblContainer">
-            <input id="txt-create-user-id" type="text">
+            <input id="txt-create-user-id" type="text" placeholder="id - don't touch" readonly="readonly">
             <input id="txt-create-user-email" type="text" placeholder="email">
             <input id="txt-create-user-password" type="text" placeholder="password">
             <input id="txt-create-user-role" type="text" placeholder="role">
@@ -84,11 +82,9 @@
 
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAt6dTk0GCkh_Xiu4if5XIhFw22MEeaCpw"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQmF4zjV3y2ukRFia8VNLkz7crZX7uH1I&libraries=places&callback=fnInitializeAutocomplete" async defer></script>
     <script type="text/javascript" src="dist/sweetalert.min.js"></script>
-
+    <script type="text/javascript" src="dist/cleave.min.js"></script>
     <script type="text/javascript" src="js-app.js"></script>
 
 

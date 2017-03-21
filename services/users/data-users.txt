@@ -10,23 +10,5 @@
         "email": "vgercke@gmail.com",
         "password": "123456",
         "role": "admin"
-    },
-    {
-        "id": "58d19b6c0d42a",
-        "email": "d@d.com",
-        "password": "123456",
-        "role": "admin"
-    },
-    {
-        "id": "58d19b84eb18b",
-        "email": "e@d.com",
-        "password": "123456",
-        "role": "user"
-    },
-    {
-        "id": "58d1a04ac4104",
-        "email": "x@x.dk",
-        "password": "123456",
-        "role": "user"
     }
 ]

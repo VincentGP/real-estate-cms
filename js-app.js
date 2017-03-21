@@ -275,14 +275,6 @@ function fnUserSignup() {
                     $(".wdw").hide();
                     $("#wdw-login").show();
                 }, 3000);
-          //If the status is error then show error message
-        } else if (jData.status == "error") {
-            swal({
-                title: "Error",
-                type: "error",
-                text: "Please fill out both fields",
-                showConfirmButton: true
-            });
         }
     });
 }
@@ -309,13 +301,6 @@ function fnSuperAdminSignup() {
                     $(".wdw").hide();
                     $("#wdw-login").show();
                 }, 3000);
-          //If the status is error then show error message
-        } else if (jData.status == "error") {
-            swal({
-                title: "Error",
-                text: "Please fill out both fields",
-                showConfirmButton: true
-            });
         }
     });
 }
@@ -475,14 +460,6 @@ function fnSaveProperty() {
                 if (jData.status == "ok") {
                     //Display success message
                     swal("You did it!", "You saved the property", "success")
-                } else {
-                    //Display an error message
-                    swal({
-                        title: "Sorry!",
-                        text: "Please try again. The address or price weren't valid.",
-                        type: "error",
-                        showConfirmButton: true
-                    });
                 }
             });
         }
@@ -490,11 +467,10 @@ function fnSaveProperty() {
 }
 
 function fnSaveUser() {
-    //Get the values from the text boxes
+    //Grab the values
     var sId = $("#txt-create-user-id").val();
     var sEmail = $("#txt-create-user-email").val();
     var sPassword = $("#txt-create-user-password").val();
-    // var sRole = $("#txt-create-user-role").val();
     var sRole = $('input[name=role]:checked', '#frmCreateUser').val()
 
     //If there is an id then update
@@ -509,14 +485,6 @@ function fnSaveUser() {
         if (jData.status == "ok") {
             //Display success message
             swal("You did it!", "You saved the user", "success")
-        } else {
-            //Display an error message
-            swal({
-                title: "Sorry!",
-                text: "Please try again. The email or password weren't valid.",
-                type: "error",
-                showConfirmButton: true
-            });
         }
     });
 }

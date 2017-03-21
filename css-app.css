@@ -258,7 +258,7 @@ a {
 	position: relative;
     font-size: 16px;
     height: auto;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     padding: 10px;
     border-radius: 4px;
     -webkit-box-sizing: border-box;
@@ -315,7 +315,7 @@ a {
 	margin-bottom: -1px;
 }
 #txt-create-user-email:focus {
-    z-index: 2;
+    z-index: 1;
 }
 #txt-create-user-password {
 	width: 100%;
@@ -332,6 +332,21 @@ a {
 #txt-create-user-password:focus {
     z-index: 2;
 }
+input#txt-create-user-password-repeat {
+	width: 100%;
+	position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+	margin-bottom: -1px;
+}
+input#txt-create-user-password-repeat {
+    z-index: 1;
+}
 #txt-create-user-role {
 	width: 100%;
 	position: relative;
@@ -347,6 +362,7 @@ a {
     border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+
 
 /************************************************************************/
 /************************************************************************/
@@ -518,4 +534,10 @@ a {
 
 #txt-create-property-id, #txt-create-user-id {
 	display: none;
+}
+
+/*PARSLEY*/
+
+li.parsley-required {
+	margin-left: 20px;
 }

@@ -5,7 +5,7 @@
 	//Get the values passed in the URL
 	$sFileName = "data-properties.txt";
 	$sAddress = $_GET['address'];
-	$iPrice = $_GET['price'];
+	$sPrice = $_GET['price'];
 	$iLat = $_GET['lat'];
 	$iLng = $_GET['lng'];
 	//Store the contents of the txt database in the variable sajProperties
@@ -17,14 +17,14 @@
 		$ajProperties = [];
 	}
 	//Boolean value that can be either true or false
-	$bPrice = fnIsPriceValid($iPrice, 0, 18446744073709551615);
+	$bPrice = fnIsPriceValid($sPrice, 0, 18446744073709551615);
 	$bDuplicateAddress = fnCheckForDuplicate($sFileName, $sAddress, 'address');
 	//If the price and address is valid push all the data to the database
-	if($bPrice && $bDuplicateAddress) {
+	if($bPrice && $bDuplicateAddress && $sAddress == !null) {
 		$jProperty = json_decode('{}');
 		$jProperty->id = uniqid();
 		$jProperty->address = $sAddress;
-		$jProperty->price = $iPrice;
+		$jProperty->price = $sPrice;
 		$jProperty->lat = $iLat;
 		$jProperty->lng = $iLng;
 		//Push the object to the array

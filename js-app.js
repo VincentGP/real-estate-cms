@@ -19,11 +19,12 @@ $(document).ready(function() {
         fnSuperAdminSignup();
     });
 
-
+    //Decides 
     new Cleave('#txt-create-property-price', {
         numeral: true,
         numeralDecimalMark: ',',
-        delimiter: '.'
+        delimiter: '.',
+        numeralPositiveOnly: true
     });
 
 });
@@ -473,7 +474,6 @@ function fnSaveProperty() {
                 //
                 if (jData.status == "ok") {
                     //Display success message
-                    fnPropertyAddedTitleNotification(3);
                     swal("You did it!", "You saved the property", "success")
                 } else {
                     //Display an error message
@@ -494,7 +494,9 @@ function fnSaveUser() {
     var sId = $("#txt-create-user-id").val();
     var sEmail = $("#txt-create-user-email").val();
     var sPassword = $("#txt-create-user-password").val();
-    var sRole = $("#txt-create-user-role").val();
+    // var sRole = $("#txt-create-user-role").val();
+    var sRole = $('input[name=role]:checked', '#frmCreateUser').val()
+
     //If there is an id then update
     if (sId) {
         var sUrl = "services/users/api-update-user.php?id="+sId+"&email="+sEmail+"&password="+sPassword+"&role="+sRole;
@@ -507,6 +509,14 @@ function fnSaveUser() {
         if (jData.status == "ok") {
             //Display success message
             swal("You did it!", "You saved the user", "success")
+        } else {
+            //Display an error message
+            swal({
+                title: "Sorry!",
+                text: "Please try again. The email or password weren't valid.",
+                type: "error",
+                showConfirmButton: true
+            });
         }
     });
 }
@@ -559,26 +569,6 @@ function fnGetUserMenu() {
     //Append the blueprint to the menu
     $("#wdw-menu").append(sMenu);
     fnGetSessionEmail();
-}
-
-function fnPropertyAddedTitleNotification(iCounter){
-        var sOriginalTitle = document.title;
-        var bSwitch = 0;
-        var iCounter;
-
-        var iTimer = setInterval( function(){
-            if( bSwitch == 0 ){ // it is the original title
-                document.title = "NEW PROPERTY ADDED";
-                bSwitch = 1;
-            }else{
-                document.title = sOriginalTitle;
-                bSwitch = 0;
-                iCounter--;
-                if( iCounter == 0 ){
-                    clearInterval( iTimer ); // Stop the interval
-                }               
-            }
-        } , 1000 );
 }
 
 function fnLogout() {
@@ -661,6 +651,82 @@ function fnGetPropertiesMap() {
         }
     });
 }
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+function fnNotificationPropertyAdded() {
+
+    var sUrl = "services/properties/api-get-properties.php";
+
+    $.getJSON(sUrl, function(ajData) {
+        for(var i = 0; i < ajData.length; i++) {
+                //
+                var iPropertyId = ajData[i].id;
+                // if it doesnt exist, please add it
+                if($("#"+iPropertyId).length == 0 ) {
+                    fnDesktopNotification();
+                    fnTitleNotification(3);
+                }
+            }
+    });
+
+
+
+function fnTitleNotification(iCounter){
+        var sOriginalTitle = document.title;
+        var bSwitch = 0;
+        var iCounter;
+
+        var iTimer = setInterval( function(){
+            if( bSwitch == 0 ){ // it is the original title
+                document.title = "NEW PROPERTY ADDED";
+                bSwitch = 1;
+            }else{
+                document.title = sOriginalTitle;
+                bSwitch = 0;
+                iCounter--;
+                if( iCounter == 0 ){
+                    clearInterval( iTimer ); // Stop the interval
+                }               
+            }
+        } , 1000 );
+}
+
+
+
+    function fnDesktopNotification() {
+        //Checks if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+        }
+
+        //Checks whether or not notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            //Create notification
+            var notification = new Notification("A new property has been added!");
+            //Build a sound object
+            // var oSound = new Audio('sound.mp3');
+            //Play the sound
+            // oSound.play();
+            //Change the tabs title
+            // document.title = "NEW PROPERTY";
+        }
+
+        //Otherwise, ask the user for permission
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission(function(permission) {
+                // If the user accepts, create notification
+                if (permission === "granted") {
+                    var notification = new Notification("A new property has been added!");
+                }
+            });
+        }
+    }
+}
+
+
 
 /************************************************************************/
 /************************************************************************/

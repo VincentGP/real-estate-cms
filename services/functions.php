@@ -1,15 +1,32 @@
 <?php
 
 	//Price validation
-	function fnIsPriceValid($iPrice, $iMin, $iMax) {
+	function fnIsPriceValid($sPrice, $iMin, $iMax) {
+		//Convert the price from string to float
+		$fPrice = (float)$sPrice;
 		//If the under or over the iMin and iMax, or is not empty, then return false
-		if($iPrice < $iMin || $iPrice > $iMax || empty($iPrice)) {
+		if($fPrice < $iMin || $fPrice > $iMax || empty($fPrice)) {
 			return false;
 		}
 		//Otherwise return true
 		return true;
 	}
 
+	function fnIsEmailValid($sEmail) {
+	//If the email is valid return true otherwise return false
+	if(preg_match("/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/", $sEmail)) {
+		return true;
+	}
+	return false;
+	}
+
+	function fnIsPasswordValid($sPassword) {
+	//If the email is valid return true otherwise return false
+	if(preg_match("/.{6,}/", $sPassword)) {
+		return true;
+	}
+	return false;
+	}
 
 	//Check if the address is a valid address || NOT USED ATM, CLASHES WITH GOOGLE AUTOCOMPLETE - TOO SPECIFIC NEEDS TO BE MORE GENERAL
 	function fnIsAddressValid($sAddress) {

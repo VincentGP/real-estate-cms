@@ -18,12 +18,14 @@
     <div id="wdw-menu" class="wdw"></div>
 
     <div id="wdw-create-property" class="wdw">
-        <h2>Create Property</h2>
+        <h2>Create/Update Property</h2>
         <div class="lblContainer">
-            <input id="txt-create-property-id" type="text" placeholder="id - don't touch" readonly="readonly">
-            <input id="txt-create-property-address" type="text" placeholder="address">
-            <input id="txt-create-property-price" type="text" placeholder="price">
-            <button id="btn-save-property">Save</button>
+            <form method="get" action="javascript:void(0);" id="frmCreateProperty" data-parsley-validate>
+                <input id="txt-create-property-id" type="text" name="Id" readonly="readonly">
+                <input id="txt-create-property-address" type="text" name="address" placeholder="Type and choose from list" required>
+                <input id="txt-create-property-price" type="text" name="price" placeholder="Price" minlength="0" maxlength="26" required>
+                <button id="btn-save-property" form="frmCreateProperty">Save</button>
+            </form>
         </div>
         <a data-go-to="wdw-properties" class="link">Go to properties</a>
         <a data-go-to="wdw-menu" class="link">Go to menu</a>
@@ -32,11 +34,15 @@
     <div id="wdw-create-user" class="wdw">
         <h2>Create User</h2>
         <div class="lblContainer">
-            <input id="txt-create-user-id" type="text" placeholder="id - don't touch" readonly="readonly">
-            <input id="txt-create-user-email" type="text" placeholder="email">
-            <input id="txt-create-user-password" type="text" placeholder="password">
-            <input id="txt-create-user-role" type="text" placeholder="role">
-            <button id="btn-save-user">Save</button>
+            <form method="get" action="javascript:void(0);" id="frmCreateUser" data-parsley-validate>
+                <input id="txt-create-user-id" type="text" placeholder="Id" readonly="readonly">
+                <input id="txt-create-user-email" type="email" placeholder="Email" required>
+                <input id="txt-create-user-password" type="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+                <input id="txt-create-user-password-repeat" type="password" placeholder="Type password again" data-parsley-equalto="#txt-create-user-password" required>
+                <input type="radio" name="role" value="admin" checked> Admin <br>
+                <input type="radio" name="role" value="user"> User
+                <button id="btn-save-user" form="frmCreateUser">Save</button>
+            </form>
         </div>
         <a data-go-to="wdw-users" class="link">Go to users</a>
         <a data-go-to="wdw-menu" class="link">Go to menu</a>
@@ -45,9 +51,11 @@
     <div id="wdw-login" class="wdw">
         <h1>Login</h1>
         <div class="lblContainer">
-            <input id="txtLoginEmail" type="text" placeholder="Email">
-            <input id="txtLoginPassword" type="password" placeholder="Password">
-            <button id="btnLogin">Login</button>
+            <form method="get" action="javascript:void(0);" id="frmLogin" data-parsley-validate>
+                <input id="txtLoginEmail" type="email" placeholder="Email" required>
+                <input id="txtLoginPassword" type="password" placeholder="Password" required>
+                <button id="btnLogin">Login</button>
+            </form>
         </div>
         <a data-go-to="wdw-user-signup" class="link">Create an account</a>
     </div>
@@ -55,9 +63,11 @@
     <div id="wdw-user-signup" class="wdw">
         <h1>Signup</h1>
         <div class="lblContainer">
-            <input id="txtSignupEmail" type="text" placeholder="Email">
-            <input id="txtSignupPassword" type="password" placeholder="Choose your password">
-            <button id="btnUserSignup">Signup</button>
+            <form method="get" action="javascript:void(0);" id="frmUserSignup" data-parsley-validate>
+                <input id="txtSignupEmail" type="email" placeholder="Email" required>
+                <input id="txtSignupPassword" type="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+                <button id="btnUserSignup">Signup</button>
+            </form>
         </div>
         <a data-go-to="wdw-login" class="link">Go back</a>
     </div>
@@ -66,9 +76,11 @@
         <h1>Super Admin Signup</h1>
         <h3>You will become the super admin</h3>
         <div class="lblContainer">
-            <input id="txtSuperAdminSignupEmail" type="text" placeholder="Email">
-            <input id="txtSuperAdminSignupPassword" type="password" placeholder="Choose your password">
-            <button id="btnSuperAdminSignup">SIGNUP</button>
+            <form method="get" action="javascript:void(0);" id="frmSuperAdminSignup" data-parsley-validate>
+                <input id="txtSuperAdminSignupEmail" type="email" placeholder="Email" required>
+                <input id="txtSuperAdminSignupPassword" type="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+                <button id="btnSuperAdminSignup">SIGNUP</button>
+            </form>
         </div>
     </div>
 
@@ -82,6 +94,8 @@
 
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript" src="dist/parsley.js"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQmF4zjV3y2ukRFia8VNLkz7crZX7uH1I&libraries=places&callback=fnInitializeAutocomplete" async defer></script>
     <script type="text/javascript" src="dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="dist/cleave.min.js"></script>

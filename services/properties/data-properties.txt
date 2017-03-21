@@ -1,59 +1,10 @@
 [
     {
-        "id": "58c690fe664f5",
-        "address": "Stokholmsvej 60",
-        "price": "20",
-        "lat": "55.992252",
-        "lng": "12.542969999999968"
-    },
-    {
-        "id": "58c697c15d165",
-        "address": "Nørrebrogade 50",
-        "price": "900",
-        "lat": "55.6896202",
-        "lng": "12.556436399999939"
-    },
-    {
-        "id": "58c71773725e6",
-        "address": "Helgesensgade 42b, 2000",
-        "price": "1.000",
-        "lat": "59.924105",
-        "lng": "10.764067899999986"
-    },
-    {
-        "id": "58c9c42e1533e",
-        "address": "Fiskedamsgade, København Ø, Danmark",
-        "price": "400.000",
-        "lat": "55.69955359999999",
-        "lng": "12.587747900000068"
-    },
-    {
         "id": "58cbf1713e003",
         "address": "Vesterport Station, København, Danmark",
-        "price": "301.000",
+        "price": "1.200.000",
         "lat": "55.67571909999999",
         "lng": "12.562376699999959"
-    },
-    {
-        "id": "58cc6f94b94bc",
-        "address": "Amagerbrogade 50, København S, Danmark",
-        "price": "2.000.000,00",
-        "lat": "55.6630321",
-        "lng": "12.601568799999995"
-    },
-    {
-        "id": "58ced7db6b0b0",
-        "address": "Helgesensgade 42b, København Ø, Danmark",
-        "price": "42",
-        "lat": "55.6957584",
-        "lng": "12.570924500000046"
-    },
-    {
-        "id": "58cedf914e2ff",
-        "address": "Ryesgade 20, København N, Danmark",
-        "price": "1",
-        "lat": "55.691106",
-        "lng": "12.566656999999964"
     },
     {
         "id": "58cedfc983486",
@@ -68,5 +19,47 @@
         "price": "4.000.000",
         "lat": "55.4061447",
         "lng": "11.344179800000006"
+    },
+    {
+        "id": "58ceec905a89a",
+        "address": "Blegdamsvej 55, København N, Danmark",
+        "price": "2.300.000",
+        "lat": "55.692246",
+        "lng": "12.56372859999999"
+    },
+    {
+        "id": "58ceee34a055f",
+        "address": "Blegdamsvej 10, København N, Danmark",
+        "price": "1.000.000",
+        "lat": "55.6917104",
+        "lng": "12.563154299999951"
+    },
+    {
+        "id": "58d0499926698",
+        "address": "Vesterbrogade 60, København, Danmark",
+        "price": "2.300.000",
+        "lat": "55.6726961",
+        "lng": "12.553256199999964"
+    },
+    {
+        "id": "58d14b2e7f2cc",
+        "address": "Thurøvej 9, Frederiksberg, Danmark",
+        "price": "1.200.000",
+        "lat": "55.68348719999999",
+        "lng": "12.52559020000001"
+    },
+    {
+        "id": "58d1821926279",
+        "address": "Thurøvej 1, Frederiksberg, Danmark",
+        "price": "3.200.000",
+        "lat": "55.6836069",
+        "lng": "12.524652500000002"
+    },
+    {
+        "id": "58d18280a9a08",
+        "address": "Blegdamsvej 10, København N, Danmark",
+        "price": "1.200.000",
+        "lat": "55.6917104",
+        "lng": "12.563154299999951"
     }
 ]

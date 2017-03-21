@@ -5,7 +5,7 @@
 	//Get id, address and price, and store them
 	$sId = $_GET['id'];
 	$sAddress = $_GET['address'];
-	$iPrice = $_GET['price'];
+	$sPrice = $_GET['price'];
 	$iLat = $_GET['lat'];
 	$iLng = $_GET['lng'];
 	$sFileName = "data-properties.txt";
@@ -18,14 +18,14 @@
 		$ajProperties = [];
 	}
 	//Boolean value that can be either true or false
-	$bPrice = fnIsPriceValid($iPrice, 0, 18446744073709551615);
+	$bPrice = fnIsPriceValid($sPrice, 0, 18446744073709551615);
 	//Loop through the properties
 	for($i = 0; $i < count($ajProperties); $i++) {
 		//If the id matches and the price is valid
-		if($sAddress == $ajProperties[$i]->address && $bPrice) {
+		if($sId == $ajProperties[$i]->id && $bPrice && $sAddress == !null) {
 			//If the id matches, update the keys
 			$ajProperties[$i]->address = $sAddress;
-			$ajProperties[$i]->price = $iPrice;
+			$ajProperties[$i]->price = $sPrice;
 			$ajProperties[$i]->lat = $iLat;
 			$ajProperties[$i]->lng = $iLng;
 			//Convert the object to text

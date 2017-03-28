@@ -1,4 +1,24 @@
 
+function fnInitializeAutocomplete() {
+        var sAddress = (document.getElementById('txt-create-property-address'));
+        var autocomplete = new google.maps.places.Autocomplete(sAddress);
+        autocomplete.setTypes(['geocode']);
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                return;
+            }
+
+        var sAddress = '';
+        if (place.address_components) {
+            sAddress = [
+                (place.address_components[0] && place.address_components[0].short_name || ''),
+                (place.address_components[1] && place.address_components[1].short_name || ''),
+                (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+        }
+      });
+}
 
 //Function that determines if the is a super-admin user on page load
 $(document).ready(function() {
@@ -25,6 +45,10 @@ $(document).ready(function() {
         numeralDecimalMark: ',',
         delimiter: '.',
         numeralPositiveOnly: true
+    });
+
+    $('#txt-create-property-address').change(function(){
+        fnConvertAddress();
     });
 
 });
@@ -166,12 +190,12 @@ $(document).on("click", "#btnLogin", function() {
 
 //Call function on click
 $("#btnUserSignup").click(function(){
-	fnUserSignup();
+    fnUserSignup();
 });
 
 //Call function on click
 $("#btn-save-property").click(function(){
-	fnSaveProperty();
+    $("#frmCreateProperty").submit();
 });
 
 //Call function on click
@@ -240,15 +264,6 @@ function fnLogin() {
                 $(".wdw").hide();
                 $("#wdw-menu").css("display", "flex");
             }, 1000);
-
-          //Display error message if nothing was found
-        } else {
-            swal({
-                title: "No user found",
-                text: "Please try again",
-                type: "error",
-                showConfirmButton: true
-            });
         }
     });
 }
@@ -312,7 +327,7 @@ function fnGetProperties() {
     //Initiate Ajax
     $.getJSON(sUrl, function(jData) {
         //The blueprint of the HTML elements displayed when the function is executed
-        var sProperty = '<div class="lbl-property">\
+        var sProperty = '<div id="P{{id}}" class="lbl-property">\
 							<div class="lbl-property-id">{{id}}</div>\
 							<div class="lbl-property-address">{{address}}</div>\
 							<div class="lbl-property-price">{{price}}</div>\
@@ -328,14 +343,27 @@ function fnGetProperties() {
         for (var i = 0; i < jData.length; i++) {
             //sPropertyTemplate is now the same as sProperty
             var sPropertyTemplate = sProperty;
-            //Replace the string '{{id}}', with the unique data passed from jData
+            //Replace the string 'P{{id}}', with the data passed from jData
+            sPropertyTemplate = sPropertyTemplate.replace("P{{id}}", "P" + jData[i].id);
+            //Replace the string '{{id}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].id);
-            //Replace the string '{{address}}', with the unique data passed from jData
+            //Replace the string '{{address}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
-            //Replace the string '{{price}}', with the unique data passed from jData
+            //Replace the string '{{price}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
             //Append the property template to the wdw with the id wdw-properties
             $("#wdw-properties").append(sPropertyTemplate);
+            //Declare the path to folder where the images are located
+            var sPath = jData[i].id;
+            //Variable where a string of the images is stored
+            var sImages = jData[i].images;
+            //Loop through the string of images
+            for(var j = 0; j < sImages.length; j++) {
+                //Path to the image
+                var sImageTemplate = '<img src="services/properties/images/' + sPath + '/' + sImages[j] + '">';
+                //Append the images to the property
+                $("#P" + jData[i].id).append(sImageTemplate);
+            }
         }
     });
 }
@@ -409,32 +437,47 @@ function fnGetUsers() {
     });
 }
 
+//CREATE/UPDATE PROPERTY
 
-function fnInitializeAutocomplete() {
-        var sAddress = (document.getElementById('txt-create-property-address'));
-        var autocomplete = new google.maps.places.Autocomplete(sAddress);
-        autocomplete.setTypes(['geocode']);
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                return;
-            }
-
-        var sAddress = '';
-        if (place.address_components) {
-            sAddress = [
-                (place.address_components[0] && place.address_components[0].short_name || ''),
-                (place.address_components[1] && place.address_components[1].short_name || ''),
-                (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-        }
-      });
-}
-
-
-function fnSaveProperty() {
-    //Get the values from the text boxes
+//On submit pass the data to the server via AJAX
+$("#frmCreateProperty").on('submit', function(e) {
+    //Stop the page from reloading
+    e.preventDefault();
     var sId = $("#txt-create-property-id").val();
+
+    if (sId) {
+        $.ajax({
+            "url": "services/properties/api-update-property.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function() {
+                // swal("You did it!", "You saved the property", "success")
+            }
+        });
+    } else if (iElementNumber >= 3) {} {
+        $.ajax({
+            "url": "services/properties/api-create-property.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function() {
+                // swal("You did it!", "You saved the property", "success")
+            }
+        });
+    }
+    sweetAlert("Oops...", "Something went wrong!", "error");
+});
+
+
+
+
+function fnConvertAddress() {
+    //Get the values from the text boxes
     var sAddress = $("#txt-create-property-address").val();
     //Create a new Geocoder object
     geocoder = new google.maps.Geocoder();
@@ -445,23 +488,8 @@ function fnSaveProperty() {
             //Store the latitude and longitude in two new variables
             var iLat = results[0].geometry.location.lat();
             var iLng = results[0].geometry.location.lng();
-            //Store the value from the price text box in a new variable
-            var sPrice = $("#txt-create-property-price").val();
-            //If there is an id then update
-            if (sId) {
-                var sUrl = "services/properties/api-update-property.php?id=" + sId + "&address=" + sAddress + "&price=" + sPrice + "&lat=" + iLat + "&lng=" + iLng;
-                //If there is no id, then create a new property
-            } else {
-                var sUrl = "services/properties/api-create-property.php?address=" + sAddress + "&price=" + sPrice + "&lat=" + iLat + "&lng=" + iLng;
-            }
-            //Pass the data to the server
-            $.getJSON(sUrl, function(jData) {
-                //
-                if (jData.status == "ok") {
-                    //Display success message
-                    swal("You did it!", "You saved the property", "success")
-                }
-            });
+            $("#txt-create-property-lat").val(iLat);
+            $("#txt-create-property-lng").val(iLng);
         }
     });
 }
@@ -663,7 +691,6 @@ function fnTitleNotification(iCounter){
 }
 
 
-
     function fnDesktopNotification() {
         //Checks if the browser supports notifications
         if (!("Notification" in window)) {
@@ -693,6 +720,39 @@ function fnTitleNotification(iCounter){
         }
     }
 }
+
+
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+//FILE UPLOAD
+    
+    var iElementNumber = 0;
+    //When the document is on and there's a change in inputs with the type file
+    $(document).on('change', '[type="file"]', function() {
+        //Create new preview object
+        var oPreview = new FileReader();
+        oPreview.readAsDataURL(this.files[0]);
+        var self = this;
+        //When the data is loaded run the following function
+        oPreview.onload = function(event) {
+            $(self).siblings(".img-preview").attr("src", event.target.result);
+        }
+        fnCreateImageInput();
+    });
+
+    function fnCreateImageInput() {
+        iElementNumber++;
+        var sDiv = '<div>\
+                    <img class="img-preview" src=""></img>\
+                    <input class="file" type="file" name="file-' + iElementNumber + '">\
+                  </div>';
+        $("#frmCreateProperty").append(sDiv);
+    }
+
+
 
 
 

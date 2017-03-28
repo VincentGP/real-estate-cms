@@ -532,7 +532,7 @@ input#txt-create-user-password-repeat {
 	font-size: 12px;
 }
 
-#txt-create-property-id, #txt-create-user-id {
+#txt-create-property-id, #txt-create-user-id, #txt-create-property-lat, #txt-create-property-lng {
 	display: none;
 }
 

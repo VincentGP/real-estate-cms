@@ -1,65 +1,98 @@
 [
     {
         "id": "58cbf1713e003",
-        "address": "Vesterport Station, København, Danmark",
-        "price": "1.200.000",
-        "lat": "55.67571909999999",
-        "lng": "12.562376699999959"
+        "address": "Vesterport Station 2, København, Danmark",
+        "price": "1.300.000",
+        "lat": "",
+        "lng": "",
+        "images": []
     },
     {
         "id": "58cedfc983486",
         "address": "Nordre Frihavnsgade 1, København Ø, Danmark",
         "price": "2.400.000",
         "lat": "55.6998",
-        "lng": "12.577914999999962"
+        "lng": "12.577914999999962",
+        "images": []
     },
     {
         "id": "58cee2a1e2f48",
         "address": "Søndre Stationsvej 40, Slagelse, Danmark",
         "price": "4.000.000",
         "lat": "55.4061447",
-        "lng": "11.344179800000006"
+        "lng": "11.344179800000006",
+        "images": []
     },
     {
         "id": "58ceec905a89a",
         "address": "Blegdamsvej 55, København N, Danmark",
         "price": "2.300.000",
         "lat": "55.692246",
-        "lng": "12.56372859999999"
+        "lng": "12.56372859999999",
+        "images": []
     },
     {
         "id": "58ceee34a055f",
         "address": "Blegdamsvej 10, København N, Danmark",
         "price": "1.000.000",
         "lat": "55.6917104",
-        "lng": "12.563154299999951"
+        "lng": "12.563154299999951",
+        "images": []
     },
     {
         "id": "58d0499926698",
         "address": "Vesterbrogade 60, København, Danmark",
         "price": "2.300.000",
         "lat": "55.6726961",
-        "lng": "12.553256199999964"
+        "lng": "12.553256199999964",
+        "images": []
     },
     {
         "id": "58d14b2e7f2cc",
         "address": "Thurøvej 9, Frederiksberg, Danmark",
         "price": "1.200.000",
         "lat": "55.68348719999999",
-        "lng": "12.52559020000001"
+        "lng": "12.52559020000001",
+        "images": []
     },
     {
         "id": "58d1821926279",
         "address": "Thurøvej 1, Frederiksberg, Danmark",
         "price": "3.200.000",
         "lat": "55.6836069",
-        "lng": "12.524652500000002"
+        "lng": "12.524652500000002",
+        "images": []
     },
     {
         "id": "58d18280a9a08",
         "address": "Blegdamsvej 10, København N, Danmark",
         "price": "1.200.000",
         "lat": "55.6917104",
-        "lng": "12.563154299999951"
+        "lng": "12.563154299999951",
+        "images": []
+    },
+    {
+        "id": 1490738285,
+        "address": "Gammel Kongevej 10, Frederiksberg, Danmark",
+        "price": "6.500.000",
+        "lat": "55.67451519999999",
+        "lng": "12.558058800000026",
+        "images": [
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-3.jpg"
+        ]
+    },
+    {
+        "id": 1490740103,
+        "address": "Humlebæk St., Humlebæk, Danmark",
+        "price": "4.500.000",
+        "lat": "60.5857585",
+        "lng": "10.75227540000003",
+        "images": [
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-2.jpg"
+        ]
     }
 ]

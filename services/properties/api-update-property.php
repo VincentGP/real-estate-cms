@@ -3,11 +3,11 @@
 	//Include functions
 	include '../functions.php';
 	//Get id, address and price, and store them
-	$sId = $_GET['id'];
-	$sAddress = $_GET['address'];
-	$sPrice = $_GET['price'];
-	$iLat = $_GET['lat'];
-	$iLng = $_GET['lng'];
+	$sId = $_POST['id'];
+	$sAddress = $_POST['address'];
+	$sPrice = $_POST['price'];
+	$iLat = $_POST['lat'];
+	$iLng = $_POST['lng'];
 	$sFileName = "data-properties.txt";
 	//Get the content from txt file
 	$sajProperties = file_get_contents($sFileName);

@@ -20,10 +20,14 @@
     <div id="wdw-create-property" class="wdw">
         <h2>Create/Update Property</h2>
         <div class="lblContainer">
-            <form method="get" action="javascript:void(0);" id="frmCreateProperty" data-parsley-validate>
-                <input id="txt-create-property-id" type="text" name="Id" readonly="readonly">
+            <form id="frmCreateProperty" method="post" enctype="multipart/form-data" data-parsley-validate>
+                <input id="txt-create-property-id" type="text" name="id" readonly="readonly">
                 <input id="txt-create-property-address" type="text" name="address" placeholder="Type and choose from list" required>
+                <input id="txt-create-property-lat" type="text" name="lat">
+                <input id="txt-create-property-lng" type="text" name="lng">
                 <input id="txt-create-property-price" type="text" name="price" placeholder="Price" minlength="0" maxlength="26" required>
+                <img class="img-preview" src=""></img>
+                <input class="file" type="file" name="file-0">
                 <button id="btn-save-property" form="frmCreateProperty">Save</button>
             </form>
         </div>
@@ -94,7 +98,7 @@
 
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript" src="dist/parsley.js"></script>
+    <script type="text/javascript" src="dist/parsley.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQmF4zjV3y2ukRFia8VNLkz7crZX7uH1I&libraries=places&callback=fnInitializeAutocomplete" async defer></script>
     <script type="text/javascript" src="dist/sweetalert.min.js"></script>

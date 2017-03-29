@@ -28,8 +28,8 @@
                 <input id="txt-create-property-price" type="text" name="price" placeholder="Price" minlength="0" maxlength="26" required>
                 <img class="img-preview" src=""></img>
                 <input class="file" type="file" name="file-0">
-                <button id="btn-save-property" form="frmCreateProperty">Save</button>
             </form>
+            <button id="btn-save-property">Save</button>
         </div>
         <a data-go-to="wdw-properties" class="link">Go to properties</a>
         <a data-go-to="wdw-menu" class="link">Go to menu</a>
@@ -45,8 +45,8 @@
                 <input id="txt-create-user-password-repeat" type="password" placeholder="Type password again" data-parsley-equalto="#txt-create-user-password" required>
                 <input type="radio" name="role" value="admin" checked> Admin <br>
                 <input type="radio" name="role" value="user"> User
-                <button id="btn-save-user" form="frmCreateUser">Save</button>
             </form>
+            <button id="btn-save-user">Save</button>
         </div>
         <a data-go-to="wdw-users" class="link">Go to users</a>
         <a data-go-to="wdw-menu" class="link">Go to menu</a>
@@ -99,7 +99,6 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="dist/parsley.js"></script>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQmF4zjV3y2ukRFia8VNLkz7crZX7uH1I&libraries=places&callback=fnInitializeAutocomplete" async defer></script>
     <script type="text/javascript" src="dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="dist/cleave.min.js"></script>

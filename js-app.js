@@ -53,6 +53,13 @@ $(document).ready(function() {
 
 });
 
+//So you can right click to go to the main menu
+$(".wdw").contextmenu(function(event){
+    $(".wdw").hide();
+    $("#wdw-menu").show();
+    event.preventDefault();
+});
+
 //When the DOM is loaded and you click on a element with the link class
 $(document).on("click", ".link", function() {
     //Hide all windows
@@ -440,9 +447,9 @@ function fnGetUsers() {
 //CREATE/UPDATE PROPERTY
 
 //On submit pass the data to the server via AJAX
-$("#frmCreateProperty").on('submit', function(e) {
+$("#frmCreateProperty").on('submit', function(event) {
     //Stop the page from reloading
-    e.preventDefault();
+    event.preventDefault();
     var sId = $("#txt-create-property-id").val();
 
     if (sId) {
@@ -457,7 +464,7 @@ $("#frmCreateProperty").on('submit', function(e) {
                 // swal("You did it!", "You saved the property", "success")
             }
         });
-    } else if (iElementNumber >= 3) {} {
+    } else if (iElementNumber >= 3) {
         $.ajax({
             "url": "services/properties/api-create-property.php",
             "method": "POST",
@@ -465,15 +472,19 @@ $("#frmCreateProperty").on('submit', function(e) {
             "contentType": false,
             "processData": false,
             "cache": false,
-            success: function() {
-                // swal("You did it!", "You saved the property", "success")
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if(jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                //Otherwise notify the user that a property has been added
+                } else {
+                    fnDesktopNotification();
+                    fnTitleNotification(3);
+                }
             }
         });
     }
-    sweetAlert("Oops...", "Something went wrong!", "error");
 });
-
-
 
 
 function fnConvertAddress() {
@@ -488,6 +499,7 @@ function fnConvertAddress() {
             //Store the latitude and longitude in two new variables
             var iLat = results[0].geometry.location.lat();
             var iLng = results[0].geometry.location.lng();
+            //Put them in the invisible text boxes
             $("#txt-create-property-lat").val(iLat);
             $("#txt-create-property-lng").val(iLng);
         }
@@ -652,6 +664,8 @@ function fnGetPropertiesMap() {
 /************************************************************************/
 /************************************************************************/
 
+
+//THIS DOESN'T WORK????
 function fnNotificationPropertyAdded() {
 
     var sUrl = "services/properties/api-get-properties.php";
@@ -670,7 +684,44 @@ function fnNotificationPropertyAdded() {
 
 
 
-function fnTitleNotification(iCounter){
+
+
+
+    
+}
+
+function fnDesktopNotification() {
+        //Checks if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+        }
+
+        //Checks whether or not notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            //Create notification
+            var notification = new Notification("A new property has been added!");
+            //Build a sound object
+            var oSound = new Audio('sounds/notification.mp3');
+            //Play the sound
+            oSound.play();
+        }
+
+        //Otherwise, ask the user for permission
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission(function(permission) {
+                // If the user accepts, create notification
+                if (permission === "granted") {
+                    var notification = new Notification("A new property has been added!");
+                    //Build a sound object
+                    var oSound = new Audio('sounds/notification.mp3');
+                    //Play the sound
+                    oSound.play();
+                }
+            });
+        }
+    }
+
+    function fnTitleNotification(iCounter) {
         var sOriginalTitle = document.title;
         var bSwitch = 0;
         var iCounter;
@@ -684,43 +735,11 @@ function fnTitleNotification(iCounter){
                 bSwitch = 0;
                 iCounter--;
                 if( iCounter == 0 ){
-                    clearInterval( iTimer ); // Stop the interval
+                    clearInterval(iTimer); // Stop the interval
                 }               
             }
         } , 1000 );
 }
-
-
-    function fnDesktopNotification() {
-        //Checks if the browser supports notifications
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        }
-
-        //Checks whether or not notification permissions have already been granted
-        else if (Notification.permission === "granted") {
-            //Create notification
-            var notification = new Notification("A new property has been added!");
-            //Build a sound object
-            // var oSound = new Audio('sound.mp3');
-            //Play the sound
-            // oSound.play();
-            //Change the tabs title
-            // document.title = "NEW PROPERTY";
-        }
-
-        //Otherwise, ask the user for permission
-        else if (Notification.permission !== "denied") {
-            Notification.requestPermission(function(permission) {
-                // If the user accepts, create notification
-                if (permission === "granted") {
-                    var notification = new Notification("A new property has been added!");
-                }
-            });
-        }
-    }
-}
-
 
 
 /************************************************************************/

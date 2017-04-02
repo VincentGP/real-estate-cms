@@ -32,7 +32,7 @@
 		//Save data to the file
 		file_put_contents($sFileName, $sajUsers);
 		echo '{"status":"ok"}';
-		exit
+		exit;
 	}
 	//If the boolean is false echo an error
 	echo '{"status":"error"}';

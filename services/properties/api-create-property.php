@@ -5,7 +5,7 @@
 	//Get the values passed in the URL
 	$sFileName = "data-properties.txt";
 	//The id is created based on mictrotime, could also be based on uniqueid()
-	$sId = round(microtime(true));
+	$sId = uniqid();
 	$sAddress = $_POST['address'];
 	$sPrice = $_POST['price'];
 	$iLat = $_POST['lat'];

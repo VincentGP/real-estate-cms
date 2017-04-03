@@ -1,7 +1,8 @@
 <?php
 
+	//Variable which refers to the database file
 	$sFileName = "data-properties.txt";
-	//Get the properties from txt file and store in variable
+	//Store the contents of the txt database in the variable sajProperties
 	$sajProperties = file_get_contents($sFileName);
 	//Convert sajProperties to an array of objects
 	$ajProperties = json_decode($sajProperties);
@@ -10,7 +11,7 @@
 		echo '{"status":"error"}';
 		exit;
 	}
-	//Convert the properties to a string and echo
+	//Convert the properties to a string and echo the properties
 	$sajProperties = json_encode($ajProperties, JSON_UNESCAPED_UNICODE);
 	echo $sajProperties;
 	

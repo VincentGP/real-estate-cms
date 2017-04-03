@@ -1,41 +1,47 @@
 <?php
 	
-	//Include functions
+	//Include the functions file
 	include '../functions.php';
-	//Get the values passed in the URL
+	//Variable which refers to the database file
 	$sFileName = "data-properties.txt";
-	//The id is created based on mictrotime, could also be based on uniqueid()
+	//Unique ID created based on the uniqid function
 	$sId = uniqid();
+	//Variables with values passed from the form
 	$sAddress = $_POST['address'];
 	$sPrice = $_POST['price'];
 	$iLat = $_POST['lat'];
 	$iLng = $_POST['lng'];
-	//Variable used to validate image uploads
-	$iCounter = 0;
+	//Timestamp of the date the property was added
+	$sDateCreated = date('d-m-Y');
 	//Store the contents of the txt database in the variable sajProperties
 	$sajProperties = file_get_contents($sFileName);
 	//Convert sajProperties to an array of objects
 	$ajProperties = json_decode($sajProperties);
-	//If ajProperties isn't an array then make an empty array
+	//If ajProperties isn't an array then replace it with an empty array
 	if(!is_array($ajProperties)) {
 		$ajProperties = [];
 	}
-	//Boolean value that can be either true or false
+	//Checks whether or not the price is valid based on three parameters
 	$bPrice = fnIsPriceValid($sPrice, 0, 18446744073709551615);
+	//Checks if the address already is in the database
 	$bDuplicateAddress = fnCheckForDuplicate($sFileName, $sAddress, 'address');
-	$sFileCounter = count($_FILES);
-	//If the price and address is valid push all the data to the database
-	if($bPrice && $bDuplicateAddress && $sAddress == !null && $sFileCounter >= 3) {
+	//Counts the amount of files uploaded
+	$iFileCounter = count($_FILES);
+	//If the boolean values are true and the iFileCounter is 3 or more push the data to the database
+	if($bPrice && $bDuplicateAddress && $sAddress == !null && $iFileCounter >= 3) {
 		//Create a directory for the images, if it doesn't exist already
 		if (!is_dir($sId)) {
 	    mkdir('images/' . $sId);
 		}
+		//Declare the JSON object jProperty
 		$jProperty = json_decode('{}');
+		//Populate the JSON object
 		$jProperty->id = $sId;
 		$jProperty->address = $sAddress;
 		$jProperty->price = $sPrice;
 		$jProperty->lat = $iLat;
 		$jProperty->lng = $iLng;
+		$jProperty->dateCreated = $sDateCreated;
 		//Loop through all the files received from POST
 		for($i = 0; $i < count($_FILES); $i++) {
 		//Split the string, to grab the file extension
@@ -44,7 +50,7 @@
 		$sFilename = 'image-' . $i . '.' . end($sFileExtension);
 		//Store information about the files in variable
 		$sFileparts = pathinfo($sFilename);
-		//If the image has the extension jpg or png allow the file to be stored in the database
+		//If the image has the extension jpg, png, jpeg or JPEG allow the file to be stored in the database
 		switch($sFileparts['extension'])
 		{
 		    case "jpg":
@@ -69,7 +75,7 @@
 		echo '{"status":"ok"}';
 		exit;
 		}
-	//If the boolean is false echo an error
+	//If the if statement isn't true echo an error message
 	echo '{"status":"error"}';
 
 ?>

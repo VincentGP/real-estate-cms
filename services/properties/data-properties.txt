@@ -1,1 +1,43 @@
-[]
+[
+    {
+        "id": "58e2a256653a1",
+        "address": "Thurøvej 11, Frederiksberg, Danmark",
+        "price": "2.400.000",
+        "lat": "55.6833942",
+        "lng": "12.525769200000013",
+        "dateCreated": "03-04-2017",
+        "images": [
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-2.jpg"
+        ],
+        "dateUpdated": "04-04-2017"
+    },
+    {
+        "id": "58e2a7bc2709c",
+        "address": "Stokholmsvej 10, Espergærde, Danmark",
+        "price": "5.000.000",
+        "lat": "55.9892976",
+        "lng": "12.553440799999976",
+        "dateCreated": "03-04-2017",
+        "images": [
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-2.jpg"
+        ]
+    },
+    {
+        "id": "58e2dc2baeb4b",
+        "address": "Gammel Kongevej 51, København V, Danmark",
+        "price": "1.000.000",
+        "lat": "55.6743057",
+        "lng": "12.55028619999996",
+        "dateCreated": "04-04-2017",
+        "images": [
+            "image-0.png",
+            "image-1.png",
+            "image-2.png"
+        ],
+        "dateUpdated": "04-04-2017"
+    }
+]

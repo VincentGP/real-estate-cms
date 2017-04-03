@@ -52,6 +52,15 @@ a {
 	height: 100vh;
 	background-color: $primary-background-color;
 }
+.lblMenuContainer {
+	width: 300px;
+	height: auto;
+    padding: 15px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
 .lblContainer {
 	width: 300px;
 	height: auto;
@@ -408,33 +417,55 @@ input#txt-create-user-password-repeat {
 	}
 }
 
+#wdw-create-property {
+	.img-preview {
+		width: 100%;
+		margin-top: 10px;
+	}
+}
+
 /************************************************************************/
 /************************************************************************/
 /************************************************************************/
 
 #wdw-properties-user {
-	/*display: flex;*/
-	background-color: white;
+	justify-content: flex-start;
 	height: auto;
-}
-
-#wdw-properties-user .lbl-property {
-	display: flex;
-	justify-content: space-between;
-	width: 800px;
-	height: auto;
-	margin-top: 10px;
-	margin-bottom: 10px;
-    padding: 15px;
-    background-color: #f7f7f7;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    align-items: center;
-}
-
-#wdw-properties-user .lbl-property .lbl-property-address {
-	/*width: 400px;*/
+	.lbl-property {
+		display: flex;
+		flex-direction: column;
+	    align-items: center;
+		width: 80%;
+		margin: 10px 0 0 0;
+	    padding: 15px;
+	    background-color: $primary-card-background-color;
+	    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	    .lbl-property-information {
+	    	display: flex;
+	    	justify-content: space-between;
+	    	width: 100%;
+	    	.lbl-property-address {
+	    		flex-basis: 60%;
+	    	}
+	    	.lbl-property-price {
+	    		flex-basis: 30%;
+	    		text-align: center;
+	    	}
+	    	.lbl-property-id {
+				display: none;
+			}
+	    }
+	    .lbl-property-images {
+	    	display: flex;
+	    	flex-wrap: wrap;
+	    	width: 100%;
+	    	margin: 10px 0 0 0;
+	    	img {
+	    		width: 100%;
+	    		padding: 10px 100px 10px 100px;
+	    	}
+	    }
+	}
 }
 
 /************************************************************************/
@@ -542,7 +573,7 @@ input#txt-create-user-password-repeat {
 
 /*MISC*/
 
-#currentSessionEmail {
+#lblCurrentEmail {
 	color: white;
 	font-size: 12px;
 }

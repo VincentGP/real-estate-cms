@@ -1,6 +1,3 @@
-
-
-
 //Function that determines if the is a super-admin user on page load
 $(document).ready(function() {
     var sUrl = "services/users/api-get-user-type.php";
@@ -27,7 +24,6 @@ $(document).ready(function() {
         delimiter: '.',
         numeralPositiveOnly: true
     });
-
 
 });
     
@@ -172,6 +168,14 @@ $(document).on("click", "#btnLogin", function() {
     fnLogin();
 });
 
+$(document).on("click", "[data-go-to='wdw-menu']", function() {
+    fnResetImageInput();
+});
+
+$(document).on("click", ".btnSendProperties", function() {
+    fnSendPropertyList();
+});
+
 
 /************************************************************************/
 /************************************************************************/
@@ -184,28 +188,136 @@ $("#btnUserSignup").click(function(){
 
 //Call function on click
 $("#btn-save-property").click(function(){
+    //Submit the form
     $("#frmCreateProperty").submit();
 });
 
 //Call function on click
 $("#btn-save-user").click(function(){
-	fnSaveUser();
+	//Submit the form
+    $("#frmCreateUser").submit();
 });
 
+
 /************************************************************************/
 /************************************************************************/
 /************************************************************************/
 
 
+//USERS FUNCTIONALITY
+
+//When the form with the id frmCreateUser is submitted run the following function
+$("#frmCreateUser").on('submit', function(event) {
+    //Stop the page from reloading
+    event.preventDefault();
+    //Variable with the form submitted
+    var sForm = $(this);
+    //Validate the form using the Parsley library
+    sForm.parsley().validate();
+    //Grab the ID (by default hidden from the user). Used if updating the user
+    var sId = $("#txt-create-user-id").val();
+    //If there is an Id and the validation is ok then run the following function
+    if(sId && sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/users/api-update-user.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if(jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                //Otherwise notify the user that a user has been updated
+                } else {
+                    fnDesktopNotification("A user has been updated");
+                }
+            }
+        });
+      //If there is no Id and the form passes front-end validation
+    } else if(sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/users/api-create-user.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if(jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                //Otherwise notify the user that a user has been added
+                } else {
+                    fnDesktopNotification("A user has been created");
+                }
+            }
+        });
+    }
+});
+
+//Sign up of a super-admin
+function fnSuperAdminSignup() {
+    //Store the text from the textboxes in variables
+    var sEmail = $("#txtSuperAdminSignupEmail").val();
+    var sPassword = $("#txtSuperAdminSignupPassword").val();
+    //The URL to be passed via AJAX
+    var sUrl = "services/users/api-super-admin-signup.php?email=" + sEmail + "&password=" + sPassword;
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //If the status is ok display success message and show login window
+        if (jData.status == "ok") {
+            swal({
+                title: "Thank you for signing up, super-admin!",
+                text: "You will be taken to the login page in 3 seconds",
+                timer: 3000,
+                showConfirmButton: false
+            });
+            setTimeout(function() {
+                $(".wdw").hide();
+                $("#wdw-login").show();
+            }, 3000);
+        }
+    });
+}
+
+//Sign up of a regular user
+function fnUserSignup() {
+    //Store the text from the textboxes in variables
+    var sEmail = $("#txtSignupEmail").val();
+    var sPassword = $("#txtSignupPassword").val();
+    //The URL to be passed via AJAX
+    var sUrl = "services/users/api-user-signup.php?email=" + sEmail + "&password=" + sPassword;
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //If the status is ok display success message and show login window
+        if (jData.status == "ok") {
+            swal({
+                title: "Thank you for signing up, user!",
+                text: "You will be taken to the login page in 3 seconds",
+                timer: 3000,
+                showConfirmButton: false
+            });
+            setTimeout(function() {
+                $(".wdw").hide();
+                $("#wdw-login").show();
+            }, 3000);
+        }
+    });
+}
+
+//Used when users login
 function fnLogin() {
-    //Get the values passed through the URL
+    //Store the text from the textboxes in variables
     var sEmail = $("#txtLoginEmail").val();
     var sPassword = $("#txtLoginPassword").val();
-    var sUrl = "services/users/api-login.php?email="+sEmail+"&password="+sPassword;
-    //Initiate Ajax
-    $.get(sUrl, function(sData) {
-        //Convert sData to a JSON object
-        var jData = JSON.parse(sData);
+    //The URL to be passed via AJAX
+    var sUrl = "services/users/api-login.php?email=" + sEmail + "&password=" + sPassword;
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
         //If a match was found and the role is super-admin then show super-admin menu
         if (jData.status == "ok" && jData.role == "super-admin") {
             fnGetSuperAdminMenu();
@@ -216,13 +328,11 @@ function fnLogin() {
                 type: "success",
                 showConfirmButton: false
             });
-
             setTimeout(function() {
                 $(".wdw").hide();
                 $("#wdw-menu").css("display", "flex");
             }, 1000);
-
-          //If a match was found and the role is admin then show admin menu
+            //If a match was found and the role is admin then show admin menu
         } else if (jData.status == "ok" && jData.role == "admin") {
             fnGetAdminMenu();
             swal({
@@ -232,13 +342,11 @@ function fnLogin() {
                 type: "success",
                 showConfirmButton: false
             });
-
             setTimeout(function() {
                 $(".wdw").hide();
                 $("#wdw-menu").css("display", "flex");
             }, 1000);
-
-          //If a match was found and the role is user then show user menu
+            //If a match was found and the role is user then show user menu
         } else if (jData.status == "ok" && jData.role == "user") {
             fnGetUserMenu();
             swal({
@@ -248,7 +356,6 @@ function fnLogin() {
                 type: "success",
                 showConfirmButton: false
             });
-
             setTimeout(function() {
                 $(".wdw").hide();
                 $("#wdw-menu").css("display", "flex");
@@ -257,84 +364,231 @@ function fnLogin() {
     });
 }
 
-
-function fnUserSignup() {
-    //Get the values passed through the URL
-    var sEmail = $("#txtSignupEmail").val();
-    var sPassword = $("#txtSignupPassword").val();
-    var sUrl = "services/users/api-user-signup.php?email="+sEmail+"&password="+sPassword;
-    //Initiate Ajax
-    $.get(sUrl, function(sData) {
-        //Convert sData to a JSON object
-        var jData = JSON.parse(sData);
-        //If the status is ok display success message and show login window
-        if (jData.status == "ok") {
-            swal({
-                title: "Thank you for signing up, user!",
-                text: "You will be taken to the login page in 3 seconds",
-                timer: 3000,
-                showConfirmButton: false
-            });
-            setTimeout(function() {
-                    $(".wdw").hide();
-                    $("#wdw-login").show();
-                }, 3000);
-        }
-    });
-}
-
-
-function fnSuperAdminSignup() {
-    //Get the values passed through the URL
-    var sEmail = $("#txtSuperAdminSignupEmail").val();
-    var sPassword = $("#txtSuperAdminSignupPassword").val();
-    var sUrl = "services/users/api-super-admin-signup.php?email="+sEmail+"&password="+sPassword;
-    //Initiate Ajax
-    $.get(sUrl, function(sData) {
-        //Convert sData to a JSON object
-        var jData = JSON.parse(sData);
-        //If the status is ok display success message and show login window
-        if (jData.status == "ok") {
-            swal({
-                title: "Thank you for signing up, super-admin!",
-                text: "You will be taken to the login page in 3 seconds",
-                timer: 3000,
-                showConfirmButton: false
-            });
-            setTimeout(function() {
-                    $(".wdw").hide();
-                    $("#wdw-login").show();
-                }, 3000);
-        }
-    });
-}
-
-
-function fnGetProperties() {
-	//Variable with the url of the service being used
-    var sUrl = "services/properties/api-get-properties.php";
-    //Initiate Ajax
+//Logs out the current user
+function fnLogout() {
+    //The service used for logging the user out
+    var sUrl = "services/users/api-logout.php";
+    //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
-        //The blueprint of the HTML elements displayed when the function is executed
+        //If the status is ok display success message
+        if(jData.status == "ok") {
+            swal({
+                title: "Thank you!",
+                text: "You succesfully logged out! See you soon!",
+                showConfirmButton: true
+            });
+        }
+    });
+}
+
+//Display all the users
+function fnGetUsers() {
+    //Variable containing the service we need to use
+    var sUrl = "services/users/api-get-users.php";
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //Blueprint of the user elements
+        var sUser = '<div class="lbl-user">\
+                            <div class="lbl-user-id">{{id}}</div>\
+                            <div class="lbl-user-email">{{email}}</div>\
+                            <div class="lbl-user-password">{{password}}</div>\
+                            <div class="lbl-user-role">{{role}}</div>\
+                            <div data-go-to="wdw-create-user" class="fa fa-pencil fa-fw link"></div>\
+                            <div class="fa fa-trash fa-fw btn-delete-user"></div>\
+                        </div>';
+        //Remove all elements from the DOM
+        $("#wdw-users").empty();
+        //Append a title
+        $("#wdw-users").append("<h2>Users</h2>");
+        //Append navigation
+        $("#wdw-users").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        //Loop through the array of jData
+        for (var i = 0; i < jData.length; i++) {
+            //sUserTemplate is now the same as sUser
+            var sUserTemplate = sUser;
+            //Replace the string '{{id}}', with the unique data passed from jData
+            sUserTemplate = sUserTemplate.replace("{{id}}", jData[i].id);
+            //Replace the string '{{email}}', with the unique data passed from jData
+            sUserTemplate = sUserTemplate.replace("{{email}}", jData[i].email);
+            //Replace the string '{{password}}', with the unique data passed from jData
+            sUserTemplate = sUserTemplate.replace("{{password}}", jData[i].password);
+            //Replace the string '{{role}}', with the unique data passed from jData
+            sUserTemplate = sUserTemplate.replace("{{role}}", jData[i].role);
+            //Append the user template to the wdw with the id wdw-users
+            $("#wdw-users").append(sUserTemplate);
+        }
+    });
+}
+
+//Builds the main menu for a user with the role 'super-admin'
+function fnGetSuperAdminMenu() {
+    //The blueprint of the menu elements
+    var sMenu = '<div class="lblMenuContainer">\
+                    <h2>MANAGE PROPERTIES</h2>\
+                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                    <h2>MANAGE USERS</h2>\
+                    <div data-go-to="wdw-users" class="link">SHOW USERS</div>\
+                    <div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
+                </div>\
+                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+    //Remove all elements from the DOM
+    $("#wdw-menu").empty();
+    //Append the blueprint to the main menu
+    $("#wdw-menu").append(sMenu);
+    //Display the email for the logged in user
+    fnGetSessionEmail();
+}
+
+//Builds the main menu for a user with the role 'admin'
+function fnGetAdminMenu() {
+    //The blueprint of the menu elements
+    var sMenu = '<div class="lblMenuContainer">\
+                    <h2>MANAGE PROPERTIES</h2>\
+                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                </div>\
+                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+    //Remove all elements from the DOM
+    $("#wdw-menu").empty();
+    //Append the blueprint to the main menu
+    $("#wdw-menu").append(sMenu);
+    //Display the email for the logged in user
+    fnGetSessionEmail();
+}
+
+//Builds the main menu for a user with the role 'user'
+function fnGetUserMenu() {
+    //The blueprint of the menu elements
+    var sMenu = '<div class="lblMenuContainer">\
+                    <h2>MANAGE PROPERTIES</h2>\
+                    <div data-go-to="wdw-properties-user" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                </div>\
+                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+    //Remove all elements from the DOM
+    $("#wdw-menu").empty();
+    //Append the blueprint to the main menu
+    $("#wdw-menu").append(sMenu);
+    //Display the email for the logged in user
+    fnGetSessionEmail();
+}
+
+//Fetches the email from the current session
+function fnGetSessionEmail() {
+    //The service used for fetching the email
+    var sUrl = "services/users/api-display-current-email.php";
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //Blueprint used for displaying the email
+        var sEmail = '<div id="lblCurrentEmail">You are logged in as {{email}}</div>';
+        var sEmailTemplate = sEmail;
+        //Replace the placeholder with the real email
+        sEmailTemplate = sEmailTemplate.replace("{{email}}", jData.email);
+        //Append sEmailTemplate to the main menu
+        $("#wdw-menu").append(sEmailTemplate);
+    });
+}
+
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+
+//PROPERTIES FUNCTIONALITY
+
+//When the form with the id frmCreateProperty is submitted run the following function
+$("#frmCreateProperty").on('submit', function(event) {
+    //Stop the page from reloading
+    event.preventDefault();
+    //Store the form submitted
+    var sForm = $(this);
+    //Validate the form using the Parsley library
+    sForm.parsley().validate();
+    //Grab the ID (by default hidden from the user)
+    var sId = $("#txt-create-property-id").val();
+    //If there is an Id and the validation is ok then run the following function
+    if(sId && sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/properties/api-update-property.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if(jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                //Otherwise notify the user that a property has been updated
+                } else {
+                    fnDesktopNotification("A property has been updated");
+                    fnTitleNotification(3);
+                    fnResetImageInput();
+                }
+            }
+        });
+      //If iImageCounter is 3 or more and the form passes validation
+    } else if(iImageCounter >= 3 && sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/properties/api-create-property.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if(jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                //Otherwise notify the user that a property has been added
+                } else {
+                    fnDesktopNotification("A property has been created");
+                    fnTitleNotification(3);
+                    fnResetImageInput();
+                }
+            }
+        });
+    }
+});
+
+//Displays the properties for a user with the role 'admin' and 'super-admin'
+function fnGetProperties() {
+    //Variable with the url of the service being used
+    var sUrl = "services/properties/api-get-properties.php";
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //The blueprint of the HTML elements
         var sProperty = '<div class="lbl-property">\
-							<div class="lbl-property-information">\
+                            <div class="lbl-property-information">\
+                                <div class="lbl-property-id">{{id}}</div>\
                                 <div class="lbl-property-address">{{address}}</div>\
-    							<div class="lbl-property-price">{{price}}</div>\
-    							<div data-go-to="wdw-create-property" class="fa fa-pencil fa-fw link"></div>\
+                                <div class="lbl-property-price">{{price}}</div>\
+                                <div data-go-to="wdw-create-property" class="fa fa-pencil fa-fw link"></div>\
                                 <div class="fa fa-trash fa-fw btn-delete-property"></div>\
                             </div>\
                                 <div class="lbl-property-images" id="{{P-id}}">\
                             </div>\
-						</div>';
+                        </div>';
         //Remove all elements from the DOM
         $("#wdw-properties").empty();
-        //Append a title and navigation
+        //Append a title
         $("#wdw-properties").append("<h2>Properties</h2>");
+        //Append navigation
         $("#wdw-properties").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        //Append email button
+        $("#wdw-properties").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
         //Loop through the array of jData
         for (var i = 0; i < jData.length; i++) {
             //sPropertyTemplate is now the same as sProperty
             var sPropertyTemplate = sProperty;
+            //Replace the string '{{id}}', with the data passed from jData
+            sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].id);
             //Replace the string 'P{{id}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{P-id}}", "property-" + jData[i].id);
             //Replace the string '{{address}}', with the data passed from jData
@@ -358,240 +612,217 @@ function fnGetProperties() {
     });
 }
 
+//Displays the properties for a user with the role 'user'
 function fnGetPropertiesUserRole() {
     //Variable with the url of the service being used
     var sUrl = "services/properties/api-get-properties.php";
-    //Initiate Ajax
+    //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
-        //The blueprint of the HTML elements displayed when the function is executed
+        //The blueprint of the HTML elements
         var sProperty = '<div class="lbl-property">\
-							<div class="lbl-property-id">{{id}}</div>\
-							<div class="lbl-property-address">{{address}}</div>\
-							<div class="lbl-property-price">{{price}}</div>\
-						</div>';
+                            <div class="lbl-property-information">\
+                                <div class="lbl-property-id">{{id}}</div>\
+                                <div class="lbl-property-address">{{address}}</div>\
+                                <div class="lbl-property-price">{{price}}</div>\
+                            </div>\
+                                <div class="lbl-property-images" id="{{P-id}}">\
+                            </div>\
+                        </div>';
         //Remove all elements from the DOM
         $("#wdw-properties-user").empty();
-        //Append a title and navigation
+        //Append a title
         $("#wdw-properties-user").append("<h2>Properties</h2>");
+        //Append navigation
         $("#wdw-properties-user").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        //Append email button
+        $("#wdw-properties-user").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
         //Loop through the array of jData
         for (var i = 0; i < jData.length; i++) {
             //sPropertyTemplate is now the same as sProperty
             var sPropertyTemplate = sProperty;
-            //Replace the string '{{id}}', with the unique data passed from jData
+            //Replace the string '{{id}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{id}}", jData[i].id);
-            //Replace the string '{{address}}', with the unique data passed from jData
+            //Replace the string 'P{{id}}', with the data passed from jData
+            sPropertyTemplate = sPropertyTemplate.replace("{{P-id}}", "property-" + jData[i].id);
+            //Replace the string '{{address}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
-            //Replace the string '{{price}}', with the unique data passed from jData
+            //Replace the string '{{price}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
-            //Append the property template to the wdw with the id wdw-properties
+            //Append the property template to the wdw with the id wdw-properties-user
             $("#wdw-properties-user").append(sPropertyTemplate);
-        }
-    });
-}
-
-function fnGetUsers() {
-    //Variable with the url of the service being used
-    var sUrl = "services/users/api-get-users.php";
-    //Initiate Ajax
-    $.getJSON(sUrl, function(jData) {
-        //The blueprint of the HTML elements displayed when the function is executed
-        var sUser = '<div class="lbl-user">\
-							<div class="lbl-user-id">{{id}}</div>\
-							<div class="lbl-user-email">{{email}}</div>\
-							<div class="lbl-user-password">{{password}}</div>\
-							<div class="lbl-user-role">{{role}}</div>\
-							<div data-go-to="wdw-create-user" class="fa fa-pencil fa-fw link"></div>\
-							<div class="fa fa-trash fa-fw btn-delete-user"></div>\
-						</div>';
-        //Remove all elements from the DOM
-        $("#wdw-users").empty();
-        //Append a title and navigation
-        $("#wdw-users").append("<h2>Users</h2>");
-        $("#wdw-users").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
-        //Loop through the array of jData
-        for (var i = 0; i < jData.length; i++) {
-            //sUserTemplate is now the same as sUser
-            var sUserTemplate = sUser;
-            //Replace the string '{{id}}', with the unique data passed from jData
-            sUserTemplate = sUserTemplate.replace("{{id}}", jData[i].id);
-            //Replace the string '{{email}}', with the unique data passed from jData
-            sUserTemplate = sUserTemplate.replace("{{email}}", jData[i].email);
-            //Replace the string '{{password}}', with the unique data passed from jData
-            sUserTemplate = sUserTemplate.replace("{{password}}", jData[i].password);
-            //Replace the string '{{role}}', with the unique data passed from jData
-            sUserTemplate = sUserTemplate.replace("{{role}}", jData[i].role);
-            //Append the user template to the wdw with the id wdw-users
-            $("#wdw-users").append(sUserTemplate);
-        }
-    });
-}
-
-//CREATE/UPDATE PROPERTY
-
-//On submit pass the data to the server via AJAX
-$("#frmCreateProperty").on('submit', function(event) {
-    //Stop the page from reloading
-    event.preventDefault();
-    var sId = $("#txt-create-property-id").val();
-
-    if (sId) {
-        $.ajax({
-            "url": "services/properties/api-update-property.php",
-            "method": "POST",
-            "data": new FormData(this),
-            "contentType": false,
-            "processData": false,
-            "cache": false,
-            success: function() {
-                // swal("You did it!", "You saved the property", "success")
+            //Declare the path to folder where the images are located
+            var sPath = jData[i].id;
+            //Variable where a string of the images is stored
+            var sImages = jData[i].images;
+            //Loop through the string of images
+            for(var j = 0; j < sImages.length; j++) {
+                //Path to the image
+                var sImageTemplate = '<img src="services/properties/images/' + sPath + '/' + sImages[j] + '">';
+                //Append the images to the property
+                $("#property-" + jData[i].id).append(sImageTemplate);
             }
-        });
-    } else if (iImageCounter >= 3) {
-        $.ajax({
-            "url": "services/properties/api-create-property.php",
-            "method": "POST",
-            "data": new FormData(this),
-            "contentType": false,
-            "processData": false,
-            "cache": false,
-            success: function(jData) {
-                //If the server returns with an error display error message
-                if(jData.status == "error") {
-                    sweetAlert("Oops...", "Something went wrong!", "error");
-                //Otherwise notify the user that a property has been added
-                } else {
-                    fnDesktopNotification();
-                    fnTitleNotification(3);
-                }
+        }
+    });
+}
+
+//Send a list of properties to the current user
+function fnSendPropertyList() {
+    //Variable containing the URL to the service needed
+    var sUrl = "services/properties/api-send-properties.php";
+    //Initiate AJAX and receive jData in return
+    $.getJSON(sUrl, function(jData) {
+        //If the status is ok, then display success message
+        if(jData.status == 'ok') {
+            swal({
+                title: "Thank you!",
+                text: "You will receive an email with a list of the properties",
+                showConfirmButton: true
+            });
+          //Else display error message
+        } else {
+            sweetAlert("Oops...", "Something went wrong! The email wasn't sent.", "error");
+        }
+    });
+}
+
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+
+//NOTIFICATIONS FUNCTIONALITY
+
+//Creates a desktop notification with a custom message
+function fnDesktopNotification(sMessage) {
+    //Checks if the browser supports notifications
+    if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+    }
+    //Checks whether or not notification permissions have already been granted
+    else if (Notification.permission === "granted") {
+        //Create notification
+        var notification = new Notification(sMessage);
+        //Build a sound object
+        var oSound = new Audio('sounds/notification.mp3');
+        //Play the sound
+        oSound.play();
+    }
+    //Otherwise, ask the user for permission
+    else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function(permission) {
+            // If the user accepts, create notification
+            if (permission === "granted") {
+                var notification = new Notification(sMessage);
+                //Build a sound object
+                var oSound = new Audio('sounds/notification.mp3');
+                //Play the sound
+                oSound.play();
             }
         });
     }
+}
+
+//Makes the tab title blink a custom amount of times
+function fnTitleNotification(iCounter) {
+    //Declare variable which stores the original title
+    var sOriginalTitle = document.title;
+    //Boolean switch set to 0
+    var bSwitch = 0;
+    //Declare iCounter
+    var iCounter;
+    //Declare the variable iTimer which runs function on a set interval
+    var iTimer = setInterval(function() {
+        //When the bSwitch is 0
+        if (bSwitch == 0) {
+            //Display the new document title
+            document.title = "PROPERTY MODIFIED";
+            //Set the bSwitch to 1
+            bSwitch = 1;
+          //If the bSwitch is 1  
+        } else {
+            //Set the document title to the original title
+            document.title = sOriginalTitle;
+            //Switch the bSwitch to 0 again
+            bSwitch = 0;
+            //Decrease the iCounter
+            iCounter--;
+            //If the iCounter is 0
+            if (iCounter == 0) {
+                //Stop the interval
+                clearInterval(iTimer);
+            }
+        }
+    }, 1000);
+}
+
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+
+//FILE UPLOAD FUNCTIONALITY
+    
+//Global variable used to count the images
+var iImageCounter = 0;
+
+//When the DOM is loaded and there's a change in inputs with the type file
+$(document).on('change', '[type="file"]', function() {
+    //Create a new preview object
+    var oPreview = new FileReader();
+    //Read the contents of the specified blob or file
+    oPreview.readAsDataURL(this.files[0]);
+    //Maintain the original reference to this
+    var self = this;
+    //When the data is loaded run the following function
+    oPreview.onload = function(event) {
+            //Add the temporary src to the img-preview class
+            $(self).siblings(".img-preview").attr("src", event.target.result);
+        }
+    //Run the function fnCreateImageInput
+    fnCreateImageInput();
 });
 
-
-function fnConvertAddress() {
-    //Get the values from the text boxes
-    var sAddress = $("#txt-create-property-address").val();
-    //Create a new Geocoder object
-    geocoder = new google.maps.Geocoder();
-    //Initiate function to convert the variable sAddress to two coordinates
-    geocoder.geocode({ 'address': sAddress }, function(results, status) {
-        //If the Geocoder satus is ok then run the following
-        if (status == google.maps.GeocoderStatus.OK) {
-            //Store the latitude and longitude in two new variables
-            var iLat = results[0].geometry.location.lat();
-            var iLng = results[0].geometry.location.lng();
-            //Put them in the invisible text boxes
-            $("#txt-create-property-lat").val(iLat);
-            $("#txt-create-property-lng").val(iLng);
-        }
-    });
+//Function used for creating new image input each time a image is previewed
+function fnCreateImageInput() {
+    //Every time an image is added, add to the counter
+    iImageCounter++;
+    //Variable that contains the image input template
+    var sImageInputTemplate = '<div class="lbl-property-file-upload">\
+                                 <img class="img-preview" src=""></img>\
+                                 <input class="file" type="file" name="file-' + iImageCounter + '">\
+                               </div>';
+    //Append the template to the form
+    $("#frmCreateProperty").append(sImageInputTemplate);
 }
 
-function fnSaveUser() {
-    //Grab the values
-    var sId = $("#txt-create-user-id").val();
-    var sEmail = $("#txt-create-user-email").val();
-    var sPassword = $("#txt-create-user-password").val();
-    var sRole = $('input[name=role]:checked', '#frmCreateUser').val()
-
-    //If there is an id then update
-    if (sId) {
-        var sUrl = "services/users/api-update-user.php?id="+sId+"&email="+sEmail+"&password="+sPassword+"&role="+sRole;
-        //If there is no id, then create a new user
-    } else {
-        var sUrl = "services/users/api-create-user.php?email="+sEmail+"&password="+sPassword+"&role="+sRole;
-    }
-    //Pass the data to the server
-    $.getJSON(sUrl, function(jData) {
-        if (jData.status == "ok") {
-            //Display success message
-            swal("You did it!", "You saved the user", "success")
-        }
-    });
+//Function for resetting the image inputs after the form is submitted
+function fnResetImageInput() {
+    //Set iImageCounter to 0
+    iImageCounter = 0;
+    //Reset the form
+    $('#frmCreateProperty')[0].reset();
+    //Remove the file upload classes
+    $('.lbl-property-file-upload').remove();
+    //Empty the preview src
+    $('.img-preview').attr('src', '');
 }
 
-function fnGetSuperAdminMenu() {
-    //The blueprint of the HTML elements displayed when the function is executed
-    var sMenu = '<div class="lblContainer">\
-                    <h2>MANAGE PROPERTIES</h2>\
-                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
-                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
-                    <h2>MANAGE USERS</h2>\
-                    <div data-go-to="wdw-users" class="link">SHOW USERS</div>\
-                    <div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
-                </div>\
-                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
-    //Remove all elements from the DOM
-    $("#wdw-menu").empty();
-    //Append the blueprint to the menu
-    $("#wdw-menu").append(sMenu);
-    fnGetSessionEmail();
-}
-
-function fnGetAdminMenu() {
-    //The blueprint of the HTML elements displayed when the function is executed
-    var sMenu = '<div class="lblContainer">\
-					<h2>MANAGE PROPERTIES</h2>\
-					<div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
-					<div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
-				</div>\
-				<button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
-    //Remove all elements from the DOM
-    $("#wdw-menu").empty();
-    //Append the blueprint to the menu
-    $("#wdw-menu").append(sMenu);
-    fnGetSessionEmail();
-}
-
-function fnGetUserMenu() {
-    //The blueprint of the HTML elements displayed when the function is executed
-    var sMenu = '<div class="lblContainer">\
-					<h2>MANAGE PROPERTIES</h2>\
-					<div data-go-to="wdw-properties-user" class="link">SHOW PROPERTIES</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
-				</div>\
-				<button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
-    //Remove all elements from the DOM
-    $("#wdw-menu").empty();
-    //Append the blueprint to the menu
-    $("#wdw-menu").append(sMenu);
-    fnGetSessionEmail();
-}
-
-function fnLogout() {
-    //Logs out and destroys the session
-    var sUrl = "services/users/api-logout.php";
-    $.getJSON(sUrl, function(jData) {
-        if(jData.status == "ok") {
-        }
-    });
-}
-
-function fnGetSessionEmail() {
-    //Gets the email stored in session and appends it to the menu
-    var sUrl = "services/users/api-display-current-email.php";
-    $.getJSON(sUrl, function(jData) {
-        var sEmail = '<div id="currentSessionEmail">You are logged in as {{email}}</div>';
-        var sEmailTemplate = sEmail;
-        sEmailTemplate = sEmailTemplate.replace("{{email}}", jData.email);
-        $("#wdw-menu").append(sEmailTemplate);
-    });
-}
 
 /************************************************************************/
 /************************************************************************/
 /************************************************************************/
 
+
+//GOOGLE MAPS FUNCTIONALITY
+
+//Function that displays the Google Map
 function fnGetPropertiesMap() {
     //The service used to fetch the properties
     var sUrl = "services/properties/api-get-properties.php";
-    //Declaring a new information window as a new object
+    //Declaring a new information window as an object
     var infoWindow = new google.maps.InfoWindow();
-
     //Creating the map
     var map = new google.maps.Map(document.getElementById("wdw-map"), {
         //Determining the default position of the map
@@ -601,34 +832,29 @@ function fnGetPropertiesMap() {
         //The type of map
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-
+    //Append a back button to the upper right corner of the map
     $("#wdw-map").append('<div><button id="btn-menu" data-go-to="wdw-menu" class="link">Go back</button></div>');
-
-    //Initiate AJAX to get jData in return
+    //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //Loop through the length of jData
         for (var i = 0; i < jData.length; i++) {
             //Store jData[i] in ajLocations
             var ajLocations = jData[i];
-            
             //Declare new Google Maps object that takes two coordinates
             latLng = new google.maps.LatLng(ajLocations.lat, ajLocations.lng);
-            
             //Creating a marker and putting it on the map. It's position based on the latLng object we just declared
             var marker = new google.maps.Marker({
                 position: latLng,
                 map: map,
                 title: ajLocations.address
             });
-
             //Attaching a click event to the current marker
             google.maps.event.addListener(marker, "click", function(event) {
                 //Display the address of the current marker in the information window
                 infoWindow.setContent(ajLocations.address);
                 infoWindow.open(ajLocations, marker);
             });
-
-            //Creating a closure to retain the correct data 
+            //We now need to create a closure to retain the correct data
             //The current data needs to be passed in the loop into the closure (marker, data)
             function fnAttainClosureInformationWindow(marker, ajLocations) {
                 //Attaching click event to the current marker
@@ -637,150 +863,57 @@ function fnGetPropertiesMap() {
                     infoWindow.open(map, marker);
                 });
             }
-            
+            //Run the aforementioned function
             fnAttainClosureInformationWindow(marker, ajLocations);
         }
     });
 }
 
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
-
-//THIS DOESN'T WORK????
-function fnNotificationPropertyAdded() {
-
-    var sUrl = "services/properties/api-get-properties.php";
-
-    $.getJSON(sUrl, function(ajData) {
-        for(var i = 0; i < ajData.length; i++) {
-                //
-                var iPropertyId = ajData[i].id;
-                // if it doesnt exist, please add it
-                if($("#"+iPropertyId).length == 0 ) {
-                    fnDesktopNotification();
-                    fnTitleNotification(3);
-                }
-            }
-    });
-
-
-
-    
-}
-
-function fnDesktopNotification() {
-        //Checks if the browser supports notifications
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        }
-
-        //Checks whether or not notification permissions have already been granted
-        else if (Notification.permission === "granted") {
-            //Create notification
-            var notification = new Notification("A new property has been added!");
-            //Build a sound object
-            var oSound = new Audio('sounds/notification.mp3');
-            //Play the sound
-            oSound.play();
-        }
-
-        //Otherwise, ask the user for permission
-        else if (Notification.permission !== "denied") {
-            Notification.requestPermission(function(permission) {
-                // If the user accepts, create notification
-                if (permission === "granted") {
-                    var notification = new Notification("A new property has been added!");
-                    //Build a sound object
-                    var oSound = new Audio('sounds/notification.mp3');
-                    //Play the sound
-                    oSound.play();
-                }
-            });
-        }
-    }
-
-    function fnTitleNotification(iCounter) {
-        var sOriginalTitle = document.title;
-        var bSwitch = 0;
-        var iCounter;
-
-        var iTimer = setInterval( function(){
-            if( bSwitch == 0 ){ // it is the original title
-                document.title = "NEW PROPERTY ADDED";
-                bSwitch = 1;
-            }else{
-                document.title = sOriginalTitle;
-                bSwitch = 0;
-                iCounter--;
-                if( iCounter == 0 ){
-                    clearInterval(iTimer); // Stop the interval
-                }               
-            }
-        } , 1000 );
-}
-
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
-//FILE UPLOAD
-    
-    //Variable that counts the images added
-    var iImageCounter = 0;
-    //When the document is on and there's a change in inputs with the type file
-    $(document).on('change', '[type="file"]', function() {
-        //Create new preview object
-        var oPreview = new FileReader();
-        //Read the contents of the specified blob or file
-        oPreview.readAsDataURL(this.files[0]);
-        //Maintain the original reference to this
-        var self = this;
-        //When the data is loaded run the following function
-        oPreview.onload = function(event) {
-            //Add the temporary src to the img-preview class
-            $(self).siblings(".img-preview").attr("src", event.target.result);
-        }
-        //Create image input
-        fnCreateImageInput();
-    });
-
-    function fnCreateImageInput() {
-        //Every time an image is added, add to the counter
-        iImageCounter++;
-        //Variable that contains the image input template
-        var sImageInputTemplate = '<div>\
-                                     <img class="img-preview" src=""></img>\
-                                     <input class="file" type="file" name="file-' + iImageCounter + '">\
-                                   </div>';
-        //Append the template to the form
-        $("#frmCreateProperty").append(sImageInputTemplate);
-    }
-
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
+//Callback function used to initialize Google Maps Autocomplete
 function fnInitializeAutocomplete() {
-        var sAddress = (document.getElementById('txt-create-property-address'));
-        var autocomplete = new google.maps.places.Autocomplete(sAddress);
-        autocomplete.setTypes(['geocode']);
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                return;
-            }
-
+    //Declare the element which needs to use the autocomplete function
+    var sAddress = (document.getElementById('txt-create-property-address'));
+    //Declare new Google Maps Autocomplete object
+    var autocomplete = new google.maps.places.Autocomplete(sAddress);
+    //Use the type 'geocode'
+    autocomplete.setTypes(['geocode']);
+    //Whenever somthing changes in the autocomplete object run the following function
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        //The current place
+        var place = autocomplete.getPlace();
+        //If the place isn't valid geometry return false
+        if (!place.geometry) {
+            return;
+        }
+        //Empty the sAddress variable
         var sAddress = '';
+        //If the place has address_components then store them in sAddress
         if (place.address_components) {
             sAddress = [
                 (place.address_components[0] && place.address_components[0].short_name || ''),
                 (place.address_components[1] && place.address_components[1].short_name || ''),
                 (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
+            ].join(' ');
         }
-      });
+    });
+}
+
+//Convert address to lat and lng
+function fnConvertAddress() {
+    //Get the values from the text box
+    var sAddress = $("#txt-create-property-address").val();
+    //Create a new Geocoder object
+    geocoder = new google.maps.Geocoder();
+    //Initiate function to convert the variable sAddress to two coordinates
+    geocoder.geocode({ 'address': sAddress }, function(results, status) {
+        //If the Geocoder status is ok then run the following
+        if (status == google.maps.GeocoderStatus.OK) {
+            //Store the latitude and longitude in two new variables
+            var iLat = results[0].geometry.location.lat();
+            var iLng = results[0].geometry.location.lng();
+            //Put them in the invisible text boxes
+            $("#txt-create-property-lat").val(iLat);
+            $("#txt-create-property-lng").val(iLng);
+        }
+    });
 }

@@ -4,10 +4,10 @@
 	include '../functions.php';
 	//Get id, address and price, and store them
 	$sFileName = "data-users.txt";
-	$sId = $_GET['id'];
-	$sEmail = $_GET['email'];
-	$sPassword = $_GET['password'];
-	$sRole = $_GET['role'];
+	$sId = $_POST['id'];
+	$sEmail = $_POST['email'];
+	$sPassword = $_POST['password'];
+	$sRole = $_POST['role'];
 	//Get the content from txt file
 	$sajUsers = file_get_contents($sFileName);
 	//Convert to array of JSON objects

@@ -1,7 +1,10 @@
 <?php
-	//Get id and access txt database
-	$id = $_GET['id'];
+	
+	//Variable which refers to the database file
 	$sFileName = "data-users.txt";
+	//GET the ID passed through the URL
+	$id = $_GET['id'];
+	//Store the contents of the database in the variable sajUsers
 	$sajUsers = file_get_contents($sFileName);
 	//Convert sajUsers to an array of JSON objects
 	$ajUsers = json_decode($sajUsers);

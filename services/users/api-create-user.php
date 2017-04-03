@@ -1,13 +1,14 @@
 <?php
 	
-	//Include functions
+	//Include the functions file
 	include '../functions.php';
-	//Get the values passed in the URL
+	//Variable which refers to the database file
 	$sFileName = "data-users.txt";
-	$sEmail = $_GET['email'];
-	$sPassword = $_GET['password'];
-	$sRole = $_GET['role'];
-	//Store the contents of the txt database in the variable sajUsers
+	//GET the variables passed through the URL
+	$sEmail = $_POST['email'];
+	$sPassword = $_POST['password'];
+	$sRole = $_POST['role'];
+	//Store the contents of the database in the variable sajUsers
 	$sajUsers = file_get_contents($sFileName);
 	//Convert sajUsers to an array of objects
 	$ajUsers = json_decode($sajUsers);

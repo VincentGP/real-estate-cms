@@ -19,7 +19,7 @@
 	$bDuplicateEmail = fnCheckForDuplicate($sFileName, $sEmail, 'email');
 	//If the boolean values are true then push the data to the database
 	if($bDuplicateEmail && $bIsEmailValid && $bIsPasswordValid) {
-		//Make an empty JSON object and store variable in said object
+		//Make an empty JSON object and store variables in said object
 		$jUser = json_decode('{}');
 		$jUser->id = uniqid();
 		$jUser->email = $sEmail;

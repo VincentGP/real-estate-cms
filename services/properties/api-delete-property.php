@@ -22,7 +22,7 @@
 			//Declare the path to the images
 			$sDirectoryPath = 'images/' . $ajProperties[$i]->id;
 			//Delete the folder containing the images
-			fnDeleteProperty($sDirectoryPath);
+			fnDeletePropertyDirectory($sDirectoryPath);
 			//Remove the property from the database
 			array_splice($ajProperties, $i, 1);
 			//Convert the object to text

@@ -13,6 +13,8 @@
 	$ajProperties = json_decode($sajProperties);
 	//The subject of the mail
 	$sSubject = 'List of properties for ' . date("d-m-Y");
+	//Empty variable used for storing the properties
+	$sListOfProperties = "";
 	//Loop through the ajProperties
 	for($i = 0; $i < count($ajProperties); $i++) {
 		//Store the address and price in variables
@@ -20,6 +22,8 @@
 		$sPrice = $ajProperties[$i]->price;
 		//Create template for displaying the address and price in a table
 		$sTdTemplate = '<tr><td>'. $sAddress .'</td><td>'. $sPrice .'</td></tr>';
+		//Add the properties to the aforementioned variable
+		$sListOfProperties .= $sTdTemplate;
 	}
 	//The message/body of the email we want to send
 	$sMessage = '
@@ -32,16 +36,14 @@
 				    <tr>
 				      <th>Address</th><th>Price</th>
 				    </tr>
-				    <tr>
-				      '. $sTdTemplate .'
-				    </tr>
+				      '. $sListOfProperties .'
 				  </table>
 				</body>
 				</html>
 	';
 	//When sending HTML email the headers must be set to the following
 	$headers  = 'MIME-Version: 1.0' . "\r\n";
-	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 	//Additional from header
 	$headers .= 'From: Real Estate CMS <real-esate-cms@mail.com>' . "\r\n";
 	//Finally, send the mail and echo a status message

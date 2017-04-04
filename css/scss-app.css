@@ -390,6 +390,10 @@ input#txt-create-user-password-repeat {
         width: 100%;
         padding: 10px 100px 10px 100px; }
 
+#wdw-create-property span {
+  display: flex;
+  justify-content: center;
+  text-align: center; }
 #wdw-create-property .img-preview {
   width: 100%;
   margin-top: 10px; }

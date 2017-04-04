@@ -418,6 +418,11 @@ input#txt-create-user-password-repeat {
 }
 
 #wdw-create-property {
+	span {
+		display: flex;
+		justify-content: center;
+		text-align: center;
+	}
 	.img-preview {
 		width: 100%;
 		margin-top: 10px;

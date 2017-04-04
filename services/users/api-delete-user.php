@@ -15,16 +15,19 @@
 	}
 	//Loop that runs through ajUsers
 	for($i = 0; $i < count($ajUsers); $i++) {
-		//Checks if the ID matches
+		//If the ID matches
 		if($id == $ajUsers[$i]->id) {
-			//Deletes the user if the id matches
+			//Deletes the user from the database
 			array_splice($ajUsers, $i, 1);
-			break;
+			//Convert the object to text
+			$sajUsers = json_encode($ajUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+			//Save the data to the file
+			file_put_contents($sFileName, $sajUsers);
+			echo '{"status":"ok"}';
+			exit;
 		}
 	}
-	//Convert the object to text
-	$sajUsers = json_encode($ajUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	//Save the data to the file
-	file_put_contents($sFileName, $sajUsers);
-	echo '{"status":"ok"}';
+	//If no match is found, then echo an error message
+	echo '{"status":"error"}';
+
 ?>

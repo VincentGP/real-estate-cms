@@ -4,7 +4,7 @@
 	include '../functions.php';
 	//Variable which refers to the database file
 	$sFileName = "data-users.txt";
-	//GET the variables passed through the URL
+	//Grab the variables passed via POST
 	$sEmail = $_POST['email'];
 	$sPassword = $_POST['password'];
 	$sRole = $_POST['role'];

@@ -1,31 +1,30 @@
 <?php
 	
+	//Initiate session
 	session_start();
+	//Variable which refers to the database file
+	$sFileName = "data-users.txt";
 	//Use $_GET to retrieve and store email and password being passed
 	$sEmail = $_GET['email'];
 	$sPassword = $_GET['password'];
-	$sFileName = "data-users.txt";
 	//Store the contents of the file in sajUsers
 	$sajUsers = file_get_contents($sFileName);
-	//Decodes sajUsers and store it in ajUsers
+	//Convert sajUsers to an array of objects
 	$ajUsers = json_decode($sajUsers);
 	//Loop through ajUsers
 	foreach ($ajUsers as $jUser) {
-		//If the information matches set loginAuthenticator to true
+		//If a match is found in the database
 		if ($sEmail == $jUser->email && $sPassword == $jUser->password) {
-			$loginAuthenticator = true;
-			//Save the users role in a variable
+			//Save the current users role in a variable
 			$sCurrentRole = $jUser->role;
+			//Store the email in a SESSION
+			$_SESSION['sEmail'] = $sEmail;
+			//Echo status message and the current role
+			echo '{"status":"ok","role":"'.$sCurrentRole.'"}';
+			exit;
 		}
 	}
-	//Echo different echos based on whether loginAuthenticator is true/false
-	if ($loginAuthenticator == true) {
-			//Begin session and store the logged in users role in the session
-			$_SESSION['sEmail'] = $sEmail;
-			// echo $_SESSION['jUser'];
-			echo '{"status":"ok","role":"'.$sCurrentRole.'"}';
-		} else {
-			echo '{"status":"error"}';
-		}
+	//Echo error status message
+	echo '{"status":"error"}';
 
 ?>

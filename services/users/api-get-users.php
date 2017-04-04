@@ -1,7 +1,8 @@
 <?php
 	
+	//Variable which refers to the database file
 	$sFileName = "data-users.txt";
-	//Get the users from txt file and store in variable
+	//Store the contents of the database in sajUsers
 	$sajUsers = file_get_contents($sFileName);
 	//Convert sajUsers to an array of objects
 	$ajUsers = json_decode($sajUsers);

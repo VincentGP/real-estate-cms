@@ -1,28 +1,29 @@
 <?php
 	
-	//Include functions
+	//Include the functions file
 	include '../functions.php';
-	//Get id, address and price, and store them
+	//Variable which refers to the database file
 	$sFileName = "data-users.txt";
+	//Grab information about users via POST and store in variables
 	$sId = $_POST['id'];
 	$sEmail = $_POST['email'];
 	$sPassword = $_POST['password'];
 	$sRole = $_POST['role'];
-	//Get the content from txt file
+	//Store the contents of the database in the variable sajUsers
 	$sajUsers = file_get_contents($sFileName);
-	//Convert to array of JSON objects
+	//Convert to array of objects
 	$ajUsers = json_decode($sajUsers);
 	//If ajUsers isn't an array, then create an empty array
 	if(!is_array($ajUsers)) {
 		$ajUsers = [];
 	}
-	//Boolean value that can be either true or false
+	//Boolean values that can be either true or false
 	$bIsEmailValid = fnIsEmailValid($sEmail);
 	$bIsPasswordValid = fnIsPasswordValid($sPassword);
 	//Loop through the users
 	for($i = 0; $i < count($ajUsers); $i++) {
 		//Check if the id matches
-		if($sId ==  $ajUsers[$i]->id && $bIsEmailValid && $bIsPasswordValid){
+		if($sId ==  $ajUsers[$i]->id && $bIsEmailValid && $bIsPasswordValid) {
 			//If the id matches, update the following:
 			$ajUsers[$i]->email = $sEmail;
 			$ajUsers[$i]->password = $sPassword;
@@ -35,6 +36,7 @@
 			exit;
 		}
 	}
+	//If the boolean is false echo an error status
 	echo '{"status":"error"}';
 
 ?>

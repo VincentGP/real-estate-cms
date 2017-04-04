@@ -1,14 +1,14 @@
 [
     {
-        "id": "58e2c84a2fb85",
-        "email": "user@user.com",
-        "password": "123456",
-        "role": "user"
-    },
-    {
-        "id": "58e2d0828ec1f",
+        "id": "58e39b74b15b7",
         "email": "1",
         "password": "2",
         "role": "super-admin"
+    },
+    {
+        "id": "58e3d2ec71593",
+        "email": "user@user.com",
+        "password": "123456",
+        "role": "user"
     }
 ]

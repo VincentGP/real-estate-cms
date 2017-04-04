@@ -1,41 +1,120 @@
-//Function that determines if the is a super-admin user on page load
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+//CORE FUNCTIONALITY
+
+//When the document is loaded, then run the following
 $(document).ready(function() {
+    //The service used for determining which user types are currently in the database
     var sUrl = "services/users/api-get-user-type.php";
-    //Initiate Ajax and pass the data to the server
+    //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //If the status is ok then show the login window
         if (jData.status == "ok") {
+            //Show the login window
             $("#wdw-login").show();
-          //Else make the user sign up as super-admin
+          //Else make the user sign up as with the role of super-admin
         } else if (jData.status == "error") {
+            //Hide all windows
             $(".wdw").hide();
+            //Show the super-admin signup window
             $("#wdw-super-admin-signup").css("display", "flex");
         }
     });
-    //Run the function fnSuperAdminSignup when the button is pressed
-    $("#btnSuperAdminSignup").click(function() {
-        fnSuperAdminSignup();
-    });
-
-    //Decides 
-    new Cleave('#txt-create-property-price', {
-        numeral: true,
-        numeralDecimalMark: ',',
-        delimiter: '.',
-        numeralPositiveOnly: true
-    });
-
+    //When the page is loaded, get the total amount of properties
+    fnGetCurrentProperties();
 });
-    
-    $('#txt-create-property-address').change(function(){
-        fnConvertAddress();
-    });
 
-//So you can right click to go to the main menu
-$(".wdw").contextmenu(function(event){
+
+/************************************************************************/
+/************************************************************************/
+/************************************************************************/
+
+//TRIGGERS FUNCTIONALITY
+
+//Function run on right click
+$(".wdw").contextmenu(function(event) {
+    //Hide all .wdw
     $(".wdw").hide();
+    //Show the menu
     $("#wdw-menu").show();
+    //Prevent default behaviour
     event.preventDefault();
+});
+
+//Run when there's a change in the id txt-create-property-address
+$('#txt-create-property-address').change(function() {
+    fnConvertAddress();
+});
+
+//Run fnGetProperties on click
+$(document).on("click", "[data-go-to='wdw-properties']", function() {
+    fnGetProperties();
+});
+
+//Run fnGetPropertiesUserRole on click
+$(document).on("click", "[data-go-to='wdw-properties-user']", function() {
+    fnGetPropertiesUserRole();
+});
+
+//Run fnGetUsers on click
+$(document).on("click", "[data-go-to='wdw-users']", function() {
+    fnGetUsers();
+});
+
+//Empty login text fields when the user logs out and run the function fnLogOut
+$(document).on("click", "#btn-log-out", function() {
+    $("#txtLoginEmail").val('');
+    $("#txtLoginPassword").val('');
+    fnLogout();
+});
+
+//Empty login text fields
+$(document).on("click", "[data-go-to='wdw-user-signup']", function() {
+    $("#txtLoginEmail").val('');
+    $("#txtLoginPassword").val('');
+});
+
+//Run fnGetPropertiesMap on click
+$(document).on("click", "[data-go-to='wdw-map']", function() {
+    fnGetPropertiesMap();
+});
+
+//Run fnLogin on click
+$(document).on("click", "#btnLogin", function() {
+    fnLogin();
+});
+
+//Run fnResetImageInput on click
+$(document).on("click", "[data-go-to='wdw-menu']", function() {
+    fnResetImageInput();
+});
+
+//Run fnSendPropertyList on click
+$(document).on("click", ".btnSendProperties", function() {
+    fnSendPropertyList();
+});
+
+//Run fnSuperAdminSignup on click
+$("#btnSuperAdminSignup").click(function() {
+    fnSuperAdminSignup();
+});
+
+//Call function on click
+$("#btnUserSignup").click(function(){
+    //Run the following function
+    fnUserSignup();
+});
+
+//Submit the form frmCreateProperty on click
+$("#btn-save-property").click(function(){
+    $("#frmCreateProperty").submit();
+});
+
+//Submit the form frmCreateUser on click
+$("#btn-save-user").click(function(){
+    $("#frmCreateUser").submit();
 });
 
 //When the DOM is loaded and you click on a element with the link class
@@ -59,7 +138,6 @@ $(document).on("click", ".link", function() {
     $("#txt-create-property-price").val(sPropertyPriceToEdit);
     $("#txt-create-property-lat").val(sPropertyLatToEdit);
     $("#txt-create-property-lng").val(sPropertyLngToEdit);
-
     //Get the user id, email, password and role you clicked on and store them
     var sUserIdToEdit = $(this).siblings(".lbl-user-id").text();
     var sUserEmailToEdit = $(this).siblings(".lbl-user-email").text();
@@ -70,132 +148,6 @@ $(document).on("click", ".link", function() {
     $("#txt-create-user-email").val(sUserEmailToEdit);
     $("#txt-create-user-password").val(sUserPasswordToEdit);
     $("#txt-create-user-role").val(sUserRoleToEdit);
-});
-
-//When the DOM is loaded and you click on a element with the btn-delete-property class
-$(document).on("click", ".btn-delete-property", function() {
-    //Store the address and object you want to delete
-    var sAddressToDelete = $(this).siblings(".lbl-property-address").text();
-    var oTheParent = $(this).parent().parent();
-    //The service you use to delete the property from the database
-    var sUrl = "services/properties/api-delete-property.php?address=" + sAddressToDelete;
-    //Alert the user that the action will delete a property
-    swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this property!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-        },
-        function() {
-            //Initiate Ajax
-            $.getJSON(sUrl, function(jData) {
-                //If the status is ok then remove the object
-                if (jData.status == "ok") {
-                    oTheParent.remove();
-                }
-            });
-            //Display success message
-            swal("Deleted!", "The property has been deleted.", "success");
-        });
-});
-
-//When the DOM is loaded and you click on a element with the btn-delete-property class
-$(document).on("click", ".btn-delete-user", function() {
-    //Store the id and object you want to delete
-    var sIdToDelete = $(this).siblings(".lbl-user-id").text();
-    var oTheParent = $(this).parent();
-    //The service you use to delete the user from the database
-    var sUrl = "services/users/api-delete-user.php?id="+sIdToDelete;
-    //Alert the user that the action will delete a user
-    swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this user!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-        },
-        function() {
-            //Initiate Ajax
-            $.getJSON(sUrl, function(jData) {
-            	//If the status is ok then remove the object
-                if (jData.status == "ok") {
-                    oTheParent.remove();
-                }
-            });
-            swal("Deleted!", "The user has been deleted.", "success");
-        });
-});
-
-
-//When the DOM is loaded you are able to get properties
-$(document).on("click", "[data-go-to='wdw-properties']", function() {
-    fnGetProperties();
-});
-
-//When the DOM is loaded you are able to get users
-$(document).on("click", "[data-go-to='wdw-properties-user']", function() {
-    fnGetPropertiesUserRole();
-});
-
-//When the DOM is loaded you are able to get users
-$(document).on("click", "[data-go-to='wdw-users']", function() {
-    fnGetUsers();
-});
-
-//Empty login text fields when the user logs out
-$(document).on("click", "#btn-log-out", function() {
-    $("#txtLoginEmail").val('');
-    $("#txtLoginPassword").val('');
-    fnLogout();
-});
-
-//Empty login text fields
-$(document).on("click", "[data-go-to='wdw-user-signup']", function() {
-    $("#txtLoginEmail").val('');
-    $("#txtLoginPassword").val('');
-});
-
-$(document).on("click", "[data-go-to='wdw-map']", function() {
-    fnGetPropertiesMap();
-});
-
-$(document).on("click", "#btnLogin", function() {
-    fnLogin();
-});
-
-$(document).on("click", "[data-go-to='wdw-menu']", function() {
-    fnResetImageInput();
-});
-
-$(document).on("click", ".btnSendProperties", function() {
-    fnSendPropertyList();
-});
-
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
-//Call function on click
-$("#btnUserSignup").click(function(){
-    fnUserSignup();
-});
-
-//Call function on click
-$("#btn-save-property").click(function(){
-    //Submit the form
-    $("#frmCreateProperty").submit();
-});
-
-//Call function on click
-$("#btn-save-user").click(function(){
-	//Submit the form
-    $("#frmCreateUser").submit();
 });
 
 
@@ -217,7 +169,7 @@ $("#frmCreateUser").on('submit', function(event) {
     //Grab the ID (by default hidden from the user). Used if updating the user
     var sId = $("#txt-create-user-id").val();
     //If there is an Id and the validation is ok then run the following function
-    if(sId && sForm.parsley().isValid()) {
+    if (sId && sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
             "url": "services/users/api-update-user.php",
@@ -228,16 +180,27 @@ $("#frmCreateUser").on('submit', function(event) {
             "cache": false,
             success: function(jData) {
                 //If the server returns with an error display error message
-                if(jData.status == "error") {
+                if (jData.status == "error") {
                     sweetAlert("Oops...", "Something went wrong!", "error");
-                //Otherwise notify the user that a user has been updated
+                    //Otherwise notify the user that a user has been updated
                 } else {
-                    fnDesktopNotification("A user has been updated");
+                    //Populate the user window
+                    fnGetUsers();
+                    swal({
+                        title: "User updated!",
+                        text: "You will be taken to the user page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdw-users").show();
+                    }, 2000);
                 }
             }
         });
-      //If there is no Id and the form passes front-end validation
-    } else if(sForm.parsley().isValid()) {
+        //If there is no Id and the form passes front-end validation
+    } else if (sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
             "url": "services/users/api-create-user.php",
@@ -248,16 +211,28 @@ $("#frmCreateUser").on('submit', function(event) {
             "cache": false,
             success: function(jData) {
                 //If the server returns with an error display error message
-                if(jData.status == "error") {
+                if (jData.status == "error") {
                     sweetAlert("Oops...", "Something went wrong!", "error");
-                //Otherwise notify the user that a user has been added
+                    //Otherwise notify the user that a user has been added
                 } else {
-                    fnDesktopNotification("A user has been created");
+                    //Populate the user window
+                    fnGetUsers();
+                    swal({
+                        title: "User created!",
+                        text: "You will be taken to the user page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdw-users").show();
+                    }, 2000);
                 }
             }
         });
     }
 });
+
 
 //Sign up of a super-admin
 function fnSuperAdminSignup() {
@@ -476,6 +451,36 @@ function fnGetUserMenu() {
     fnGetSessionEmail();
 }
 
+//When the DOM is loaded and you click on a element with the btn-delete-property class
+$(document).on("click", ".btn-delete-user", function() {
+    //Store the ID and element you want to delete in variables
+    var sIdToDelete = $(this).siblings(".lbl-user-id").text();
+    var oTheParent = $(this).parent();
+    //The service you use to delete the user from the database
+    var sUrl = "services/users/api-delete-user.php?id=" + sIdToDelete;
+    //Alert the user that this action will delete a user
+    swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this user!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function() {
+            //Initiate AJAX and get jData in return
+            $.getJSON(sUrl, function(jData) {
+                //If the status is ok then remove the element
+                if (jData.status == "ok") {
+                    oTheParent.remove();
+                }
+            });
+            //Display success message to the user
+            swal("Deleted!", "The user has been deleted.", "success");
+        });
+});
+
 //Fetches the email from the current session
 function fnGetSessionEmail() {
     //The service used for fetching the email
@@ -511,7 +516,7 @@ $("#frmCreateProperty").on('submit', function(event) {
     //Grab the ID (by default hidden from the user)
     var sId = $("#txt-create-property-id").val();
     //If there is an Id and the validation is ok then run the following function
-    if(sId && sForm.parsley().isValid()) {
+    if (sId && sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
             "url": "services/properties/api-update-property.php",
@@ -522,18 +527,29 @@ $("#frmCreateProperty").on('submit', function(event) {
             "cache": false,
             success: function(jData) {
                 //If the server returns with an error display error message
-                if(jData.status == "error") {
+                if (jData.status == "error") {
                     sweetAlert("Oops...", "Something went wrong!", "error");
-                //Otherwise notify the user that a property has been updated
+                    //Otherwise notify the user that a property has been updated
                 } else {
-                    fnDesktopNotification("A property has been updated");
-                    fnTitleNotification(3);
+                    //Populate the property window
+                    fnGetProperties();
+                    swal({
+                        title: "Property updated!",
+                        text: "You will be taken to the properties page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdw-properties").show();
+                    }, 2000);
+                    //Reset the image input
                     fnResetImageInput();
                 }
             }
         });
-      //If iImageCounter is 3 or more and the form passes validation
-    } else if(iImageCounter >= 3 && sForm.parsley().isValid()) {
+        //If iImageCounter is 3 or more and the form passes validation
+    } else if (iImageCounter >= 3 && sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
             "url": "services/properties/api-create-property.php",
@@ -544,12 +560,23 @@ $("#frmCreateProperty").on('submit', function(event) {
             "cache": false,
             success: function(jData) {
                 //If the server returns with an error display error message
-                if(jData.status == "error") {
+                if (jData.status == "error") {
                     sweetAlert("Oops...", "Something went wrong!", "error");
-                //Otherwise notify the user that a property has been added
+                    //Otherwise notify the user that a property has been added
                 } else {
-                    fnDesktopNotification("A property has been created");
-                    fnTitleNotification(3);
+                    //Populate the property window
+                    fnGetProperties();
+                    swal({
+                        title: "Property created!",
+                        text: "You will be taken to the properties page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdw-properties").show();
+                    }, 2000);
+                    //Reset the image input
                     fnResetImageInput();
                 }
             }
@@ -665,6 +692,36 @@ function fnGetPropertiesUserRole() {
     });
 }
 
+//When the DOM is loaded and you click on a element with the class btn-delete-property
+$(document).on("click", ".btn-delete-property", function() {
+    //Store the address and element you want to delete in variables
+    var sAddressToDelete = $(this).siblings(".lbl-property-address").text();
+    var oTheParent = $(this).parent().parent();
+    //The service you use to delete the property from the database
+    var sUrl = "services/properties/api-delete-property.php?address=" + sAddressToDelete;
+    //Alert the user that the action will delete the property
+    swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this property!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function() {
+            //Initiate AJAX and get jData in return
+            $.getJSON(sUrl, function(jData) {
+                //If the status is ok then remove the element
+                if (jData.status == "ok") {
+                    oTheParent.remove();
+                }
+            });
+            //Display success message
+            swal("Deleted!", "The property has been deleted.", "success");
+        });
+});
+
 //Send a list of properties to the current user
 function fnSendPropertyList() {
     //Variable containing the URL to the service needed
@@ -685,6 +742,18 @@ function fnSendPropertyList() {
     });
 }
 
+//Declare new Cleave object
+var cleaveFormatPrice = new Cleave('#txt-create-property-price', {
+    //Only take numeral values
+    numeral: true,
+    //Decimal is marked with a comma
+    numeralDecimalMark: ',',
+    //Delimiter is marked with a period
+    delimiter: '.',
+    //Only take positive numbers
+    numeralPositiveOnly: true
+});
+
 
 /************************************************************************/
 /************************************************************************/
@@ -692,6 +761,37 @@ function fnSendPropertyList() {
 
 
 //NOTIFICATIONS FUNCTIONALITY
+
+//Variable used for counting the amount of properties
+var iPropertyCount = 0;
+
+//Function that fetches the current amount of properties
+function fnGetCurrentProperties() {
+    //Variable with the url of the service being used
+    var sUrl = "services/properties/api-get-properties.php";
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //Set iPropertyCount to the current length of the array
+        iPropertyCount = jData.length;
+    });
+}
+
+setInterval(function() {
+    //Variable with the url of the service being used
+    var sUrl = "services/properties/api-get-properties.php";
+    //Initiate AJAX and get jData in return
+    $.getJSON(sUrl, function(jData) {
+        //If iPropertyCount is larger than 0 less than the current amount of properties
+        if (iPropertyCount > 0 && iPropertyCount < jData.length) {
+            //Set the new length of the properties
+            iPropertyCount = jData.length;
+            //Create desktop notification
+            fnDesktopNotification("A property was created!");
+            //Create title notification
+            fnTitleNotification(3);
+        }
+    });
+}, 1000);
 
 //Creates a desktop notification with a custom message
 function fnDesktopNotification(sMessage) {

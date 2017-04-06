@@ -12,37 +12,79 @@ Other features include a Google Maps overview, notification when new properties 
 
 **Display the current users email using SESSION**
 
+FRONT-END
 ```
-//FRONT-END
-
-//Fetches the email from the current session
 function fnGetSessionEmail() {
-    //The service used for fetching the email
     var sUrl = "services/users/api-display-current-email.php";
-    //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
-        //Blueprint used for displaying the email
         var sEmail = '<div id="lblCurrentEmail">You are logged in as {{email}}</div>';
-        //Replace the placeholder with the real email
         sEmail = sEmail.replace("{{email}}", jData.email);
-        //Append sEmailTemplate to the main menu
         $("#wdwMenu").append(sEmail);
     });
 }
-
+```
 BACK-END
+```
+session_start();
+echo '{"email":"'.$_SESSION['sEmail'].'"}';
+```
 
-	
-	//Fetches the email stored in the SESSION
+**Convert an adress to latitude and longitude coordinate**
+
+```
+function fnConvertAddress() {
+    var sAddress = $("#txtCreatePropertyAddress").val();
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': sAddress }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var iLat = results[0].geometry.location.lat();
+            var iLng = results[0].geometry.location.lng();
+            $("#txtCreatePropertyLat").val(iLat);
+            $("#txtCreatePropertyLng").val(iLng);
+        }
+    });
+}
+```
+**Send email with table of every property to the user currently logged in**
+```
 	session_start();
-	echo '{"email":"'.$_SESSION['sEmail'].'"}';
-
-```
-
-And repeat
-
-```
-until finished
+	include '../functions.php';
+	$sTo = $_SESSION['sEmail'];
+	$sFileName = "data-properties.txt";
+	$sajProperties = file_get_contents($sFileName);
+	$ajProperties = json_decode($sajProperties);
+	$sSubject = 'List of properties for ' . date("d-m-Y");
+	$sListOfProperties = "";
+	for($i = 0; $i < count($ajProperties); $i++) {
+		$sAddress = $ajProperties[$i]->address;
+		$sPrice = $ajProperties[$i]->price;
+		$sTdTemplate = '<tr><td>'. $sAddress .'</td><td>'. $sPrice .'</td></tr>';
+		$sListOfProperties .= $sTdTemplate;
+	}
+	$sMessage = '
+				<html>
+				<head>
+				  <title>'. $sSubject .'</title>
+				</head>
+				<body>
+				  <table>
+				    <tr>
+				      <th>Address</th><th>Price</th>
+				    </tr>
+				      '. $sListOfProperties .'
+				  </table>
+				</body>
+				</html>
+	';
+	$headers  = 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+	$headers .= 'From: Real Estate CMS <real-esate-cms@mail.com>' . "\r\n";
+	$bEmailWasSent = mail($sTo, $sSubject, $sMessage, $headers);
+	if($bEmailWasSent) {
+		echo '{"status":"ok"}';
+		exit;
+	}
+	echo '{"status":"error"}';
 ```
 
 ## Built With

@@ -565,12 +565,14 @@ $("#frmCreateProperty").on('submit', function(event) {
                 } else {
                     //Populate the property window
                     fnGetProperties();
+                    //Display success message
                     swal({
                         title: "Property updated!",
                         text: "You will be taken to the properties page in 2 seconds",
                         timer: 2000,
                         showConfirmButton: false
                     });
+                    //Navigate to wdwProperties
                     setTimeout(function() {
                         $(".wdw").hide();
                         $("#wdwProperties").css("display", "flex");
@@ -598,12 +600,14 @@ $("#frmCreateProperty").on('submit', function(event) {
                 } else {
                     //Populate the property window
                     fnGetProperties();
+                    //Display success message
                     swal({
                         title: "Property created!",
                         text: "You will be taken to the properties page in 2 seconds",
                         timer: 2000,
                         showConfirmButton: false
                     });
+                    //Navigate to wdwProperties
                     setTimeout(function() {
                         $(".wdw").hide();
                         $("#wdwProperties").css("display", "flex");
@@ -774,7 +778,7 @@ function fnSendPropertyList() {
     });
 }
 
-//Declare new Cleave object
+//Declare new Cleave object used for formatting the price in real time
 var cleaveFormatPrice = new Cleave('#txtCreatePropertyPrice', {
     //Only take numeral values
     numeral: true,
@@ -794,7 +798,7 @@ var cleaveFormatPrice = new Cleave('#txtCreatePropertyPrice', {
 
 //NOTIFICATIONS FUNCTIONALITY
 
-//Variable used for counting the amount of properties
+//Global variable used for counting the amount of properties
 var iPropertyCount = 0;
 
 //Function that fetches the current amount of properties
@@ -807,7 +811,6 @@ function fnGetCurrentProperties() {
         iPropertyCount = jData.length;
     });
 }
-
 setInterval(function() {
     //Variable with the url of the service being used
     var sUrl = "services/properties/api-get-properties.php";
@@ -823,8 +826,8 @@ setInterval(function() {
             fnTitleNotification(3);
         }
     });
-    //Check for new properties every 30 seconds
-}, 30000);
+    //Check for new properties every 10 seconds
+}, 10000);
 
 //Creates a desktop notification with a custom message
 function fnDesktopNotification(sMessage) {
@@ -1044,7 +1047,7 @@ function fnConvertAddress() {
             //Store the latitude and longitude in two new variables
             var iLat = results[0].geometry.location.lat();
             var iLng = results[0].geometry.location.lng();
-            //Put them in the invisible text boxes
+            //Put the values in the text input boxes
             $("#txtCreatePropertyLat").val(iLat);
             $("#txtCreatePropertyLng").val(iLng);
         }

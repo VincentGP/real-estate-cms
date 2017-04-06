@@ -2,11 +2,11 @@
 	
 	//Include the functions file
 	include '../functions.php';
-	//Variable which refers to the database file/
+	//Variable containing reference to the database
 	$sFileName = "data-users.txt";
 	//Use $_GET to retrieve email and password being passed via the URL
-	$sEmail = $_GET['email'];
-	$sPassword = $_GET['password'];
+	$sEmail = $_POST['email'];
+	$sPassword = $_POST['password'];
 	//Store the contents of the database in the variable sajUsers
 	$sajUsers = file_get_contents($sFileName);
 	//Decodes sajUsers and store it in ajUsers. Now we have an array of objects

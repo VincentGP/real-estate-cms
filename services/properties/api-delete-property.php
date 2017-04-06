@@ -21,17 +21,19 @@
 		if($sAddress == $ajProperties[$i]->address) {
 			//Declare the path to the images
 			$sDirectoryPath = 'images/' . $ajProperties[$i]->id;
-			//Delete the folder containing the images
-			fnDeletePropertyDirectory($sDirectoryPath);
+			//Delete the folder containing the images and check if the action was successful
+			$bPropertyWasDeleted = fnDeletePropertyDirectory($sDirectoryPath);
 			//Remove the property from the database
 			array_splice($ajProperties, $i, 1);
 			//Convert the object to text
 			$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 			//Save the data to the file
 			file_put_contents($sFileName, $sajProperties);
-			//Echo a succesful status message
-			echo '{"status":"ok"}';
-			exit;
+			//Echo a succesful status message if the boolean is true
+			if($bPropertyWasDeleted) {
+				echo '{"status":"ok"}';
+				exit;
+			}
 		}
 	}
 	//If no match is found, then echo an error message

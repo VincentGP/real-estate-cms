@@ -1,25 +1,38 @@
 [
     {
-        "id": "58e3d1cbd1098",
-        "address": "Nyelandsvej 50, Frederiksberg, Danmark",
+        "id": "58e52db0d44e9",
+        "address": "Thurøvej 10, Frederiksberg, Danmark",
         "price": "5.000.000",
-        "lat": "55.6840207",
-        "lng": "12.526380099999983",
-        "dateCreated": "04-04-2017",
+        "lat": "55.68322490000001",
+        "lng": "12.525374400000032",
+        "dateCreated": "05-04-2017",
         "images": [
-            "image-0.png",
-            "image-1.png",
-            "image-2.png"
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-2.jpg"
         ],
-        "dateUpdated": "04-04-2017"
+        "dateUpdated": "06-04-2017"
     },
     {
-        "id": "58e3e273b01ba",
-        "address": "Falkoner Alle 50, Frederiksberg, Danmark",
-        "price": "4.350.000",
-        "lat": "",
-        "lng": "",
-        "dateCreated": "04-04-2017",
+        "id": "58e60c39bb25d",
+        "address": "Stokholmsvej 60, Espergærde, Danmark",
+        "price": "3.200.000",
+        "lat": "55.992252",
+        "lng": "12.542969999999968",
+        "dateCreated": "06-04-2017",
+        "images": [
+            "image-0.jpg",
+            "image-1.jpg",
+            "image-2.jpg"
+        ]
+    },
+    {
+        "id": "58e61026d2559",
+        "address": "Gammel Kongevej, Frederiksberg, Danmark",
+        "price": "5.000.000",
+        "lat": "55.6758465",
+        "lng": "12.54411110000001",
+        "dateCreated": "06-04-2017",
         "images": [
             "image-0.jpg",
             "image-1.jpg",

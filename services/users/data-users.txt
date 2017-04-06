@@ -1,14 +1,8 @@
 [
     {
-        "id": "58e39b74b15b7",
-        "email": "1",
-        "password": "2",
-        "role": "super-admin"
-    },
-    {
-        "id": "58e3d2ec71593",
-        "email": "user@user.com",
+        "id": "58e61e253e30b",
+        "email": "vgercke@gmail.com",
         "password": "123456",
-        "role": "user"
+        "role": "super-admin"
     }
 ]

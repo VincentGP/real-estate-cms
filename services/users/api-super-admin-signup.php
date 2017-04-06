@@ -1,10 +1,11 @@
 <?php
 	
 	include '../functions.php';
-	//Use $_GET to retrieve and store email and password being passed
+	//Variable containing reference to the database
 	$sFileName = "data-users.txt";
-	$sEmail = $_GET['email'];
-	$sPassword = $_GET['password'];
+	//Get the values passed from the form via POST
+	$sEmail = $_POST['email'];
+	$sPassword = $_POST['password'];
 	//Get the contents of the txt database and store them in the variable sajUsers
 	$sajUsers = file_get_contents($sFileName);
 	//Decodes sajUsers and store it in ajUsers. Now we have an array of JSON objects

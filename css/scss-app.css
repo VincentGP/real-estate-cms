@@ -3,12 +3,16 @@
   padding: 0px;
   box-sizing: border-box; }
 
-html, body {
+html,
+body {
   font-family: "Open Sans", sans-serif;
   color: #333;
   width: 100vw;
   height: 100vh;
   font-size: 16px; }
+
+a {
+  color: #468CC8; }
 
 button {
   cursor: pointer;
@@ -24,14 +28,10 @@ button {
   border: 1px solid transparent;
   margin: 10px 0; }
 
-h1, h3 {
-  color: #555555; }
-
-h2 {
-  font-weight: 400; }
-
-a {
-  color: #468CC8; }
+.btnDeleteProperty,
+.btnDeleteUser {
+  cursor: pointer;
+  color: #E57373; }
 
 .link {
   cursor: pointer;
@@ -46,7 +46,7 @@ a {
   height: 100vh;
   background-color: #fff; }
 
-.lblMenuContainer {
+.lblMenu {
   width: 300px;
   height: auto;
   padding: 15px;
@@ -64,40 +64,147 @@ a {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); }
 
-.btn-delete-property {
-  cursor: pointer;
-  color: #E57373; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-login {
+#wdwLogin, #wdwUserSignup, #wdwSuperAdminSignup {
   display: flex;
-  background-color: white; }
+  background-image: url(../images/bg-3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat; }
+  #wdwLogin .lblContainer h1, #wdwUserSignup .lblContainer h1, #wdwSuperAdminSignup .lblContainer h1 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; }
+  #wdwLogin .lblContainer a, #wdwUserSignup .lblContainer a, #wdwSuperAdminSignup .lblContainer a {
+    display: flex;
+    justify-content: center; }
+  #wdwLogin .lblContainer #txtLoginEmail, #wdwUserSignup .lblContainer #txtLoginEmail, #wdwSuperAdminSignup .lblContainer #txtLoginEmail {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -1px; }
+  #wdwLogin .lblContainer #txtLoginEmail:focus, #wdwUserSignup .lblContainer #txtLoginEmail:focus, #wdwSuperAdminSignup .lblContainer #txtLoginEmail:focus {
+    z-index: 2; }
+  #wdwLogin .lblContainer #txtLoginPassword, #wdwUserSignup .lblContainer #txtLoginPassword, #wdwSuperAdminSignup .lblContainer #txtLoginPassword {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  #wdwLogin .lblContainer #btnLogin, #wdwUserSignup .lblContainer #btnLogin, #wdwSuperAdminSignup .lblContainer #btnLogin {
+    color: white;
+    background-color: #428bca; }
+  #wdwLogin .lblContainer #btnLogin:hover, #wdwUserSignup .lblContainer #btnLogin:hover, #wdwSuperAdminSignup .lblContainer #btnLogin:hover {
+    background-color: #3276b1; }
 
-#txtLoginEmail {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: -1px; }
+#wdwUserSignup {
+  display: none; }
+  #wdwUserSignup #txtSignupEmail {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -1px; }
+  #wdwUserSignup #txtSignupEmail:focus {
+    z-index: 2; }
+  #wdwUserSignup #txtSignupPassword {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  #wdwUserSignup #btnUserSignup {
+    color: white;
+    background-color: #EF9A9A; }
+  #wdwUserSignup #btnUserSignup:hover {
+    background-color: #E57373; }
 
-#txtLoginEmail:focus {
-  z-index: 2; }
+#wdwSuperAdminSignup {
+  display: none; }
+  #wdwSuperAdminSignup h1 {
+    font-size: 26px; }
+  #wdwSuperAdminSignup #txtSuperAdminSignupEmail {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -1px; }
+  #wdwSuperAdminSignup #txtSuperAdminSignupEmail:focus {
+    z-index: 2; }
+  #wdwSuperAdminSignup #txtSuperAdminSignupPassword {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  #wdwSuperAdminSignup #btnSuperAdminSignup {
+    color: white;
+    background-color: #EF9A9A; }
+  #wdwSuperAdminSignup #btnSuperAdminSignup:hover {
+    background-color: #E57373; }
 
-#txtLoginPassword {
+#wdwCreateUser #txtCreateUserEmail {
   width: 100%;
   position: relative;
   font-size: 16px;
   height: auto;
-  margin-bottom: 10px;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: -1px; }
+#wdwCreateUser #txtCreateUserEmail:focus {
+  z-index: 2; }
+#wdwCreateUser #txtCreateUserPassword {
+  width: 100%;
+  position: relative;
+  font-size: 16px;
+  height: auto;
   padding: 10px;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
@@ -106,262 +213,26 @@ a {
   border: 1px solid #ccc;
   border-top-left-radius: 0;
   border-top-right-radius: 0; }
-
-#btnLogin {
+#wdwCreateUser #btnSaveUser {
   color: white;
   background-color: #428bca; }
+#wdwCreateUser #btnSaveUser:hover {
+  background-color: #3276b1; }
+#wdwCreateUser #txtCreateUserId {
+  display: none; }
 
-#btnLogin:hover {
-  background-color: #3276b1;
-  border-color: #285e8e; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-user-signup {
-  background-color: white; }
-
-#txtSignupEmail {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: -1px; }
-
-#txtSignupEmail:focus {
-  z-index: 2; }
-
-#txtSignupPassword {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
-#btnUserSignup {
-  color: white;
-  background-color: #EF9A9A; }
-
-#btnUserSignup:hover {
-  background-color: #E57373;
-  border-color: #FFCDD2; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-super-admin-signup {
-  /*display: flex;*/
-  background-color: white;
-  text-align: center; }
-
-#txtSuperAdminSignupEmail {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: -1px; }
-
-#txtSuperAdminSignupEmail:focus {
-  z-index: 2; }
-
-#txtSuperAdminSignupPassword {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
-#btnSuperAdminSignup {
-  color: white;
-  background-color: #EF9A9A; }
-
-#btnSuperAdminSignup:hover {
-  background-color: #E57373;
-  border-color: #FFCDD2; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-create-property {
-  /*display: flex;*/
-  background-color: white; }
-
-#txt-create-property-id {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: -1px; }
-
-#txt-create-property-id:focus {
-  z-index: 2; }
-
-#txt-create-property-address {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
-
-#txt-create-property-address:focus {
-  z-index: 2; }
-
-#txt-create-property-price {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  /*margin-bottom: 10px;*/
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
-#btn-save-property {
-  color: white;
-  background-color: #428bca; }
-
-#btn-save-property:hover {
-  background-color: #3276b1;
-  border-color: #285e8e; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-create-user {
-  /*display: flex;*/
-  background-color: white; }
-
-#txt-create-user-id {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: -1px; }
-
-#txt-create-user-id:focus {
-  z-index: 2; }
-
-#txt-create-user-email {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
-
-#txt-create-user-email:focus {
-  z-index: 1; }
-
-#txt-create-user-password {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
-
-#txt-create-user-password:focus {
-  z-index: 2; }
-
-input#txt-create-user-password-repeat {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  margin-bottom: -1px; }
-
-input#txt-create-user-password-repeat {
-  z-index: 1; }
-
-#txt-create-user-role {
-  width: 100%;
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-properties {
+#wdwProperties {
   justify-content: flex-start;
-  height: auto; }
-  #wdw-properties .lbl-property {
+  background-image: url(../images/bg-5.jpg);
+  background-size: cover;
+  background-repeat: no-repeat; }
+  #wdwProperties .btnSendProperties {
+    width: 350px;
+    color: white;
+    background-color: #428bca; }
+  #wdwProperties .btnSendProperties:hover {
+    background-color: #3276b1; }
+  #wdwProperties .lblProperty {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -370,41 +241,86 @@ input#txt-create-user-password-repeat {
     padding: 15px;
     background-color: #f7f7f7;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); }
-    #wdw-properties .lbl-property .lbl-property-information {
+    #wdwProperties .lblProperty .lblPropertyInformation {
       display: flex;
       justify-content: space-between;
       width: 100%; }
-      #wdw-properties .lbl-property .lbl-property-information .lbl-property-address {
+      #wdwProperties .lblProperty .lblPropertyInformation .lblPropertyAddress {
         flex-basis: 60%; }
-      #wdw-properties .lbl-property .lbl-property-information .lbl-property-price {
+      #wdwProperties .lblProperty .lblPropertyInformation .lblPropertyPrice {
         flex-basis: 30%;
         text-align: center; }
-      #wdw-properties .lbl-property .lbl-property-information .lbl-property-id {
+      #wdwProperties .lblProperty .lblPropertyInformation .lblPropertyId {
         display: none; }
-    #wdw-properties .lbl-property .lbl-property-images {
+    #wdwProperties .lblProperty .lblPropertyImages {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       width: 100%;
       margin: 10px 0 0 0; }
-      #wdw-properties .lbl-property .lbl-property-images img {
-        width: 100%;
-        padding: 10px 100px 10px 100px; }
+      #wdwProperties .lblProperty .lblPropertyImages img {
+        width: 200px;
+        padding: 5px 5px 5px 5px; }
 
-#wdw-create-property span {
-  display: flex;
-  justify-content: center;
-  text-align: center; }
-#wdw-create-property .img-preview {
-  width: 100%;
-  margin-top: 10px; }
+#wdwCreateProperty {
+  height: auto;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+  #wdwCreateProperty h1 {
+    margin-bottom: 10px;
+    font-size: 22px; }
+  #wdwCreateProperty span {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; }
+  #wdwCreateProperty a {
+    display: flex;
+    justify-content: center; }
+  #wdwCreateProperty #txtCreatePropertyAddress {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -1px; }
+  #wdwCreateProperty #txtCreatePropertyAddress:focus {
+    z-index: 2; }
+  #wdwCreateProperty #txtCreatePropertyPrice {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
+  #wdwCreateProperty #btnSaveProperty {
+    color: white;
+    background-color: #428bca; }
+  #wdwCreateProperty #btnSaveProperty:hover {
+    background-color: #3276b1; }
+  #wdwCreateProperty .imgPreview {
+    width: 100%;
+    margin-top: 10px; }
+  #wdwCreateProperty #txtCreatePropertyId,
+  #wdwCreateProperty #txtCreatePropertyLat,
+  #wdwCreateProperty #txtCreatePropertyLng {
+    display: none; }
 
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-properties-user {
-  justify-content: flex-start;
-  height: auto; }
-  #wdw-properties-user .lbl-property {
+#wdwPropertiesForUserRole {
+  justify-content: flex-start; }
+  #wdwPropertiesForUserRole .lblProperty {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -413,100 +329,67 @@ input#txt-create-user-password-repeat {
     padding: 15px;
     background-color: #f7f7f7;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); }
-    #wdw-properties-user .lbl-property .lbl-property-information {
+    #wdwPropertiesForUserRole .lblProperty .lblPropertyInformation {
       display: flex;
       justify-content: space-between;
       width: 100%; }
-      #wdw-properties-user .lbl-property .lbl-property-information .lbl-property-address {
+      #wdwPropertiesForUserRole .lblProperty .lblPropertyInformation .lblPropertyAddress {
         flex-basis: 60%; }
-      #wdw-properties-user .lbl-property .lbl-property-information .lbl-property-price {
+      #wdwPropertiesForUserRole .lblProperty .lblPropertyInformation .lblPropertyPrice {
         flex-basis: 30%;
         text-align: center; }
-      #wdw-properties-user .lbl-property .lbl-property-information .lbl-property-id {
+      #wdwPropertiesForUserRole .lblProperty .lblPropertyInformation .lblPropertyId {
         display: none; }
-    #wdw-properties-user .lbl-property .lbl-property-images {
+    #wdwPropertiesForUserRole .lblProperty .lblPropertyImages {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
       margin: 10px 0 0 0; }
-      #wdw-properties-user .lbl-property .lbl-property-images img {
+      #wdwPropertiesForUserRole .lblProperty .lblPropertyImages img {
         width: 100%;
         padding: 10px 100px 10px 100px; }
 
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-users {
-  /*display: flex;*/
-  background-color: white;
-  height: auto; }
+#wdwUsers {
+  justify-content: flex-start;
+  background-image: url(../images/bg-5.jpg);
+  background-size: cover;
+  background-repeat: no-repeat; }
+  #wdwUsers .lblUser {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 70%;
+    margin: 10px 0 0 0;
+    padding: 15px;
+    background-color: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); }
+    #wdwUsers .lblUser .lblUserEmail {
+      flex-basis: 40%; }
+    #wdwUsers .lblUser .lblUserPassword {
+      flex-basis: 30%; }
+    #wdwUsers .lblUser .lblUserRole {
+      flex-basis: 30%; }
+    #wdwUsers .lblUser .lblUserId {
+      display: none; }
 
-#wdw-users .lbl-user {
-  display: flex;
-  justify-content: space-between;
-  width: 800px;
-  height: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 15px;
-  background-color: #f7f7f7;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  align-items: center; }
-
-#wdw-users .lbl-user .lbl-user-role {
-  width: 200px; }
-
-#wdw-users .lbl-user .lbl-user-email {
-  width: 200px; }
-
-#wdw-users .lbl-user .lbl-user-password {
-  width: 200px; }
-
-#wdw-users .lbl-user .lbl-user-id {
-  width: 10px; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-menu {
-  /*display: flex;*/
-  background-image: url(../images/menu-bg.jpg);
+#wdwMenu {
+  background-image: url(../images/bg-2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
   padding-right: 15%;
   padding-left: 15%; }
+  #wdwMenu #btnLogOut {
+    color: white;
+    background-color: #EF9A9A;
+    width: 200px; }
+  #wdwMenu #btnLogOut:hover {
+    background-color: #E57373; }
+  #wdwMenu #lblCurrentEmail {
+    color: white;
+    font-size: 12px; }
 
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#wdw-menu-admin {
-  /*display: flex;*/
-  background-image: url(./images/menu-bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: center;
-  padding-right: 15%;
-  padding-left: 15%; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#btn-log-out {
-  color: white;
-  background-color: #428bca;
-  width: 200px; }
-
-#btn-log-out:hover {
-  background-color: #3276b1;
-  border-color: #285e8e; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-#btn-menu {
+#wdwMap #btnMenu {
   color: white;
   background-color: #428bca;
   width: 200px;
@@ -515,23 +398,10 @@ input#txt-create-user-password-repeat {
   right: 0;
   top: 0;
   margin-right: 10px; }
+#wdwMap #btnMenu:hover {
+  background-color: #3276b1; }
 
-#btn-menu:hover {
-  background-color: #3276b1;
-  border-color: #285e8e; }
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-/*MISC*/
-#lblCurrentEmail {
-  color: white;
-  font-size: 12px; }
-
-#txt-create-property-id, #txt-create-user-id, #txt-create-property-lat, #txt-create-property-lng {
-  display: none; }
-
-/*PARSLEY*/
+/*PARSLEY VALIDATION LIBRARY*/
 li.parsley-required {
   margin-left: 20px; }
 

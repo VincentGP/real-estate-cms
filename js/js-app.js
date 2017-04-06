@@ -13,71 +13,65 @@ $(document).ready(function() {
         //If the status is ok then show the login window
         if (jData.status == "ok") {
             //Show the login window
-            $("#wdw-login").show();
-          //Else make the user sign up as with the role of super-admin
+            $("#wdwLogin").show();
+            //Else make the user sign up as with the role of super-admin
         } else if (jData.status == "error") {
             //Hide all windows
             $(".wdw").hide();
             //Show the super-admin signup window
-            $("#wdw-super-admin-signup").css("display", "flex");
+            $("#wdwSuperAdminSignup").css("display", "flex");
         }
     });
-    //When the page is loaded, get the total amount of properties
+    //When the page is loaded, get the total amount of properties. Used for determining when to show notifications
     fnGetCurrentProperties();
 });
 
-
-/************************************************************************/
-/************************************************************************/
-/************************************************************************/
-
-//TRIGGERS FUNCTIONALITY
-
-//Function run on right click
+//Run function on right-click
 $(".wdw").contextmenu(function(event) {
-    //Hide all .wdw
+    //Hide all elements with the class .wdw
     $(".wdw").hide();
-    //Show the menu
-    $("#wdw-menu").show();
-    //Prevent default behaviour
+    //Show the main menu
+    $("#wdwMenu").show();
+    //Prevent default behaviour i.e. don't show the default contextmenu
     event.preventDefault();
 });
 
-//Run when there's a change in the id txt-create-property-address
-$('#txt-create-property-address').change(function() {
-    fnConvertAddress();
+//Listen for changes in the input field and run funtion everytime a change is detected
+$("#txtCreatePropertyAddress").on("change paste keyup", function() {
+   //Converts the address to lat and lng coordinates
+   fnConvertAddress();
 });
 
 //Run fnGetProperties on click
-$(document).on("click", "[data-go-to='wdw-properties']", function() {
+$(document).on("click", "[data-go-to='wdwProperties']", function() {
     fnGetProperties();
 });
 
 //Run fnGetPropertiesUserRole on click
-$(document).on("click", "[data-go-to='wdw-properties-user']", function() {
+$(document).on("click", "[data-go-to='wdwPropertiesForUserRole']", function() {
     fnGetPropertiesUserRole();
 });
 
 //Run fnGetUsers on click
-$(document).on("click", "[data-go-to='wdw-users']", function() {
+$(document).on("click", "[data-go-to='wdwUsers']", function() {
     fnGetUsers();
 });
 
-//Empty login text fields when the user logs out and run the function fnLogOut
-$(document).on("click", "#btn-log-out", function() {
+//Empty login text fields when the user logs out and run function fnLogOut
+$(document).on("click", "#btnLogOut", function() {
     $("#txtLoginEmail").val('');
     $("#txtLoginPassword").val('');
     fnLogout();
 });
 
 //Empty login text fields
-$(document).on("click", "[data-go-to='wdw-user-signup']", function() {
+$(document).on("click", "[data-go-to='wdwUserSignup']", function() {
     $("#txtLoginEmail").val('');
     $("#txtLoginPassword").val('');
 });
 
 //Run fnGetPropertiesMap on click
-$(document).on("click", "[data-go-to='wdw-map']", function() {
+$(document).on("click", "[data-go-to='wdwMap']", function() {
     fnGetPropertiesMap();
 });
 
@@ -87,7 +81,7 @@ $(document).on("click", "#btnLogin", function() {
 });
 
 //Run fnResetImageInput on click
-$(document).on("click", "[data-go-to='wdw-menu']", function() {
+$(document).on("click", "[data-go-to='wdwMenu']", function() {
     fnResetImageInput();
 });
 
@@ -98,56 +92,53 @@ $(document).on("click", ".btnSendProperties", function() {
 
 //Run fnSuperAdminSignup on click
 $("#btnSuperAdminSignup").click(function() {
-    fnSuperAdminSignup();
+    $("#frmSuperAdminSignup").submit();
 });
 
-//Call function on click
+//Submit form when button is clicked
 $("#btnUserSignup").click(function(){
-    //Run the following function
-    fnUserSignup();
+    $("#frmUserSignup").submit();
 });
 
-//Submit the form frmCreateProperty on click
-$("#btn-save-property").click(function(){
+//Submit form when button is clicked
+$("#btnSaveProperty").click(function(){
     $("#frmCreateProperty").submit();
 });
 
-//Submit the form frmCreateUser on click
-$("#btn-save-user").click(function(){
+//Submit form when button is clicked
+$("#btnSaveUser").click(function(){
     $("#frmCreateUser").submit();
 });
 
 //When the DOM is loaded and you click on a element with the link class
 $(document).on("click", ".link", function() {
-    //Hide all windows
+    //Hide all elements with the class wdw
     $(".wdw").hide();
     //Store the attribute from the window you just clicked in a variable
     var sWindowToShow = $(this).attr("data-go-to");
     //Show the window you just clicked on
     $("#" + sWindowToShow).css("display", "flex");
 
-    //Get the property id, address and price you clicked on and store them
-    var sPropertyIdToEdit = $(this).siblings(".lbl-property-id").text();
-    var sPropertyAddressToEdit = $(this).siblings(".lbl-property-address").text();
-    var sPropertyPriceToEdit = $(this).siblings(".lbl-property-price").text();
-    var sPropertyLatToEdit = $(this).siblings(".lbl-property-lat").text();
-    var sPropertyLngToEdit = $(this).siblings(".lbl-property-lng").text();
-    //Select the element and extract the value
-    $("#txt-create-property-id").val(sPropertyIdToEdit);
-    $("#txt-create-property-address").val(sPropertyAddressToEdit);
-    $("#txt-create-property-price").val(sPropertyPriceToEdit);
-    $("#txt-create-property-lat").val(sPropertyLatToEdit);
-    $("#txt-create-property-lng").val(sPropertyLngToEdit);
-    //Get the user id, email, password and role you clicked on and store them
-    var sUserIdToEdit = $(this).siblings(".lbl-user-id").text();
-    var sUserEmailToEdit = $(this).siblings(".lbl-user-email").text();
-    var sUserPasswordToEdit = $(this).siblings(".lbl-user-password").text();
-    var sUserRoleToEdit = $(this).siblings(".lbl-user-role").text();
-    //Select the element and extract the value
-    $("#txt-create-user-id").val(sUserIdToEdit);
-    $("#txt-create-user-email").val(sUserEmailToEdit);
-    $("#txt-create-user-password").val(sUserPasswordToEdit);
-    $("#txt-create-user-role").val(sUserRoleToEdit);
+    //Get the property id, address, price, lat and lng you clicked on and store them in variables
+    var sPropertyIdToEdit = $(this).siblings(".lblPropertyId").text();
+    var sPropertyAddressToEdit = $(this).siblings(".lblPropertyAddress").text();
+    var sPropertyPriceToEdit = $(this).siblings(".lblPropertyPrice").text();
+    var sPropertyLatToEdit = $(this).siblings(".lblPropertyLat").text();
+    var sPropertyLngToEdit = $(this).siblings(".lblPropertyLng").text();
+    //Select text fields and pass the values from the previous variables
+    $("#txtCreatePropertyId").val(sPropertyIdToEdit);
+    $("#txtCreatePropertyAddress").val(sPropertyAddressToEdit);
+    $("#txtCreatePropertyPrice").val(sPropertyPriceToEdit);
+    $("#txtCreatePropertyLat").val(sPropertyLatToEdit);
+    $("#txtCreatePropertyLng").val(sPropertyLngToEdit);
+    //Get the user id, email, password and role you clicked on and store them in variables
+    var sUserIdToEdit = $(this).siblings(".lblUserId").text();
+    var sUserEmailToEdit = $(this).siblings(".lblUserEmail").text();
+    var sUserPasswordToEdit = $(this).siblings(".lblUserPassword").text();
+    //Select text fields and pass the values from the previous variables
+    $("#txtCreateUserId").val(sUserIdToEdit);
+    $("#txtCreateUserEmail").val(sUserEmailToEdit);
+    $("#txtCreateUserPassword").val(sUserPasswordToEdit);
 });
 
 
@@ -166,9 +157,9 @@ $("#frmCreateUser").on('submit', function(event) {
     var sForm = $(this);
     //Validate the form using the Parsley library
     sForm.parsley().validate();
-    //Grab the ID (by default hidden from the user). Used if updating the user
-    var sId = $("#txt-create-user-id").val();
-    //If there is an Id and the validation is ok then run the following function
+    //Grab the id from the text field
+    var sId = $("#txtCreateUserId").val();
+    //If there is an id and the validation is ok then run the following function
     if (sId && sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
@@ -186,20 +177,22 @@ $("#frmCreateUser").on('submit', function(event) {
                 } else {
                     //Populate the user window
                     fnGetUsers();
+                    //Display success message
                     swal({
                         title: "User updated!",
                         text: "You will be taken to the user page in 2 seconds",
                         timer: 2000,
                         showConfirmButton: false
                     });
+                    //Navigate to wdwUsers
                     setTimeout(function() {
                         $(".wdw").hide();
-                        $("#wdw-users").show();
+                        $("#wdwUsers").css("display", "flex");
                     }, 2000);
                 }
             }
         });
-        //If there is no Id and the form passes front-end validation
+      //If there's no id and the form passes front-end validation
     } else if (sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
         $.ajax({
@@ -217,15 +210,17 @@ $("#frmCreateUser").on('submit', function(event) {
                 } else {
                     //Populate the user window
                     fnGetUsers();
+                    //Display success message
                     swal({
                         title: "User created!",
                         text: "You will be taken to the user page in 2 seconds",
                         timer: 2000,
                         showConfirmButton: false
                     });
+                    //Navigate to WdwUsers
                     setTimeout(function() {
                         $(".wdw").hide();
-                        $("#wdw-users").show();
+                        $("#wdwUsers").css("display", "flex");
                     }, 2000);
                 }
             }
@@ -234,59 +229,94 @@ $("#frmCreateUser").on('submit', function(event) {
 });
 
 
-//Sign up of a super-admin
-function fnSuperAdminSignup() {
-    //Store the text from the textboxes in variables
-    var sEmail = $("#txtSuperAdminSignupEmail").val();
-    var sPassword = $("#txtSuperAdminSignupPassword").val();
-    //The URL to be passed via AJAX
-    var sUrl = "services/users/api-super-admin-signup.php?email=" + sEmail + "&password=" + sPassword;
-    //Initiate AJAX and get jData in return
-    $.getJSON(sUrl, function(jData) {
-        //If the status is ok display success message and show login window
-        if (jData.status == "ok") {
-            swal({
-                title: "Thank you for signing up, super-admin!",
-                text: "You will be taken to the login page in 3 seconds",
-                timer: 3000,
-                showConfirmButton: false
-            });
-            setTimeout(function() {
-                $(".wdw").hide();
-                $("#wdw-login").show();
-            }, 3000);
-        }
-    });
-}
+//Sign up of a user with the role super-admin
+$("#frmSuperAdminSignup").on('submit', function(event) {
+    //Stop the page from reloading
+    event.preventDefault();
+    //Variable with the form submitted
+    var sForm = $(this);
+    //Validate the form using the Parsley library
+    sForm.parsley().validate();
+    //If the form passes front-end validation
+    if (sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/users/api-super-admin-signup.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if (jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    //Otherwise notify the user that a user has been updated
+                } else {
+                    //Display success message
+                    swal({
+                        title: "You signed up!",
+                        text: "You will be taken to the login page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //Navigate to login window
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdwLogin").show();
+                    }, 2000);
+                }
+            }
+        });
+    }
+});
+
 
 //Sign up of a regular user
-function fnUserSignup() {
-    //Store the text from the textboxes in variables
-    var sEmail = $("#txtSignupEmail").val();
-    var sPassword = $("#txtSignupPassword").val();
-    //The URL to be passed via AJAX
-    var sUrl = "services/users/api-user-signup.php?email=" + sEmail + "&password=" + sPassword;
-    //Initiate AJAX and get jData in return
-    $.getJSON(sUrl, function(jData) {
-        //If the status is ok display success message and show login window
-        if (jData.status == "ok") {
-            swal({
-                title: "Thank you for signing up, user!",
-                text: "You will be taken to the login page in 3 seconds",
-                timer: 3000,
-                showConfirmButton: false
-            });
-            setTimeout(function() {
-                $(".wdw").hide();
-                $("#wdw-login").show();
-            }, 3000);
-        }
-    });
-}
+$("#frmUserSignup").on('submit', function(event) {
+    //Stop the page from reloading
+    event.preventDefault();
+    //Variable with the form submitted
+    var sForm = $(this);
+    //Validate the form using the Parsley library
+    sForm.parsley().validate();
+    //If the form passes front-end validation
+    if (sForm.parsley().isValid()) {
+        //Initiate AJAX and get jData in return
+        $.ajax({
+            "url": "services/users/api-user-signup.php",
+            "method": "POST",
+            "data": new FormData(this),
+            "contentType": false,
+            "processData": false,
+            "cache": false,
+            success: function(jData) {
+                //If the server returns with an error display error message
+                if (jData.status == "error") {
+                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    //Otherwise notify the user that a user has been updated
+                } else {
+                    //Display success message
+                    swal({
+                        title: "You signed up!",
+                        text: "You will be taken to the login page in 2 seconds",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //Navigate to wdwLogin
+                    setTimeout(function() {
+                        $(".wdw").hide();
+                        $("#wdwLogin").show();
+                    }, 2000);
+                }
+            }
+        });
+    }
+});
 
 //Used when users login
 function fnLogin() {
-    //Store the text from the textboxes in variables
+    //Store the text from the inputs in variables
     var sEmail = $("#txtLoginEmail").val();
     var sPassword = $("#txtLoginPassword").val();
     //The URL to be passed via AJAX
@@ -305,7 +335,7 @@ function fnLogin() {
             });
             setTimeout(function() {
                 $(".wdw").hide();
-                $("#wdw-menu").css("display", "flex");
+                $("#wdwMenu").css("display", "flex");
             }, 1000);
             //If a match was found and the role is admin then show admin menu
         } else if (jData.status == "ok" && jData.role == "admin") {
@@ -319,7 +349,7 @@ function fnLogin() {
             });
             setTimeout(function() {
                 $(".wdw").hide();
-                $("#wdw-menu").css("display", "flex");
+                $("#wdwMenu").css("display", "flex");
             }, 1000);
             //If a match was found and the role is user then show user menu
         } else if (jData.status == "ok" && jData.role == "user") {
@@ -333,15 +363,18 @@ function fnLogin() {
             });
             setTimeout(function() {
                 $(".wdw").hide();
-                $("#wdw-menu").css("display", "flex");
+                $("#wdwMenu").css("display", "flex");
             }, 1000);
+            //If no match was found then display an error message
+        } else {
+            sweetAlert("Oops...", "Something went wrong!", "error");
         }
     });
 }
 
 //Logs out the current user
 function fnLogout() {
-    //The service used for logging the user out
+    //The service used for logging out
     var sUrl = "services/users/api-logout.php";
     //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
@@ -363,20 +396,20 @@ function fnGetUsers() {
     //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //Blueprint of the user elements
-        var sUser = '<div class="lbl-user">\
-                            <div class="lbl-user-id">{{id}}</div>\
-                            <div class="lbl-user-email">{{email}}</div>\
-                            <div class="lbl-user-password">{{password}}</div>\
-                            <div class="lbl-user-role">{{role}}</div>\
-                            <div data-go-to="wdw-create-user" class="fa fa-pencil fa-fw link"></div>\
-                            <div class="fa fa-trash fa-fw btn-delete-user"></div>\
+        var sUser = '<div class="lblUser">\
+                            <div class="lblUserId">{{id}}</div>\
+                            <div class="lblUserEmail">{{email}}</div>\
+                            <div class="lblUserPassword">{{password}}</div>\
+                            <div class="lblUserRole">{{role}}</div>\
+                            <div data-go-to="wdwCreateUser" class="fa fa-pencil fa-fw link"></div>\
+                            <div class="fa fa-trash fa-fw btnDeleteUser"></div>\
                         </div>';
         //Remove all elements from the DOM
-        $("#wdw-users").empty();
+        $("#wdwUsers").empty();
         //Append a title
-        $("#wdw-users").append("<h2>Users</h2>");
+        $("#wdwUsers").append("<h2>Users</h2>");
         //Append navigation
-        $("#wdw-users").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        $("#wdwUsers").append("<a data-go-to='wdwMenu' class='link'>Go to menu</a>");
         //Loop through the array of jData
         for (var i = 0; i < jData.length; i++) {
             //sUserTemplate is now the same as sUser
@@ -389,8 +422,8 @@ function fnGetUsers() {
             sUserTemplate = sUserTemplate.replace("{{password}}", jData[i].password);
             //Replace the string '{{role}}', with the unique data passed from jData
             sUserTemplate = sUserTemplate.replace("{{role}}", jData[i].role);
-            //Append the user template to the wdw with the id wdw-users
-            $("#wdw-users").append(sUserTemplate);
+            //Append the user template to the wdw with the id wdwUsers
+            $("#wdwUsers").append(sUserTemplate);
         }
     });
 }
@@ -398,63 +431,63 @@ function fnGetUsers() {
 //Builds the main menu for a user with the role 'super-admin'
 function fnGetSuperAdminMenu() {
     //The blueprint of the menu elements
-    var sMenu = '<div class="lblMenuContainer">\
+    var sMenu = '<div class="lblMenu">\
                     <h2>MANAGE PROPERTIES</h2>\
-                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
-                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                    <div data-go-to="wdwProperties" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdwCreateProperty" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdwMap" class="link">MAP OF PROPERTIES</div>\
                     <h2>MANAGE USERS</h2>\
-                    <div data-go-to="wdw-users" class="link">SHOW USERS</div>\
-                    <div data-go-to="wdw-create-user" class="link">CREATE USER</div>\
+                    <div data-go-to="wdwUsers" class="link">SHOW USERS</div>\
+                    <div data-go-to="wdwCreateUser" class="link">CREATE USER</div>\
                 </div>\
-                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+                <button id="btnLogOut" data-go-to="wdwLogin" class="link">Log out</button>';
     //Remove all elements from the DOM
-    $("#wdw-menu").empty();
+    $("#wdwMenu").empty();
     //Append the blueprint to the main menu
-    $("#wdw-menu").append(sMenu);
-    //Display the email for the logged in user
+    $("#wdwMenu").append(sMenu);
+    //Display the email for the user currently logged in
     fnGetSessionEmail();
 }
 
 //Builds the main menu for a user with the role 'admin'
 function fnGetAdminMenu() {
     //The blueprint of the menu elements
-    var sMenu = '<div class="lblMenuContainer">\
+    var sMenu = '<div class="lblMenu">\
                     <h2>MANAGE PROPERTIES</h2>\
-                    <div data-go-to="wdw-properties" class="link">SHOW PROPERTIES</div>\
-                    <div data-go-to="wdw-create-property" class="link">CREATE PROPERTY</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                    <div data-go-to="wdwProperties" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdwCreateProperty" class="link">CREATE PROPERTY</div>\
+                    <div data-go-to="wdwMap" class="link">MAP OF PROPERTIES</div>\
                 </div>\
-                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+                <button id="btnLogOut" data-go-to="wdwLogin" class="link">Log out</button>';
     //Remove all elements from the DOM
-    $("#wdw-menu").empty();
+    $("#wdwMenu").empty();
     //Append the blueprint to the main menu
-    $("#wdw-menu").append(sMenu);
-    //Display the email for the logged in user
+    $("#wdwMenu").append(sMenu);
+    //Display the email for the user currently logged in
     fnGetSessionEmail();
 }
 
 //Builds the main menu for a user with the role 'user'
 function fnGetUserMenu() {
     //The blueprint of the menu elements
-    var sMenu = '<div class="lblMenuContainer">\
+    var sMenu = '<div class="lblMenu">\
                     <h2>MANAGE PROPERTIES</h2>\
-                    <div data-go-to="wdw-properties-user" class="link">SHOW PROPERTIES</div>\
-                    <div data-go-to="wdw-map" class="link">MAP OF PROPERTIES</div>\
+                    <div data-go-to="wdwPropertiesForUserRole" class="link">SHOW PROPERTIES</div>\
+                    <div data-go-to="wdwMap" class="link">MAP OF PROPERTIES</div>\
                 </div>\
-                <button id="btn-log-out" data-go-to="wdw-login" class="link">Log out</button>';
+                <button id="btnLogOut" data-go-to="wdwLogin" class="link">Log out</button>';
     //Remove all elements from the DOM
-    $("#wdw-menu").empty();
+    $("#wdwMenu").empty();
     //Append the blueprint to the main menu
-    $("#wdw-menu").append(sMenu);
-    //Display the email for the logged in user
+    $("#wdwMenu").append(sMenu);
+    //Display the email for the user currently logged in
     fnGetSessionEmail();
 }
 
-//When the DOM is loaded and you click on a element with the btn-delete-property class
-$(document).on("click", ".btn-delete-user", function() {
+//When the DOM is loaded and you click on a element with the btnDeleteProperty class
+$(document).on("click", ".btnDeleteUser", function() {
     //Store the ID and element you want to delete in variables
-    var sIdToDelete = $(this).siblings(".lbl-user-id").text();
+    var sIdToDelete = $(this).siblings(".lblUserId").text();
     var oTheParent = $(this).parent();
     //The service you use to delete the user from the database
     var sUrl = "services/users/api-delete-user.php?id=" + sIdToDelete;
@@ -489,11 +522,10 @@ function fnGetSessionEmail() {
     $.getJSON(sUrl, function(jData) {
         //Blueprint used for displaying the email
         var sEmail = '<div id="lblCurrentEmail">You are logged in as {{email}}</div>';
-        var sEmailTemplate = sEmail;
         //Replace the placeholder with the real email
-        sEmailTemplate = sEmailTemplate.replace("{{email}}", jData.email);
+        sEmail = sEmail.replace("{{email}}", jData.email);
         //Append sEmailTemplate to the main menu
-        $("#wdw-menu").append(sEmailTemplate);
+        $("#wdwMenu").append(sEmail);
     });
 }
 
@@ -514,7 +546,7 @@ $("#frmCreateProperty").on('submit', function(event) {
     //Validate the form using the Parsley library
     sForm.parsley().validate();
     //Grab the ID (by default hidden from the user)
-    var sId = $("#txt-create-property-id").val();
+    var sId = $("#txtCreatePropertyId").val();
     //If there is an Id and the validation is ok then run the following function
     if (sId && sForm.parsley().isValid()) {
         //Initiate AJAX and get jData in return
@@ -541,7 +573,7 @@ $("#frmCreateProperty").on('submit', function(event) {
                     });
                     setTimeout(function() {
                         $(".wdw").hide();
-                        $("#wdw-properties").show();
+                        $("#wdwProperties").css("display", "flex");
                     }, 2000);
                     //Reset the image input
                     fnResetImageInput();
@@ -574,7 +606,7 @@ $("#frmCreateProperty").on('submit', function(event) {
                     });
                     setTimeout(function() {
                         $(".wdw").hide();
-                        $("#wdw-properties").show();
+                        $("#wdwProperties").css("display", "flex");
                     }, 2000);
                     //Reset the image input
                     fnResetImageInput();
@@ -591,25 +623,25 @@ function fnGetProperties() {
     //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //The blueprint of the HTML elements
-        var sProperty = '<div class="lbl-property">\
-                            <div class="lbl-property-information">\
-                                <div class="lbl-property-id">{{id}}</div>\
-                                <div class="lbl-property-address">{{address}}</div>\
-                                <div class="lbl-property-price">{{price}}</div>\
-                                <div data-go-to="wdw-create-property" class="fa fa-pencil fa-fw link"></div>\
-                                <div class="fa fa-trash fa-fw btn-delete-property"></div>\
+        var sProperty = '<div class="lblProperty">\
+                            <div class="lblPropertyInformation">\
+                                <div class="lblPropertyId">{{id}}</div>\
+                                <div class="lblPropertyAddress">{{address}}</div>\
+                                <div class="lblPropertyPrice">{{price}}</div>\
+                                <div data-go-to="wdwCreateProperty" class="fa fa-pencil fa-fw link"></div>\
+                                <div class="fa fa-trash fa-fw btnDeleteProperty"></div>\
                             </div>\
-                                <div class="lbl-property-images" id="{{P-id}}">\
+                                <div class="lblPropertyImages" id="{{P-id}}">\
                             </div>\
                         </div>';
         //Remove all elements from the DOM
-        $("#wdw-properties").empty();
+        $("#wdwProperties").empty();
         //Append a title
-        $("#wdw-properties").append("<h2>Properties</h2>");
+        $("#wdwProperties").append("<h2>Properties</h2>");
         //Append navigation
-        $("#wdw-properties").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        $("#wdwProperties").append("<a data-go-to='wdwMenu' class='link'>Go to menu</a>");
         //Append email button
-        $("#wdw-properties").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
+        $("#wdwProperties").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
         //Loop through the array of jData
         for (var i = 0; i < jData.length; i++) {
             //sPropertyTemplate is now the same as sProperty
@@ -622,8 +654,8 @@ function fnGetProperties() {
             sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
             //Replace the string '{{price}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
-            //Append the property template to the wdw with the id wdw-properties
-            $("#wdw-properties").append(sPropertyTemplate);
+            //Append the property template to the wdw with the id wdwProperties
+            $("#wdwProperties").append(sPropertyTemplate);
             //Declare the path to folder where the images are located
             var sPath = jData[i].id;
             //Variable where a string of the images is stored
@@ -646,23 +678,23 @@ function fnGetPropertiesUserRole() {
     //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //The blueprint of the HTML elements
-        var sProperty = '<div class="lbl-property">\
-                            <div class="lbl-property-information">\
-                                <div class="lbl-property-id">{{id}}</div>\
-                                <div class="lbl-property-address">{{address}}</div>\
-                                <div class="lbl-property-price">{{price}}</div>\
+        var sProperty = '<div class="lblProperty">\
+                            <div class="lblPropertyInformation">\
+                                <div class="lblPropertyId">{{id}}</div>\
+                                <div class="lblPropertyAddress">{{address}}</div>\
+                                <div class="lblPropertyPrice">{{price}}</div>\
                             </div>\
-                                <div class="lbl-property-images" id="{{P-id}}">\
+                                <div class="lblPropertyImages" id="{{P-id}}">\
                             </div>\
                         </div>';
         //Remove all elements from the DOM
-        $("#wdw-properties-user").empty();
+        $("#wdwPropertiesForUserRole").empty();
         //Append a title
-        $("#wdw-properties-user").append("<h2>Properties</h2>");
+        $("#wdwPropertiesForUserRole").append("<h2>Properties</h2>");
         //Append navigation
-        $("#wdw-properties-user").append("<a data-go-to='wdw-menu' class='link'>Go to menu</a>");
+        $("#wdwPropertiesForUserRole").append("<a data-go-to='wdwMenu' class='link'>Go to menu</a>");
         //Append email button
-        $("#wdw-properties-user").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
+        $("#wdwPropertiesForUserRole").append("<button class='btnSendProperties'>Receive Email with list of properties</button>");
         //Loop through the array of jData
         for (var i = 0; i < jData.length; i++) {
             //sPropertyTemplate is now the same as sProperty
@@ -675,8 +707,8 @@ function fnGetPropertiesUserRole() {
             sPropertyTemplate = sPropertyTemplate.replace("{{address}}", jData[i].address);
             //Replace the string '{{price}}', with the data passed from jData
             sPropertyTemplate = sPropertyTemplate.replace("{{price}}", jData[i].price);
-            //Append the property template to the wdw with the id wdw-properties-user
-            $("#wdw-properties-user").append(sPropertyTemplate);
+            //Append the property template to the wdw with the id wdwPropertiesForUserRole
+            $("#wdwPropertiesForUserRole").append(sPropertyTemplate);
             //Declare the path to folder where the images are located
             var sPath = jData[i].id;
             //Variable where a string of the images is stored
@@ -692,10 +724,10 @@ function fnGetPropertiesUserRole() {
     });
 }
 
-//When the DOM is loaded and you click on a element with the class btn-delete-property
-$(document).on("click", ".btn-delete-property", function() {
+//When the DOM is loaded and you click on a element with the class btnDeleteProperty
+$(document).on("click", ".btnDeleteProperty", function() {
     //Store the address and element you want to delete in variables
-    var sAddressToDelete = $(this).siblings(".lbl-property-address").text();
+    var sAddressToDelete = $(this).siblings(".lblPropertyAddress").text();
     var oTheParent = $(this).parent().parent();
     //The service you use to delete the property from the database
     var sUrl = "services/properties/api-delete-property.php?address=" + sAddressToDelete;
@@ -743,7 +775,7 @@ function fnSendPropertyList() {
 }
 
 //Declare new Cleave object
-var cleaveFormatPrice = new Cleave('#txt-create-property-price', {
+var cleaveFormatPrice = new Cleave('#txtCreatePropertyPrice', {
     //Only take numeral values
     numeral: true,
     //Decimal is marked with a comma
@@ -791,7 +823,8 @@ setInterval(function() {
             fnTitleNotification(3);
         }
     });
-}, 1000);
+    //Check for new properties every 30 seconds
+}, 30000);
 
 //Creates a desktop notification with a custom message
 function fnDesktopNotification(sMessage) {
@@ -877,8 +910,8 @@ $(document).on('change', '[type="file"]', function() {
     var self = this;
     //When the data is loaded run the following function
     oPreview.onload = function(event) {
-            //Add the temporary src to the img-preview class
-            $(self).siblings(".img-preview").attr("src", event.target.result);
+            //Add the temporary src to the imgPreview class
+            $(self).siblings(".imgPreview").attr("src", event.target.result);
         }
     //Run the function fnCreateImageInput
     fnCreateImageInput();
@@ -889,8 +922,8 @@ function fnCreateImageInput() {
     //Every time an image is added, add to the counter
     iImageCounter++;
     //Variable that contains the image input template
-    var sImageInputTemplate = '<div class="lbl-property-file-upload">\
-                                 <img class="img-preview" src=""></img>\
+    var sImageInputTemplate = '<div class="lblPropertyFileUplaod">\
+                                 <img class="imgPreview" src=""></img>\
                                  <input class="file" type="file" name="file-' + iImageCounter + '">\
                                </div>';
     //Append the template to the form
@@ -904,9 +937,9 @@ function fnResetImageInput() {
     //Reset the form
     $('#frmCreateProperty')[0].reset();
     //Remove the file upload classes
-    $('.lbl-property-file-upload').remove();
+    $('.lblPropertyFileUplaod').remove();
     //Empty the preview src
-    $('.img-preview').attr('src', '');
+    $('.imgPreview').attr('src', '');
 }
 
 
@@ -924,7 +957,7 @@ function fnGetPropertiesMap() {
     //Declaring a new information window as an object
     var infoWindow = new google.maps.InfoWindow();
     //Creating the map
-    var map = new google.maps.Map(document.getElementById("wdw-map"), {
+    var map = new google.maps.Map(document.getElementById("wdwMap"), {
         //Determining the default position of the map
         center: new google.maps.LatLng(55.686666, 12.563759),
         //The level of zoom
@@ -933,7 +966,7 @@ function fnGetPropertiesMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     //Append a back button to the upper right corner of the map
-    $("#wdw-map").append('<div><button id="btn-menu" data-go-to="wdw-menu" class="link">Go back</button></div>');
+    $("#wdwMap").append('<div><button id="btnMenu" data-go-to="wdwMenu" class="link">Go back</button></div>');
     //Initiate AJAX and get jData in return
     $.getJSON(sUrl, function(jData) {
         //Loop through the length of jData
@@ -972,7 +1005,7 @@ function fnGetPropertiesMap() {
 //Callback function used to initialize Google Maps Autocomplete
 function fnInitializeAutocomplete() {
     //Declare the element which needs to use the autocomplete function
-    var sAddress = (document.getElementById('txt-create-property-address'));
+    var sAddress = (document.getElementById('txtCreatePropertyAddress'));
     //Declare new Google Maps Autocomplete object
     var autocomplete = new google.maps.places.Autocomplete(sAddress);
     //Use the type 'geocode'
@@ -1001,7 +1034,7 @@ function fnInitializeAutocomplete() {
 //Convert address to lat and lng
 function fnConvertAddress() {
     //Get the values from the text box
-    var sAddress = $("#txt-create-property-address").val();
+    var sAddress = $("#txtCreatePropertyAddress").val();
     //Create a new Geocoder object
     geocoder = new google.maps.Geocoder();
     //Initiate function to convert the variable sAddress to two coordinates
@@ -1012,8 +1045,8 @@ function fnConvertAddress() {
             var iLat = results[0].geometry.location.lat();
             var iLng = results[0].geometry.location.lng();
             //Put them in the invisible text boxes
-            $("#txt-create-property-lat").val(iLat);
-            $("#txt-create-property-lng").val(iLng);
+            $("#txtCreatePropertyLat").val(iLat);
+            $("#txtCreatePropertyLng").val(iLng);
         }
     });
 }

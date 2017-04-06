@@ -29,9 +29,9 @@
 	return false;
 	}
 
-	//Check if the address is a valid address || NOT USED ATM, CLASHES WITH GOOGLE AUTOCOMPLETE - TOO SPECIFIC NEEDS TO BE MORE GENERAL
+	//Check if the address is a valid address (There needs to be street name that is followed by a number)
 	function fnIsAddressValid($sAddress) {
-		return preg_match('/^(.+) (\d{1,3}[a-z]?) (\d{1,2}|st|kl)? ?(\d{1,2}|tv|mf|th)?.*(\d{4})$/img', $sAddress);
+		return preg_match('/^(.+) (\d{1,4}[a-z]?)/', $sAddress);
 	}
 
 	//Check for duplicates

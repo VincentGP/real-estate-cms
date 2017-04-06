@@ -1,20 +1,8 @@
 [
     {
-        "id": 1,
-        "role": "super-admin",
+        "id": "58e61e253e30b",
         "email": "vgercke@gmail.com",
-        "password": "super-admin"
-    },
-    {
-        "id": 2,
-        "role": "admin",
-        "email": "vincent",
-        "password": "1"
-    },
-    {
-        "id": "58c2c3bc1bb79",
-        "email": "user",
-        "password": "1",
-        "role": "user"
+        "password": "123456",
+        "role": "super-admin"
     }
 ]

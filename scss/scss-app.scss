@@ -1,0 +1,499 @@
+$font-stack: 'Open Sans',
+sans-serif;
+$primary-color: #333;
+$primary-background-color: #fff;
+$primary-card-background-color: #f7f7f7;
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: $font-stack;
+    color: $primary-color;
+    width: 100vw;
+    height: 100vh;
+    font-size: 16px;
+}
+
+a {
+    color: #468CC8;
+}
+
+button {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    line-height: 1.13;
+    font-size: 18px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    margin: 10px 0;
+}
+
+.btnDeleteProperty,
+.btnDeleteUser {
+    cursor: pointer;
+    color: #E57373;
+}
+
+.link {
+    cursor: pointer;
+    color: #468CC8;
+}
+
+.wdw {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: $primary-background-color;
+}
+
+.lblMenu {
+    width: 300px;
+    height: auto;
+    padding: 15px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lblContainer {
+    width: 300px;
+    height: auto;
+    padding: 15px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+#wdwLogin {
+    display: flex;
+    background-image: url(../images/bg-3.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    .lblContainer {
+        h1 {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        a {
+            display: flex;
+            justify-content: center;
+        }
+        #txtLoginEmail {
+            width: 100%;
+            position: relative;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 4px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-bottom: -1px;
+        }
+        #txtLoginEmail:focus {
+            z-index: 2;
+        }
+        #txtLoginPassword {
+            width: 100%;
+            position: relative;
+            font-size: 16px;
+            height: auto;
+            padding: 10px;
+            border-radius: 4px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        #btnLogin {
+            color: white;
+            background-color: #428bca;
+        }
+        #btnLogin:hover {
+            background-color: #3276b1;
+        }
+    }
+}
+
+#wdwUserSignup {
+    @extend #wdwLogin;
+    display: none;
+    #txtSignupEmail {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+    #txtSignupEmail:focus {
+        z-index: 2;
+    }
+    #txtSignupPassword {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #btnUserSignup {
+        color: white;
+        background-color: #EF9A9A;
+    }
+    #btnUserSignup:hover {
+        background-color: #E57373;
+    }
+}
+
+#wdwSuperAdminSignup {
+    @extend #wdwLogin;
+    display: none;
+    h1 {
+        font-size: 26px;
+    }
+    #txtSuperAdminSignupEmail {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+    #txtSuperAdminSignupEmail:focus {
+        z-index: 2;
+    }
+    #txtSuperAdminSignupPassword {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #btnSuperAdminSignup {
+        color: white;
+        background-color: #EF9A9A;
+    }
+    #btnSuperAdminSignup:hover {
+        background-color: #E57373;
+    }
+}
+
+#wdwCreateUser {
+    #txtCreateUserEmail {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+    #txtCreateUserEmail:focus {
+        z-index: 2;
+    }
+    #txtCreateUserPassword {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #btnSaveUser {
+        color: white;
+        background-color: #428bca;
+    }
+    #btnSaveUser:hover {
+        background-color: #3276b1;
+    }
+    #txtCreateUserId {
+        display: none;
+    }
+}
+
+#wdwProperties {
+    justify-content: flex-start;
+    background-image: url(../images/bg-5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    .btnSendProperties {
+        width: 350px;
+        color: white;
+        background-color: #428bca;
+    }
+    .btnSendProperties:hover {
+        background-color: #3276b1;
+    }
+    .lblProperty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80%;
+        margin: 10px 0 0 0;
+        padding: 15px;
+        background-color: $primary-card-background-color;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        .lblPropertyInformation {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            .lblPropertyAddress {
+                flex-basis: 60%;
+            }
+            .lblPropertyPrice {
+                flex-basis: 30%;
+                text-align: center;
+            }
+            .lblPropertyId {
+                display: none;
+            }
+        }
+        .lblPropertyImages {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 10px 0 0 0;
+            img {
+                width: 200px;
+                padding: 5px 5px 5px 5px;
+            }
+        }
+    }
+}
+
+#wdwCreateProperty {
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    h1 {
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+    span {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    a {
+        display: flex;
+        justify-content: center
+    }
+    #txtCreatePropertyAddress {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+    #txtCreatePropertyAddress:focus {
+        z-index: 2;
+    }
+    #txtCreatePropertyPrice {
+        width: 100%;
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        border-radius: 4px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #btnSaveProperty {
+        color: white;
+        background-color: #428bca;
+    }
+    #btnSaveProperty:hover {
+        background-color: #3276b1;
+    }
+    .imgPreview {
+        width: 100%;
+        margin-top: 10px;
+    }
+    #txtCreatePropertyId,
+    #txtCreatePropertyLat,
+    #txtCreatePropertyLng {
+        display: none;
+    }
+}
+
+#wdwPropertiesForUserRole {
+    justify-content: flex-start;
+    .lblProperty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80%;
+        margin: 10px 0 0 0;
+        padding: 15px;
+        background-color: $primary-card-background-color;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        .lblPropertyInformation {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            .lblPropertyAddress {
+                flex-basis: 60%;
+            }
+            .lblPropertyPrice {
+                flex-basis: 30%;
+                text-align: center;
+            }
+            .lblPropertyId {
+                display: none;
+            }
+        }
+        .lblPropertyImages {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 10px 0 0 0;
+            img {
+                width: 100%;
+                padding: 10px 100px 10px 100px;
+            }
+        }
+    }
+}
+
+#wdwUsers {
+    justify-content: flex-start;
+    background-image: url(../images/bg-5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    .lblUser {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 70%;
+        margin: 10px 0 0 0;
+        padding: 15px;
+        background-color: $primary-card-background-color;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        .lblUserEmail {
+            flex-basis: 40%;
+        }
+        .lblUserPassword {
+            flex-basis: 30%;
+        }
+        .lblUserRole {
+            flex-basis: 30%;
+        }
+        .lblUserId {
+            display: none;
+        }
+    }
+}
+
+#wdwMenu {
+    background-image: url(../images/bg-2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    padding-right: 15%;
+    padding-left: 15%;
+    #btnLogOut {
+        color: white;
+        background-color: #EF9A9A;
+        width: 200px;
+    }
+    #btnLogOut:hover {
+        background-color: #E57373;
+    }
+    #lblCurrentEmail {
+        color: white;
+        font-size: 12px;
+    }
+}
+
+#wdwMap {
+    #btnMenu {
+        color: white;
+        background-color: #428bca;
+        width: 200px;
+        z-index: 1;
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin-right: 10px;
+    }
+    #btnMenu:hover {
+        background-color: #3276b1;
+    }
+}
+
+
+/*PARSLEY VALIDATION LIBRARY*/
+
+li.parsley-required {
+    margin-left: 20px;
+}

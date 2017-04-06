@@ -1,6 +1,6 @@
 <?php  
 	
-	//Displays the email stored in the session
+	//Fetches the email stored in the SESSION
 	session_start();
 	echo '{"email":"'.$_SESSION['sEmail'].'"}';
 

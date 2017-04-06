@@ -1,32 +1,43 @@
 <?php
-	
-	//Get id, address and price, and store them
-	$sId = $_GET['id'];
-	$sAddress = $_GET['address'];
-	$iPrice = $_GET['price'];
+
+	//Include the functions file
+	include '../functions.php';
+	//Variable which refers to the database file
 	$sFileName = "data-properties.txt";
-	//Get the content from txt file
+	//Variables with values passed from the form
+	$sId = $_POST['id'];
+	$sAddress = $_POST['address'];
+	$sPrice = $_POST['price'];
+	$iLat = $_POST['lat'];
+	$iLng = $_POST['lng'];
+	//Store the contents of the txt database in the variable sajProperties
 	$sajProperties = file_get_contents($sFileName);
-	//Convert to array of JSON objects
+	//Convert sajProperties to an array of objects
 	$ajProperties = json_decode($sajProperties);
 	//If ajProperties isn't an array, then create an empty array
 	if(!is_array($ajProperties)) {
 		$ajProperties = [];
 	}
+	//Boolean value that can be either true or false
+	$bPrice = fnIsPriceValid($sPrice, 0, 18446744073709551615);
 	//Loop through the properties
 	for($i = 0; $i < count($ajProperties); $i++) {
-		//Check if the id matches
-		if($sId ==  $ajProperties[$i]->id){
-			//If the id matches, update the addres and price
+		//If the id matches, the price is valid and the address isn't empty
+		if($sId == $ajProperties[$i]->id && $bPrice && $sAddress == !null) {
+			//Update the property
 			$ajProperties[$i]->address = $sAddress;
-			$ajProperties[$i]->price = $iPrice;
+			$ajProperties[$i]->price = $sPrice;
+			$ajProperties[$i]->lat = $iLat;
+			$ajProperties[$i]->lng = $iLng;
+			$ajProperties[$i]->dateUpdated = date('d-m-Y');
+			//Convert the object to text
+			$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+			//Save the data to the file and echo status
+			file_put_contents($sFileName, $sajProperties);
 			echo '{"status":"ok"}';
-			break;
+			exit;
 		}
 	}
-	//Convert the object to text
-	$sajProperties = json_encode($ajProperties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	//Save the data to the file and echo status
-	file_put_contents($sFileName, $sajProperties);
+	echo '{"status":"error"}';
 
 ?>

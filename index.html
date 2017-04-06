@@ -2,83 +2,106 @@
 <html>
 
 <head>
+
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css-app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/scss-app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="themes/google/google.css">
-    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="css/sweetalert-google.css">
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <title>REAL ESTATE CMS</title>
+
 </head>
 
 <body>
     
-    <div id="wdw-menu" class="wdw"></div>
+    <div id="wdwMenu" class="wdw"></div>
 
-    <div id="wdw-create-property" class="wdw">
-        <h2>Create Property</h2>
+    <div id="wdwCreateProperty" class="wdw">
         <div class="lblContainer">
-            <input id="txt-create-property-id" type="text">
-            <input id="txt-create-property-address" type="text" placeholder="address">
-            <input id="txt-create-property-price" type="text" placeholder="price">
-            <button id="btn-save-property">Save</button>
+            <h1>Create/Update Property</h1>
+            <form id="frmCreateProperty" method="post" enctype="multipart/form-data" data-parsley-validate>
+                <input id="txtCreatePropertyId" type="text" name="id" readonly="readonly">
+                <input id="txtCreatePropertyAddress" type="text" name="address" placeholder="Type and choose from list" required>
+                <input id="txtCreatePropertyLat" type="text" name="lat">
+                <input id="txtCreatePropertyLng" type="text" name="lng">
+                <input id="txtCreatePropertyPrice" type="text" name="price" placeholder="Price" minlength="0" maxlength="26" required>
+                <span>You must upload at least 3 images</span>
+                <img class="imgPreview" src=""></img>
+                <input class="file" type="file" name="file-0">
+            </form>
+            <button id="btnSaveProperty">Save</button>
+            <a data-go-to="wdwProperties" class="link">Go to properties</a>
+            <a data-go-to="wdwMenu" class="link">Go to menu</a>
         </div>
-        <a data-go-to="wdw-properties" class="link">Go to properties</a>
-        <a data-go-to="wdw-menu" class="link">Go to menu</a>
     </div>
 
-    <div id="wdw-create-user" class="wdw">
-        <h2>Create User</h2>
+    <div id="wdwCreateUser" class="wdw">
+        <h1>Create User</h1>
         <div class="lblContainer">
-            <input id="txt-create-user-id" type="text">
-            <input id="txt-create-user-email" type="text" placeholder="email">
-            <input id="txt-create-user-password" type="text" placeholder="password">
-            <input id="txt-create-user-role" type="text" placeholder="role">
-            <button id="btn-save-user">Save</button>
+            <form id="frmCreateUser" method="post" data-parsley-validate>
+                <input id="txtCreateUserId" type="text" name="id" placeholder="Id" readonly="readonly">
+                <input id="txtCreateUserEmail" type="email" name="email" placeholder="Email" required>
+                <input id="txtCreateUserPassword" type="password" name="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+                <input type="radio" name="role" value="admin" checked> Admin <br>
+                <input type="radio" name="role" value="user"> User
+            </form>
+            <button id="btnSaveUser">Save</button>
         </div>
-        <a data-go-to="wdw-users" class="link">Go to users</a>
-        <a data-go-to="wdw-menu" class="link">Go to menu</a>
+        <a data-go-to="wdwUsers" class="link">Go to users</a>
+        <a data-go-to="wdwMenu" class="link">Go to menu</a>
     </div>
 
-    <div id="wdw-login" class="wdw">
-        <h1>Login</h1>
+    <div id="wdwLogin" class="wdw">
         <div class="lblContainer">
-            <input id="txtLoginEmail" type="text" placeholder="Email">
-            <input id="txtLoginPassword" type="password" placeholder="Password">
+            <h1>Login</h1>
+            <input id="txtLoginEmail" type="email" placeholder="Email" required>
+            <input id="txtLoginPassword" type="password" placeholder="Password" required>
             <button id="btnLogin">Login</button>
+            <a data-go-to="wdwUserSignup" class="link">Create an account</a>
         </div>
-        <a data-go-to="wdw-user-signup" class="link">Create an account</a>
     </div>
 
-    <div id="wdw-user-signup" class="wdw">
-        <h1>Signup</h1>
+    <div id="wdwUserSignup" class="wdw">
         <div class="lblContainer">
-            <input id="txtSignupEmail" type="text" placeholder="Email">
-            <input id="txtSignupPassword" type="password" placeholder="Choose your password">
-            <button id="btnUserSignup">Signup</button>
+            <h1>Signup</h1>
+            <form id="frmUserSignup" method="post" data-parsley-validate>
+                <input id="txtSignupEmail" type="email" name="email" placeholder="Email" required>
+                <input id="txtSignupPassword" type="password" name="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+            </form>
+                <button id="btnUserSignup">Signup</button>
+            <a data-go-to="wdwLogin" class="link">Go back</a>
         </div>
-        <a data-go-to="wdw-login" class="link">Go back</a>
     </div>
 
-    <div id="wdw-super-admin-signup" class="wdw">
-        <h1>Super Admin Signup</h1>
-        <h3>You will become the super admin</h3>
+    <div id="wdwSuperAdminSignup" class="wdw">
         <div class="lblContainer">
-            <input id="txtSuperAdminSignupEmail" type="text" placeholder="Email">
-            <input id="txtSuperAdminSignupPassword" type="password" placeholder="Choose your password">
-            <button id="btnSuperAdminSignup">SIGNUP</button>
+            <h1>Super Admin Signup</h1>
+            <form id="frmSuperAdminSignup" method="post" data-parsley-validate>
+                <input id="txtSuperAdminSignupEmail" type="email" name="email" placeholder="Email" required>
+                <input id="txtSuperAdminSignupPassword" type="password" name="password" placeholder="Password (min. 6 characters)" minlength="6" required>
+            </form>
+                <button id="btnSuperAdminSignup">SIGNUP</button>
         </div>
     </div>
 
-    <div id="wdw-properties" class="wdw"></div>
+    <div id="wdwProperties" class="wdw"></div>
 
-    <div id="wdw-properties-user" class="wdw"></div>
+    <div id="wdwPropertiesForUserRole" class="wdw"></div>
 
-    <div id="wdw-users" class="wdw"></div>
+    <div id="wdwUsers" class="wdw"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="dist/sweetalert.min.js"></script>
-    <script type="text/javascript" src="js-app.js"></script>
+    <div id="wdwMap" class="wdw"></div>
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/parsley.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQmF4zjV3y2ukRFia8VNLkz7crZX7uH1I&libraries=places&callback=fnInitializeAutocomplete" async defer></script>
+    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js/cleave.min.js"></script>
+    <script type="text/javascript" src="js/js-app.js"></script>
+
 </body>
 
 </html>
